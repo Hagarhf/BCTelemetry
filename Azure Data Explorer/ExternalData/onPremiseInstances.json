@@ -1,10 +1,10 @@
 [
     {
-        "roleInstance": "Bananar",
-        "instanceDescription": "Production Database - Bananar Company"
+        "roleInstance": "BAN_PROD_230807",
+        "instanceDescription": "Production Database - On-Premise"
     },
     {
-        "roleInstance": "BAN_PROD_230807",
+        "roleInstance": "Bananar",
         "instanceDescription": "UAT Database - Test Environment"
     }
 ]
