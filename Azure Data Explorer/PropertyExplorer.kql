@@ -1,0 +1,200 @@
+// ============================================================================
+// Comprehensive Application Insights Property Explorer
+// Shows ALL properties from telemetry to help identify distinguishing fields
+// ============================================================================
+
+// ----------------------------------------------------------------------------
+// Query 1: Show ALL Standard Fields + ALL Custom Dimensions
+// This shows EVERYTHING available in your telemetry
+// ----------------------------------------------------------------------------
+traces
+| where timestamp > ago(24h)  // Last 24 hours for fresh data
+| take 100  // Sample of 100 events
+| extend 
+    // Extract ALL customDimensions as individual columns
+    aadTenantId = tostring(customDimensions.aadTenantId),
+    alCategory = tostring(customDimensions.alCategory),
+    alObjectId = tostring(customDimensions.alObjectId),
+    alObjectName = tostring(customDimensions.alObjectName),
+    alObjectType = tostring(customDimensions.alObjectType),
+    alStackTrace = tostring(customDimensions.alStackTrace),
+    companyName = tostring(customDimensions.companyName),
+    component = tostring(customDimensions.component),
+    componentVersion = tostring(customDimensions.componentVersion),
+    deprecatedKeys = tostring(customDimensions.deprecatedKeys),
+    environmentName = tostring(customDimensions.environmentName),
+    environmentType = tostring(customDimensions.environmentType),
+    eventId = tostring(customDimensions.eventId),
+    extensionId = tostring(customDimensions.extensionId),
+    extensionName = tostring(customDimensions.extensionName),
+    extensionPublisher = tostring(customDimensions.extensionPublisher),
+    extensionVersion = tostring(customDimensions.extensionVersion),
+    serverInstanceName = tostring(customDimensions.serverInstanceName),
+    sessionId = tostring(customDimensions.sessionId),
+    sqlServerName = tostring(customDimensions.sqlServerName),
+    sqlDatabaseName = tostring(customDimensions.sqlDatabaseName),
+    telemetrySchemaVersion = tostring(customDimensions.telemetrySchemaVersion),
+    userType = tostring(customDimensions.userType)
+| project 
+    timestamp,
+    // Standard App Insights fields
+    cloud_RoleName,
+    cloud_RoleInstance,
+    appName,
+    client_IP,
+    client_Type,
+    client_City,
+    client_StateOrProvince,
+    client_CountryOrRegion,
+    // Message and severity
+    message,
+    severityLevel,
+    // Custom Dimensions
+    aadTenantId,
+    alCategory,
+    alObjectId,
+    alObjectName,
+    alObjectType,
+    companyName,
+    component,
+    componentVersion,
+    environmentName,
+    environmentType,
+    eventId,
+    extensionName,
+    extensionPublisher,
+    extensionVersion,
+    serverInstanceName,
+    sessionId,
+    sqlServerName,
+    sqlDatabaseName,
+    telemetrySchemaVersion,
+    userType
+| order by timestamp desc
+
+
+// ----------------------------------------------------------------------------
+// Query 2: Unique Values Summary - See All Distinct Values
+// Shows unique values for key fields to identify patterns
+// ----------------------------------------------------------------------------
+traces
+| where timestamp > ago(7d)
+| extend 
+    companyName = tostring(customDimensions.companyName),
+    environmentName = tostring(customDimensions.environmentName),
+    environmentType = tostring(customDimensions.environmentType),
+    serverInstanceName = tostring(customDimensions.serverInstanceName),
+    sqlServerName = tostring(customDimensions.sqlServerName),
+    sqlDatabaseName = tostring(customDimensions.sqlDatabaseName),
+    aadTenantId = tostring(customDimensions.aadTenantId)
+| summarize 
+    EventCount = count(),
+    // Get unique values for each field
+    UniqueCompanyNames = make_set(companyName, 100),
+    UniqueEnvironmentNames = make_set(environmentName, 100),
+    UniqueEnvironmentTypes = make_set(environmentType, 100),
+    UniqueServerInstances = make_set(serverInstanceName, 100),
+    UniqueSqlServers = make_set(sqlServerName, 100),
+    UniqueSqlDatabases = make_set(sqlDatabaseName, 100),
+    UniqueRoleInstances = make_set(cloud_RoleInstance, 100),
+    UniqueRoleNames = make_set(cloud_RoleName, 100),
+    UniqueAppNames = make_set(appName, 100)
+| project 
+    EventCount,
+    UniqueCompanyNames,
+    UniqueEnvironmentNames,
+    UniqueEnvironmentTypes,
+    UniqueServerInstances,
+    UniqueSqlServers,
+    UniqueSqlDatabases,
+    UniqueRoleInstances,
+    UniqueRoleNames,
+    UniqueAppNames
+
+
+// ----------------------------------------------------------------------------
+// Query 3: Group by SQL Database Name
+// If Production and UAT use different databases, this will show it
+// ----------------------------------------------------------------------------
+traces
+| where timestamp > ago(7d)
+| extend 
+    sqlDatabaseName = tostring(customDimensions.sqlDatabaseName),
+    sqlServerName = tostring(customDimensions.sqlServerName),
+    companyName = tostring(customDimensions.companyName),
+    environmentType = tostring(customDimensions.environmentType)
+| summarize 
+    EventCount = count(),
+    Companies = make_set(companyName, 100),
+    EnvironmentTypes = make_set(environmentType, 100),
+    FirstSeen = min(timestamp),
+    LastSeen = max(timestamp)
+    by 
+    sqlServerName,
+    sqlDatabaseName
+| order by EventCount desc
+
+
+// ----------------------------------------------------------------------------
+// Query 4: Show RAW customDimensions JSON
+// Shows the complete raw JSON for customDimensions
+// ----------------------------------------------------------------------------
+traces
+| where timestamp > ago(24h)
+| take 10
+| project 
+    timestamp,
+    message,
+    cloud_RoleInstance,
+    cloud_RoleName,
+    customDimensions,  // Raw JSON of all custom dimensions
+    customMeasurements  // Raw JSON of all custom measurements
+
+
+// ----------------------------------------------------------------------------
+// Query 5: Compare Properties Between High and Low Event Count Groups
+// Helps identify what's different between Production and UAT
+// ----------------------------------------------------------------------------
+traces
+| where timestamp > ago(7d)
+| extend 
+    companyName = tostring(customDimensions.companyName),
+    environmentType = tostring(customDimensions.environmentType),
+    sqlDatabaseName = tostring(customDimensions.sqlDatabaseName),
+    serverInstanceName = tostring(customDimensions.serverInstanceName)
+| summarize 
+    EventCount = count(),
+    UniqueProperty = any(pack_all())  // Pack all properties
+    by 
+    Group = case(
+        environmentType == "Production", "Production",
+        environmentType == "", "Empty EnvironmentType",
+        "Other"
+    )
+| project 
+    Group,
+    EventCount,
+    UniqueProperty
+
+
+// ----------------------------------------------------------------------------
+// Query 6: Find ALL Custom Dimension Keys
+// Discovers all possible customDimensions keys in your data
+// ----------------------------------------------------------------------------
+traces
+| where timestamp > ago(7d)
+| take 1000
+| project customDimensions
+| mv-expand property = bag_keys(customDimensions)
+| summarize count() by tostring(property)
+| order by count_ desc
+
+
+// ============================================================================
+// INSTRUCTIONS:
+// 1. Run Query 2 first - it gives you a quick summary of all unique values
+// 2. Run Query 3 to see if sqlDatabaseName differs between Production/UAT
+// 3. Run Query 1 to see sample records with all fields
+// 4. Run Query 4 to see raw JSON if you need to inspect unusual fields
+// 5. Run Query 6 to discover ALL available customDimensions keys
+// ============================================================================

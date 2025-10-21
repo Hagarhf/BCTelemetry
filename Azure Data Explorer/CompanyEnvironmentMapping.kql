@@ -1,0 +1,29 @@
+// ============================================================================
+// Map Company Names to Environment Types
+// This will show exactly which companies belong to Production vs UAT
+// ============================================================================
+
+traces
+| where timestamp > ago(7d)
+| extend 
+    companyName = tostring(customDimensions.companyName),
+    environmentType = tostring(customDimensions.environmentType)
+| where isnotempty(companyName)  // Exclude empty company names
+| summarize 
+    EventCount = count(),
+    FirstSeen = min(timestamp),
+    LastSeen = max(timestamp)
+    by 
+    companyName,
+    environmentType
+| project 
+    companyName,
+    environmentType = case(
+        environmentType == "Production", "Production",
+        environmentType == "", "Empty/Unknown",
+        environmentType
+    ),
+    EventCount,
+    FirstSeen,
+    LastSeen
+| order by environmentType desc, EventCount desc

@@ -1,10 +1,6 @@
 [
     {
         "roleInstance": "BAN_PROD_230807",
-        "instanceDescription": "Production Database - On-Premise"
-    },
-    {
-        "roleInstance": "Bananar",
-        "instanceDescription": "UAT Database - Test Environment"
+        "instanceDescription": "Production Database - BAN-PROD-BC Server (3 service instances)"
     }
 ]

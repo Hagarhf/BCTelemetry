@@ -2,11 +2,6 @@
     {
         "serviceInstance": "BAN_PROD_230807",
         "servicePurpose": "Standard",
-        "serviceDescription": "Production - Standard Business Central Service (3 instances)"
-    },
-    {
-        "serviceInstance": "Bananar",
-        "servicePurpose": "Standard",
-        "serviceDescription": "UAT - Test Environment Service (1 instance)"
+        "serviceDescription": "Production - Standard BC Service on BAN-PROD-BC (3 instances)"
     }
 ]
