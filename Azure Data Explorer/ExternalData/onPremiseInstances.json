@@ -1,6 +1,10 @@
 [
     {
-        "roleInstance": "Replace me with your on-premise server instance name",
-        "instanceDescription": "Replace me with a description of your on-premise instance. Example: Production Server - Main Instance"
+        "roleInstance": "Bananar",
+        "instanceDescription": "Production Database - Bananar Company"
+    },
+    {
+        "roleInstance": "BAN_PROD_230807",
+        "instanceDescription": "UAT Database - Test Environment"
     }
 ]

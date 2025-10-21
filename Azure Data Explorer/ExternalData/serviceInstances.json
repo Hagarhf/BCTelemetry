@@ -1,12 +1,12 @@
 [
     {
-        "serviceInstance": "your-standard-service-instance-name",
+        "serviceInstance": "Bananar",
         "servicePurpose": "Standard",
-        "serviceDescription": "Standard Business Central Service - User Interface & Reports"
+        "serviceDescription": "Production - Standard Business Central Service (3 instances)"
     },
     {
-        "serviceInstance": "your-api-service-instance-name", 
-        "servicePurpose": "API",
-        "serviceDescription": "API Service - External Integrations & Web Services"
+        "serviceInstance": "BAN_PROD_230807",
+        "servicePurpose": "Standard",
+        "serviceDescription": "UAT - Test Environment Service (1 instance)"
     }
 ]

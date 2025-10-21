@@ -1,0 +1,99 @@
+// ============================================================================
+// Discovery Queries Using Company Name
+// BC 21 doesn't support CloudRoleInstance, so we'll use companyName instead
+// ============================================================================
+
+// ----------------------------------------------------------------------------
+// Query 1: Discover All Company Names
+// This shows all companies in your telemetry data
+// ----------------------------------------------------------------------------
+traces
+| where timestamp > ago(7d)
+| extend companyName = tostring(customDimensions.companyName)
+| where isnotempty(companyName)
+| summarize 
+    EventCount = count(),
+    FirstSeen = min(timestamp),
+    LastSeen = max(timestamp),
+    SampleAppVersion = any(tostring(customDimensions.componentVersion)),
+    SampleEnvironmentType = any(tostring(customDimensions.environmentType)),
+    UniqueUsers = dcount(tostring(customDimensions.alObjectId))
+    by companyName
+| project 
+    companyName,
+    EventCount,
+    FirstSeen,
+    LastSeen,
+    SampleAppVersion,
+    UniqueUsers
+| order by EventCount desc
+
+// This shows all your companies - you can identify Production vs UAT companies
+
+
+// ----------------------------------------------------------------------------
+// Query 2: Company Names with Event Analysis
+// Helps identify if companies have different usage patterns (Standard vs API)
+// ----------------------------------------------------------------------------
+traces
+| where timestamp > ago(7d)
+| extend 
+    companyName = tostring(customDimensions.companyName),
+    eventId = tostring(customDimensions.eventId)
+| where isnotempty(companyName)
+| summarize 
+    TotalEvents = count(),
+    UniqueEventTypes = dcount(eventId),
+    WebServiceCalls = countif(eventId has "AL0000E" or eventId has "AL0000J"),
+    ODataCalls = countif(eventId has "AL0000D"),
+    PageViews = countif(eventId has "AL0000DD"),
+    ReportGenerated = countif(eventId has "RT0006"),
+    LoginEvents = countif(eventId has "AL0000CTP")
+    by companyName
+| extend 
+    ApiToPageRatio = case(
+        PageViews == 0 and WebServiceCalls > 0, 999.0,
+        PageViews > 0, todouble(WebServiceCalls + ODataCalls) / todouble(PageViews),
+        0.0
+    ),
+    SuggestedType = case(
+        PageViews > WebServiceCalls * 2, "Standard (UI-focused)",
+        WebServiceCalls > PageViews * 2, "API (Integration-focused)",
+        "Mixed"
+    )
+| project 
+    companyName,
+    TotalEvents,
+    SuggestedType,
+    PageViews,
+    WebServiceCalls,
+    ODataCalls,
+    ReportGenerated,
+    ApiToPageRatio
+| order by TotalEvents desc
+
+
+// ----------------------------------------------------------------------------
+// Query 3: Combined View - All Identifiable Attributes
+// Shows everything we can use to distinguish your environments
+// ----------------------------------------------------------------------------
+traces
+| where timestamp > ago(7d)
+| extend 
+    companyName = tostring(customDimensions.companyName),
+    environmentName = tostring(customDimensions.environmentName),
+    environmentType = tostring(customDimensions.environmentType),
+    aadTenantId = tostring(customDimensions.aadTenantId)
+| summarize 
+    EventCount = count(),
+    FirstSeen = min(timestamp),
+    LastSeen = max(timestamp),
+    Companies = make_set(companyName, 100)
+    by 
+    cloud_RoleInstance,
+    environmentName,
+    environmentType,
+    aadTenantId
+| order by EventCount desc
+
+// This shows if you have environmentName or other fields to distinguish instances

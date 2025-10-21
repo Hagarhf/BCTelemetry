@@ -1,0 +1,178 @@
+// ============================================================================
+// Discovery Queries for BC Telemetry Mapping Files
+// Run these queries in Azure Data Explorer to find your actual values
+// ============================================================================
+
+// ----------------------------------------------------------------------------
+// Query 1: Discover Azure AD Tenant IDs (for entraTenantId.json)
+// This finds all REAL SaaS tenant IDs in your telemetry data
+// ----------------------------------------------------------------------------
+traces
+| where timestamp > ago(30d)  // Last 30 days
+| extend aadTenantId = tostring(customDimensions.aadTenantId)
+| where isnotempty(aadTenantId)
+| where aadTenantId != "common"  // Exclude "common" - that's not a real tenant ID
+| summarize 
+    EventCount = count(),
+    FirstSeen = min(timestamp),
+    LastSeen = max(timestamp),
+    SampleAppVersion = any(tostring(customDimensions.componentVersion))
+    by aadTenantId
+| project 
+    aadTenantId,
+    EventCount,
+    FirstSeen,
+    LastSeen,
+    SampleAppVersion
+| order by EventCount desc
+
+// COPY RESULTS TO: entraTenantId.json
+// Format:
+// [
+//     {
+//         "entraTenantId": "paste-tenant-id-here",
+//         "tenantDescription": "Add your description here (e.g., Production SaaS, Customer ABC)"
+//     }
+// ]
+
+
+// ----------------------------------------------------------------------------
+// Query 2: Discover On-Premise Instances (for onPremiseInstances.json)
+// This finds all cloud_RoleInstance values for On-Premise servers
+// ----------------------------------------------------------------------------
+traces
+| where timestamp > ago(30d)  // Last 30 days
+| extend aadTenantId = tostring(customDimensions.aadTenantId)
+// On-Premise can have empty tenant ID OR "common" (which is not a real tenant)
+| where isempty(aadTenantId) or aadTenantId == "common"
+| extend roleInstance = cloud_RoleInstance
+| where isnotempty(roleInstance)
+| summarize 
+    EventCount = count(),
+    FirstSeen = min(timestamp),
+    LastSeen = max(timestamp),
+    SampleAppVersion = any(tostring(customDimensions.componentVersion)),
+    SampleEnvironmentType = any(tostring(customDimensions.environmentType)),
+    TenantIdValue = any(aadTenantId)
+    by roleInstance
+| project 
+    roleInstance,
+    EventCount,
+    FirstSeen,
+    LastSeen,
+    SampleAppVersion,
+    SampleEnvironmentType,
+    TenantIdValue
+| order by EventCount desc
+
+// COPY RESULTS TO: onPremiseInstances.json
+// Format:
+// [
+//     {
+//         "roleInstance": "paste-cloud_RoleInstance-value-here",
+//         "instanceDescription": "Add your description (e.g., Production Server - Main Instance)"
+//     }
+// ]
+
+
+// ----------------------------------------------------------------------------
+// Query 3: Discover Service Instances (for serviceInstances.json)
+// This finds all service instances with event patterns to help identify purpose
+// ----------------------------------------------------------------------------
+traces
+| where timestamp > ago(30d)  // Last 30 days
+| extend serviceInstance = cloud_RoleInstance
+| where isnotempty(serviceInstance)
+| extend eventId = tostring(customDimensions.eventId)
+| summarize 
+    TotalEvents = count(),
+    FirstSeen = min(timestamp),
+    LastSeen = max(timestamp),
+    UniqueEventTypes = dcount(eventId),
+    // Count specific event patterns to help identify service purpose
+    WebServiceCalls = countif(eventId has "AL0000E" or eventId has "AL0000J"),  // Web service events
+    ODataCalls = countif(eventId has "AL0000D"),  // OData events
+    ReportGenerated = countif(eventId has "RT0006"),  // Report rendering
+    PageViews = countif(eventId has "AL0000DD"),  // Page views
+    LoginEvents = countif(eventId has "AL0000CTP"),  // Authentication
+    SampleEnvironmentType = any(tostring(customDimensions.environmentType)),
+    SampleAppVersion = any(tostring(customDimensions.componentVersion))
+    by serviceInstance
+| extend 
+    // Heuristic: High API calls vs low page views = likely API service
+    ApiToPageRatio = case(
+        PageViews == 0 and WebServiceCalls > 0, 999.0,
+        PageViews > 0, todouble(WebServiceCalls + ODataCalls) / todouble(PageViews),
+        0.0
+    ),
+    SuggestedPurpose = case(
+        PageViews > WebServiceCalls * 2, "Standard (UI-focused)",
+        WebServiceCalls > PageViews * 2, "API (Integration-focused)",
+        "Mixed (Review manually)"
+    )
+| project 
+    serviceInstance,
+    TotalEvents,
+    SuggestedPurpose,
+    PageViews,
+    WebServiceCalls,
+    ODataCalls,
+    ReportGenerated,
+    LoginEvents,
+    ApiToPageRatio,
+    FirstSeen,
+    LastSeen,
+    SampleEnvironmentType,
+    SampleAppVersion
+| order by TotalEvents desc
+
+// COPY RESULTS TO: serviceInstances.json
+// Format:
+// [
+//     {
+//         "serviceInstance": "paste-cloud_RoleInstance-value-here",
+//         "servicePurpose": "Standard or API (based on SuggestedPurpose column)",
+//         "serviceDescription": "Add your description (e.g., Standard BC Service - User Interface)"
+//     }
+// ]
+
+
+// ----------------------------------------------------------------------------
+// Query 4: Combined Overview - All Instances
+// This gives you a complete picture of your environment
+// ----------------------------------------------------------------------------
+traces
+| where timestamp > ago(30d)
+| extend 
+    aadTenantId = tostring(customDimensions.aadTenantId),
+    roleInstance = cloud_RoleInstance,
+    environmentType = tostring(customDimensions.environmentType),
+    // Real SaaS has a tenant ID that's NOT "common"
+    IsSaas = isnotempty(tostring(customDimensions.aadTenantId)) and tostring(customDimensions.aadTenantId) != "common"
+| summarize 
+    EventCount = count(),
+    FirstSeen = min(timestamp),
+    LastSeen = max(timestamp),
+    EnvironmentTypes = make_set(environmentType, 5)
+    by 
+    InstanceType = case(IsSaas, "SaaS", "On-Premise"),
+    Identifier = case(IsSaas, aadTenantId, roleInstance)
+| project 
+    InstanceType,
+    Identifier,
+    EventCount,
+    EnvironmentTypes,
+    FirstSeen,
+    LastSeen
+| order by InstanceType asc, EventCount desc
+
+// This shows you everything at a glance - which are SaaS vs On-Premise
+
+
+// ============================================================================
+// INSTRUCTIONS:
+// 1. Copy each query into Azure Data Explorer
+// 2. Run the query and review the results
+// 3. Use the results to populate the corresponding JSON files
+// 4. Pay attention to the SuggestedPurpose in Query 3 to identify API vs Standard services
+// ============================================================================

@@ -1,0 +1,106 @@
+// ============================================================================
+// Alternative Discovery - When cloud_RoleInstance is Empty/N/A
+// ============================================================================
+
+// ----------------------------------------------------------------------------
+// Query 1: Check what identifying fields ARE available
+// ----------------------------------------------------------------------------
+traces
+| where timestamp > ago(7d)
+| take 10
+| project 
+    timestamp,
+    cloud_RoleInstance,
+    cloud_RoleName,
+    appName,
+    client_Type,
+    client_IP,
+    // From customDimensions
+    serverInstanceName = tostring(customDimensions.serverInstanceName),
+    environmentName = tostring(customDimensions.environmentName),
+    environmentType = tostring(customDimensions.environmentType),
+    aadTenantId = tostring(customDimensions.aadTenantId),
+    component = tostring(customDimensions.component),
+    componentVersion = tostring(customDimensions.componentVersion),
+    telemetrySchemaVersion = tostring(customDimensions.telemetrySchemaVersion)
+| order by timestamp desc
+
+// This shows what fields you have available to identify instances
+
+
+// ----------------------------------------------------------------------------
+// Query 2: Find all unique combinations that could identify instances
+// ----------------------------------------------------------------------------
+traces
+| where timestamp > ago(7d)
+| extend 
+    serverInstanceName = tostring(customDimensions.serverInstanceName),
+    environmentName = tostring(customDimensions.environmentName),
+    environmentType = tostring(customDimensions.environmentType)
+| summarize 
+    EventCount = count(),
+    FirstSeen = min(timestamp),
+    LastSeen = max(timestamp)
+    by 
+    cloud_RoleInstance,
+    cloud_RoleName,
+    appName,
+    serverInstanceName,
+    environmentName,
+    environmentType
+| order by EventCount desc
+
+// This groups by all possible identifying fields
+
+
+// ----------------------------------------------------------------------------
+// Query 3: Check if we can use environmentName or environmentType
+// ----------------------------------------------------------------------------
+traces
+| where timestamp > ago(7d)
+| extend 
+    environmentName = tostring(customDimensions.environmentName),
+    environmentType = tostring(customDimensions.environmentType),
+    serverInstanceName = tostring(customDimensions.serverInstanceName)
+| summarize 
+    EventCount = count(),
+    SampleRoleInstance = any(cloud_RoleInstance),
+    SampleRoleName = any(cloud_RoleName),
+    FirstSeen = min(timestamp),
+    LastSeen = max(timestamp)
+    by 
+    environmentName,
+    environmentType,
+    serverInstanceName
+| order by EventCount desc
+
+// This shows if environmentName/Type can distinguish your instances
+
+
+// ----------------------------------------------------------------------------
+// Query 4: Check Application Insights resource information
+// ----------------------------------------------------------------------------
+traces
+| where timestamp > ago(7d)
+| summarize 
+    EventCount = count(),
+    FirstSeen = min(timestamp),
+    LastSeen = max(timestamp),
+    SampleComponents = make_set(tostring(customDimensions.component), 10)
+    by 
+    AppInsightsResource = appName,
+    RoleInstance = cloud_RoleInstance,
+    RoleName = cloud_RoleName
+| order by EventCount desc
+
+// This shows if different App Insights resources are used per instance
+
+
+// ============================================================================
+// NEXT STEPS:
+// Based on the results, we may need to:
+// 1. Use environmentName instead of cloud_RoleInstance
+// 2. Use a combination of fields to identify instances
+// 3. Modify the dashboard to work without instance-level granularity
+// 4. Configure BC Service Tier to properly populate cloud_RoleInstance
+// ============================================================================
