@@ -1,0 +1,6 @@
+[
+    {
+        "roleInstance": "Replace me with your on-premise server instance name",
+        "instanceDescription": "Replace me with a description of your on-premise instance. Example: Production Server - Main Instance"
+    }
+]

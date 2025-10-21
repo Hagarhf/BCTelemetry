@@ -5907,6 +5907,16 @@
             "id": "16f01b77-06b2-437a-9929-e0731f8a6e56",
             "queryId": "ba39f166-a4d3-48ea-bad0-db65876a054f",
             "variableName": "entraTenantIdDescriptions"
+        },
+        {
+            "id": "2bf8a2c4-7f15-4a3b-9e67-f4d2e8b6c9d1",
+            "queryId": "cf48c267-b5e4-49fb-be61-ec76987b164e",
+            "variableName": "onPremiseInstances"
+        },
+        {
+            "id": "3cf9b3d5-8f26-4b4c-af78-g5e3f9c7d0e2",
+            "queryId": "df59d378-c6f5-5afb-cf72-fd87a98c275f",
+            "variableName": "serviceInstances"
         }
     ],
     "parameters": [
@@ -7184,7 +7194,7 @@
                 "kind": "inline",
                 "dataSourceId": "05ae5610-5603-45ac-9458-616539c1c150"
             },
-            "text": "externaldata(eventId :string, eventArea:string, eventDescription:string)\n        [h@'https://raw.githubusercontent.com/waldo1001/waldo.BCTelemetry/master/Azure%20Data%20Explorer/ExternalData/Signals.json']\n            with(format='multijson')\n| where eventDescription contains _MessageFilter\n| where eventArea has_any (_Area);",
+            "text": "externaldata(eventId :string, eventArea:string, eventDescription:string)\n        [h@'https://raw.githubusercontent.com/Hagarhf/BCTelemetry/main/Azure%20Data%20Explorer/ExternalData/Signals.json']\n            with(format='multijson')\n| where eventDescription contains _MessageFilter\n| where eventArea has_any (_Area);",
             "id": "08a39dde-2d8a-452f-9474-8c94898696e6",
             "usedVariables": [
                 "_Area",
@@ -8285,7 +8295,7 @@
                 "kind": "inline",
                 "dataSourceId": "05ae5610-5603-45ac-9458-616539c1c150"
             },
-            "text": "let SignalDefinitions = externaldata(eventId :string, eventArea:string, eventDescription:string)\n        [h@'https://raw.githubusercontent.com/waldo1001/waldo.BCTelemetry/master/Azure%20Data%20Explorer/ExternalData/Signals.json']\n            with(format='multijson')\n    | where eventId has_any (_eventId); //Filter as soon as possible\nlet TempAllTraces = \ntraces\n    | union pageViews                                      //union\n    | where timestamp between (_startTime .. _endTime)     //take the parameters by default\n    | where customDimensions has_any (_eventId)\n    | where message contains _MessageFilter\n    | where customDimensions has _customDimensionsContains\n    | extend eventId = tostring(customDimensions.eventId)  //extend fields that you would extend anyway\n        , aadTenantId = tostring(customDimensions.aadTenantId)\n        , extensionName = tostring(customDimensions.extensionName)\n        , executionTime = customDimensions.executionTime\n        , serverExecutionTime = customDimensions.serverExecutionTime\n        , totalTime = customDimensions.totalTime\n        , durations = customMeasurements.durations\n        , alJobQueueExecutionTimeInMs = customDimensions.alJobQueueExecutionTimeInMs\n        , extensionPublisher = tostring(customDimensions.extensionPublisher)\n        , componentVersion = tostring(customDimensions.componentVersion)\n        , companyName = tostring(customDimensions.companyName)\n        // , companyName = strcat(tostring(hash(tostring(customDimensions.companyName))),'(obfuscated)')\n        , callerAppVersion = tostring(customDimensions.alCallerAppVersion)\n        , callerPublisher = tostring(customDimensions.alCallerPublisher)\n        , callerAppName = tostring(customDimensions.alCallerAppName)\n        , clientType = tostring(customDimensions.clientType)\n        , extensionVersion = tostring(customDimensions.extensionVersion)\n        , environmentName = tostring(customDimensions.environmentName)\n        , environmentType = tostring(customDimensions.environmentType)\n    | extend IsSaas  = iff(isempty(environmentName) or environmentName in ('common','null','default','undefined'),false,true)\n    | where IsSaas in (_IsSaaS)\n    | where aadTenantId has_any (_entraTenantId)\n    | where environmentName in (_environmentName)\n    | where companyName contains _CompanyFilter\n    | where extensionName has_any (_extensionName)\n    | where extensionPublisher has_any (_extensionPublisher)\n    | where eventId has_any (_eventId)                       //Filter as soon as possible\n    | where componentVersion startswith _componentVersionFilter\n//New field: elapsedTimeInMS\n    | extend elapsedTimeInMS = \n                iif(isnotempty(executionTime), toreal(totimespan(executionTime))/10000\n                , iif(isnotempty(serverExecutionTime), toreal(totimespan(serverExecutionTime))/10000\n                    , iif(isnotempty(totalTime), toreal(totimespan(totalTime))/10000\n                        , iif(isnotempty(durations), durations\n                            , iif(isnotempty( alJobQueueExecutionTimeInMs), alJobQueueExecutionTimeInMs\n                , dynamic(null))))));\n//Join first 2 (small table on the left)\nlet TempAllTraces2 = \nentraTenantIdDescriptions\n| join kind=rightouter TempAllTraces on $left.entraTenantId == $right.aadTenantId;\n//Join next 2 (small table on the left)\nSignalDefinitions\n| join kind=rightouter TempAllTraces2 on $left.eventId == $right.eventId\n| extend tenantDescription = iif(isempty( tenantDescription),tostring(aadTenantId),tenantDescription)\n| where tenantDescription has_any (_TenantDescription)\n| where eventId has_any (_eventId) //Just in case\n| extend entraTenantId = tostring(aadTenantId)\n| extend message = iif(isnotempty( message), message, eventDescription)\n| extend eventId = iif(isempty(eventId), eventId1, eventId)\n| extend eventDescription = iif(isempty( eventDescription),message, eventDescription )",
+            "text": "let SignalDefinitions = externaldata(eventId :string, eventArea:string, eventDescription:string)\n        [h@'https://raw.githubusercontent.com/Hagarhf/BCTelemetry/main/Azure%20Data%20Explorer/ExternalData/Signals.json']\n            with(format='multijson')\n    | where eventId has_any (_eventId); //Filter as soon as possible\nlet TempAllTraces = \ntraces\n    | union pageViews                                      //union\n    | where timestamp between (_startTime .. _endTime)     //take the parameters by default\n    | where customDimensions has_any (_eventId)\n    | where message contains _MessageFilter\n    | where customDimensions has _customDimensionsContains\n    | extend eventId = tostring(customDimensions.eventId)  //extend fields that you would extend anyway\n        , aadTenantId = tostring(customDimensions.aadTenantId)\n        , cloud_RoleInstance = tostring(cloud_RoleInstance)\n        , extensionName = tostring(customDimensions.extensionName)\n        , executionTime = customDimensions.executionTime\n        , serverExecutionTime = customDimensions.serverExecutionTime\n        , totalTime = customDimensions.totalTime\n        , durations = customMeasurements.durations\n        , alJobQueueExecutionTimeInMs = customDimensions.alJobQueueExecutionTimeInMs\n        , extensionPublisher = tostring(customDimensions.extensionPublisher)\n        , componentVersion = tostring(customDimensions.componentVersion)\n        , companyName = tostring(customDimensions.companyName)\n        // , companyName = strcat(tostring(hash(tostring(customDimensions.companyName))),'(obfuscated)')\n        , callerAppVersion = tostring(customDimensions.alCallerAppVersion)\n        , callerPublisher = tostring(customDimensions.alCallerPublisher)\n        , callerAppName = tostring(customDimensions.alCallerAppName)\n        , clientType = tostring(customDimensions.clientType)\n        , extensionVersion = tostring(customDimensions.extensionVersion)\n        , environmentName = tostring(customDimensions.environmentName)\n        , environmentType = tostring(customDimensions.environmentType)\n    | extend IsSaas  = iff(isempty(environmentName) or environmentName in ('common','null','default','undefined'),false,true)\n    | where IsSaas in (_IsSaaS)\n    // Hybrid tenant/instance filtering - use aadTenantId for SaaS, cloud_RoleInstance for On-Premise\n    | extend instanceId = iff(IsSaas, aadTenantId, cloud_RoleInstance)\n    | where instanceId has_any (_entraTenantId) or cloud_RoleInstance has_any (_entraTenantId)\n    | where environmentName in (_environmentName)\n    | where companyName contains _CompanyFilter\n    | where extensionName has_any (_extensionName)\n    | where extensionPublisher has_any (_extensionPublisher)\n    | where eventId has_any (_eventId)                       //Filter as soon as possible\n    | where componentVersion startswith _componentVersionFilter\n//New field: elapsedTimeInMS\n    | extend elapsedTimeInMS = \n                iif(isnotempty(executionTime), toreal(totimespan(executionTime))/10000\n                , iif(isnotempty(serverExecutionTime), toreal(totimespan(serverExecutionTime))/10000\n                    , iif(isnotempty(totalTime), toreal(totimespan(totalTime))/10000\n                        , iif(isnotempty(durations), durations\n                            , iif(isnotempty( alJobQueueExecutionTimeInMs), alJobQueueExecutionTimeInMs\n                , dynamic(null))))));\n//Create unified instance mapping for both SaaS (entraTenantId) and On-Premise (roleInstance)\nlet UnifiedInstanceMapping = \n    union \n    (entraTenantIdDescriptions | extend instanceId = entraTenantId, instanceDescription = tenantDescription, deploymentType = \"SaaS\"),\n    (onPremiseInstances | extend instanceId = roleInstance, instanceDescription = instanceDescription, deploymentType = \"On-Premise\");\n//Join traces with unified instance mapping\nlet TempAllTraces2 = \nTempAllTraces\n| extend instanceId = iff(IsSaas, aadTenantId, cloud_RoleInstance)\n| join kind=leftouter UnifiedInstanceMapping on instanceId\n| extend tenantDescription = iff(isempty(instanceDescription), instanceId, instanceDescription);\n//Join next 2 (small table on the left)\nSignalDefinitions\n| join kind=rightouter TempAllTraces2 on $left.eventId == $right.eventId\n| extend tenantDescription = iif(isempty( tenantDescription),tostring(instanceId),tenantDescription)\n| where tenantDescription has_any (_TenantDescription)\n| where eventId has_any (_eventId) //Just in case\n| extend entraTenantId = tostring(instanceId)\n| extend message = iif(isnotempty( message), message, eventDescription)\n| extend eventId = iif(isempty(eventId), eventId1, eventId)\n| extend eventDescription = iif(isempty( eventDescription),message, eventDescription )",
             "usedVariables": [
                 "_CompanyFilter",
                 "_IsSaaS",
@@ -8300,7 +8310,9 @@
                 "_extensionName",
                 "_extensionPublisher",
                 "_startTime",
-                "entraTenantIdDescriptions"
+                "entraTenantIdDescriptions",
+                "onPremiseInstances",
+                "serviceInstances"
             ]
         },
         {
@@ -8313,11 +8325,29 @@
             "usedVariables": []
         },
         {
+            "id": "cf48c267-b5e4-49fb-be61-ec76987b164e",
             "dataSource": {
                 "kind": "inline",
                 "dataSourceId": "05ae5610-5603-45ac-9458-616539c1c150"
             },
-            "text": "externaldata(eventId :string, eventArea:string, eventDescription:string)\n        [h@'https://raw.githubusercontent.com/waldo1001/waldo.BCTelemetry/master/Azure%20Data%20Explorer/ExternalData/Signals.json']\n            with(format='multijson')\n| where eventDescription contains _MessageFilter\n| summarize by eventArea;",
+            "text": "datatable(roleInstance :string, instanceDescription:string)\r\n[\r\n        \"<ServerInstance>\",\"<InstanceDescription>\"    \r\n]",
+            "usedVariables": []
+        },
+        {
+            "id": "df59d378-c6f5-5afb-cf72-fd87a98c275f",
+            "dataSource": {
+                "kind": "inline",
+                "dataSourceId": "05ae5610-5603-45ac-9458-616539c1c150"
+            },
+            "text": "datatable(serviceInstance :string, servicePurpose:string, serviceDescription:string)\r\n[\r\n        \"<ServiceInstanceName>\",\"<Purpose>\",\"<Description>\"    \r\n]",
+            "usedVariables": []
+        },
+        {
+            "dataSource": {
+                "kind": "inline",
+                "dataSourceId": "05ae5610-5603-45ac-9458-616539c1c150"
+            },
+            "text": "externaldata(eventId :string, eventArea:string, eventDescription:string)\n        [h@'https://raw.githubusercontent.com/Hagarhf/BCTelemetry/main/Azure%20Data%20Explorer/ExternalData/Signals.json']\n            with(format='multijson')\n| where eventDescription contains _MessageFilter\n| summarize by eventArea;",
             "id": "f5fbe50d-0893-4b88-9d18-0a9a40874da0",
             "usedVariables": [
                 "_MessageFilter"

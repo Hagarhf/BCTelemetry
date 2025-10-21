@@ -1,0 +1,12 @@
+[
+    {
+        "serviceInstance": "your-standard-service-instance-name",
+        "servicePurpose": "Standard",
+        "serviceDescription": "Standard Business Central Service - User Interface & Reports"
+    },
+    {
+        "serviceInstance": "your-api-service-instance-name", 
+        "servicePurpose": "API",
+        "serviceDescription": "API Service - External Integrations & Web Services"
+    }
+]
