@@ -8321,7 +8321,7 @@
                 "kind": "inline",
                 "dataSourceId": "05ae5610-5603-45ac-9458-616539c1c150"
             },
-            "text": "datatable(entraTenantId :string, tenantDescription:string)\r\n[\r\n        \"<GUID>\",\"<CustomerName>\"    \r\n]",
+            "text": "datatable(entraTenantId :string, tenantDescription:string)\r\n[\r\n        \"common\",\"Stórkaup Production On-Premise\"\r\n]",
             "usedVariables": []
         },
         {
@@ -8330,7 +8330,7 @@
                 "kind": "inline",
                 "dataSourceId": "05ae5610-5603-45ac-9458-616539c1c150"
             },
-            "text": "datatable(roleInstance :string, instanceDescription:string)\r\n[\r\n        \"<ServerInstance>\",\"<InstanceDescription>\"    \r\n]",
+            "text": "datatable(roleInstance :string, instanceDescription:string)\r\n[\r\n]",
             "usedVariables": []
         },
         {
@@ -8339,7 +8339,7 @@
                 "kind": "inline",
                 "dataSourceId": "05ae5610-5603-45ac-9458-616539c1c150"
             },
-            "text": "datatable(serviceInstance :string, servicePurpose:string, serviceDescription:string)\r\n[\r\n        \"<ServiceInstanceName>\",\"<Purpose>\",\"<Description>\"    \r\n]",
+            "text": "datatable(serviceInstance :string, servicePurpose:string, serviceDescription:string)\r\n[\r\n]",
             "usedVariables": []
         },
         {
