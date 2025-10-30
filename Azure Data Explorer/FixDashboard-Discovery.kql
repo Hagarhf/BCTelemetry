@@ -1,0 +1,306 @@
+// ================================================================
+// BCTelemetry Dashboard Configuration Discovery Queries
+// ================================================================
+// Run these queries in Azure Data Explorer to discover your
+// tenant IDs, instances, and generate the correct configuration
+// for BCTelemetryDashboard.json
+// ================================================================
+
+// ================================================================
+// STEP 1: Discover All Tenant IDs (SaaS Deployments)
+// ================================================================
+// Purpose: Find all Azure AD Tenant IDs in your telemetry data
+// Output: List of tenant GUIDs that need friendly names
+// ================================================================
+
+print "=== STEP 1: Discover Tenant IDs ===";
+traces
+| where timestamp > ago(30d)
+| extend aadTenantId = tostring(customDimensions.aadTenantId)
+| where isnotempty(aadTenantId)
+| summarize
+    EventCount = count(),
+    FirstSeen = min(timestamp),
+    LastSeen = max(timestamp),
+    SampleCompanies = make_set(tostring(customDimensions.companyName), 5)
+    by aadTenantId
+| order by EventCount desc
+| project
+    RowNumber = row_number(),
+    aadTenantId,
+    EventCount,
+    FirstSeen,
+    LastSeen,
+    SampleCompanies;
+
+// ================================================================
+// STEP 2: Check Deployment Type (SaaS vs On-Premise)
+// ================================================================
+// Purpose: Determine if you have SaaS only or mixed deployments
+// Output: Count of SaaS vs On-Premise events
+// ================================================================
+
+print "";
+print "=== STEP 2: Check Deployment Type ===";
+traces
+| where timestamp > ago(30d)
+| extend environmentName = tostring(customDimensions.environmentName)
+| extend IsSaas = iff(isempty(environmentName) or environmentName in ('common','null','default','undefined'), false, true)
+| summarize EventCount = count() by IsSaas
+| extend DeploymentType = iff(IsSaas, "☁️ SaaS (Cloud)", "🖥️ On-Premise")
+| project DeploymentType, EventCount
+| order by EventCount desc;
+
+// ================================================================
+// STEP 3: Discover On-Premise Role Instances (If Any)
+// ================================================================
+// Purpose: Find on-premise server instances
+// Output: List of role instances that need descriptions
+// ================================================================
+
+print "";
+print "=== STEP 3: Discover On-Premise Instances ===";
+traces
+| where timestamp > ago(30d)
+| extend environmentName = tostring(customDimensions.environmentName)
+| extend IsSaas = iff(isempty(environmentName) or environmentName in ('common','null','default','undefined'), false, true)
+| where IsSaas == false
+| extend roleInstance = tostring(cloud_RoleInstance)
+| where isnotempty(roleInstance)
+| summarize
+    EventCount = count(),
+    FirstSeen = min(timestamp),
+    LastSeen = max(timestamp),
+    SampleCompanies = make_set(tostring(customDimensions.companyName), 5)
+    by roleInstance
+| order by EventCount desc
+| project
+    RowNumber = row_number(),
+    roleInstance,
+    EventCount,
+    FirstSeen,
+    LastSeen,
+    SampleCompanies;
+
+// ================================================================
+// STEP 4: Discover Environment Names
+// ================================================================
+// Purpose: Find all environment names to help identify Prod/Test/QA
+// Output: List of environments with event counts
+// ================================================================
+
+print "";
+print "=== STEP 4: Discover Environment Names ===";
+traces
+| where timestamp > ago(30d)
+| extend environmentName = tostring(customDimensions.environmentName)
+| extend environmentType = tostring(customDimensions.environmentType)
+| where isnotempty(environmentName)
+| summarize
+    EventCount = count(),
+    EnvironmentTypes = make_set(environmentType),
+    FirstSeen = min(timestamp),
+    LastSeen = max(timestamp)
+    by environmentName
+| extend IsProbablyProd = iff(
+    environmentName !contains "TEST"
+    and environmentName !contains "QA"
+    and environmentName !contains "SANDBOX"
+    and environmentName !contains "DEV",
+    "✓ Production",
+    "⚠️ Non-Production"
+)
+| order by EventCount desc
+| project
+    RowNumber = row_number(),
+    environmentName,
+    IsProbablyProd,
+    EnvironmentTypes,
+    EventCount,
+    FirstSeen,
+    LastSeen;
+
+// ================================================================
+// STEP 5: Map Tenant IDs to Environments
+// ================================================================
+// Purpose: Understand which tenant IDs map to which environments
+// Output: Tenant → Environment mapping
+// ================================================================
+
+print "";
+print "=== STEP 5: Tenant ID to Environment Mapping ===";
+traces
+| where timestamp > ago(30d)
+| extend aadTenantId = tostring(customDimensions.aadTenantId)
+| extend environmentName = tostring(customDimensions.environmentName)
+| extend environmentType = tostring(customDimensions.environmentType)
+| where isnotempty(aadTenantId)
+| where isnotempty(environmentName)
+| summarize
+    EventCount = count(),
+    EnvironmentType = any(environmentType),
+    LastSeen = max(timestamp)
+    by aadTenantId, environmentName
+| order by EventCount desc
+| project
+    aadTenantId,
+    environmentName,
+    EnvironmentType,
+    EventCount,
+    LastSeen;
+
+// ================================================================
+// STEP 6: Generate entraTenantIdDescriptions Configuration
+// ================================================================
+// Purpose: Auto-generate the datatable configuration code
+// Output: Copy-paste ready KQL code for dashboard JSON
+// ================================================================
+
+print "";
+print "=== STEP 6: GENERATED CONFIG for entraTenantIdDescriptions ===";
+print "";
+print "// Copy the output below into BCTelemetryDashboard.json";
+print "// Replace query ID: ba39f166-a4d3-48ea-bad0-db65876a054f (around line 8324)";
+print "";
+traces
+| where timestamp > ago(30d)
+| extend aadTenantId = tostring(customDimensions.aadTenantId)
+| extend environmentName = tostring(customDimensions.environmentName)
+| where isnotempty(aadTenantId)
+| summarize
+    EventCount = count(),
+    Environments = make_set(environmentName, 3)
+    by aadTenantId
+| order by EventCount desc
+| extend SuggestedDescription = strcat(
+    "Tenant-",
+    substring(aadTenantId, 0, 8),
+    " (",
+    tostring(Environments[0]),
+    ")"
+)
+| extend ConfigLine = strcat(
+    '    "', aadTenantId, '", "',
+    SuggestedDescription,
+    '",'
+)
+| project ConfigLine
+| extend Header = iff(row_number() == 1, 'datatable(entraTenantId :string, tenantDescription:string)\n[\n', '')
+| project Output = strcat(Header, ConfigLine)
+| extend Output = iff(row_number() == toscalar(count()), substring(Output, 0, strlen(Output) - 1) + "\n]", Output);
+
+// ================================================================
+// STEP 7: Check for Service Instances
+// ================================================================
+// Purpose: Discover if you have service instances to configure
+// Output: List of cloud role names that might be services
+// ================================================================
+
+print "";
+print "=== STEP 7: Discover Service Instances ===";
+traces
+| where timestamp > ago(30d)
+| extend roleInstance = tostring(cloud_RoleInstance)
+| extend roleName = tostring(cloud_RoleName)
+| where isnotempty(roleName)
+| summarize
+    EventCount = count(),
+    UniqueInstances = dcount(roleInstance),
+    FirstSeen = min(timestamp),
+    LastSeen = max(timestamp)
+    by roleName
+| extend IsLikelyService = iff(
+    roleName contains "service"
+    or roleName contains "worker"
+    or roleName contains "job"
+    or roleName contains "sync",
+    "🔧 Service",
+    "📊 Application"
+)
+| order by EventCount desc
+| project
+    RowNumber = row_number(),
+    roleName,
+    IsLikelyService,
+    UniqueInstances,
+    EventCount,
+    FirstSeen,
+    LastSeen;
+
+// ================================================================
+// STEP 8: Verify External Data Access
+// ================================================================
+// Purpose: Check if external signal definitions are accessible
+// Output: Count of signals loaded from GitHub
+// ================================================================
+
+print "";
+print "=== STEP 8: Verify External Signal Definitions ===";
+externaldata(eventId :string, eventArea:string, eventDescription:string)
+    [h@'https://raw.githubusercontent.com/Hagarhf/BCTelemetry/main/Azure%20Data%20Explorer/ExternalData/Signals.json']
+    with(format='multijson')
+| summarize SignalCount = count() by eventArea
+| order by SignalCount desc
+| extend Status = "✓ External data accessible";
+
+// ================================================================
+// STEP 9: Test Sample allTraces Query
+// ================================================================
+// Purpose: Test if the main query will work with your config
+// Output: Sample of enriched traces
+// ================================================================
+
+print "";
+print "=== STEP 9: Test Sample allTraces Query ===";
+let SignalDefinitions = externaldata(eventId :string, eventArea:string, eventDescription:string)
+        [h@'https://raw.githubusercontent.com/Hagarhf/BCTelemetry/main/Azure%20Data%20Explorer/ExternalData/Signals.json']
+            with(format='multijson');
+traces
+| where timestamp > ago(1h)
+| take 100
+| extend eventId = tostring(customDimensions.eventId)
+| extend aadTenantId = tostring(customDimensions.aadTenantId)
+| extend extensionName = tostring(customDimensions.extensionName)
+| extend companyName = tostring(customDimensions.companyName)
+| join kind=leftouter SignalDefinitions on $left.eventId == $right.eventId
+| project
+    timestamp,
+    eventId,
+    eventArea,
+    message = iff(isnotempty(message), message, eventDescription),
+    aadTenantId = substring(aadTenantId, 0, 8),
+    companyName,
+    extensionName
+| take 10;
+
+// ================================================================
+// INSTRUCTIONS
+// ================================================================
+//
+// After running these queries:
+//
+// 1. Review STEP 1 output and note all tenant IDs
+//    - These are the GUIDs that need friendly names
+//
+// 2. Review STEP 5 output to understand tenant → environment mapping
+//    - Use this to create meaningful descriptions
+//
+// 3. Copy the output from STEP 6
+//    - This is ready to paste into BCTelemetryDashboard.json
+//    - Edit the descriptions to be more meaningful
+//
+// 4. If STEP 3 shows on-premise instances:
+//    - Create similar datatable for onPremiseInstances
+//    - Format: "roleInstance", "Friendly Description"
+//
+// 5. If STEP 7 shows service instances:
+//    - Create datatable for serviceInstances
+//    - Format: "serviceName", "Purpose", "Description"
+//
+// 6. Update BCTelemetryDashboard.json with your configurations
+//
+// 7. Reload dashboard and verify all queries work
+//
+// See Dashboard-Troubleshooting.md for detailed instructions
+//
+// ================================================================

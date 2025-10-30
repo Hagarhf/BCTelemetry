@@ -1,0 +1,436 @@
+// ============================================================================
+// Storkaup Extension Usage Analysis Queries
+// Query telemetry data to understand extension adoption and usage patterns
+// ============================================================================
+
+// ----------------------------------------------------------------------------
+// Query 1: Extension Usage Summary (Last 30 Days)
+// Shows activity count, unique users, and last usage for all extensions
+// ----------------------------------------------------------------------------
+traces
+| where timestamp > ago(30d)
+| extend extensionName = tostring(customDimensions.extensionName)
+| extend extensionPublisher = tostring(customDimensions.extensionPublisher)
+| where isnotempty(extensionName)
+| summarize
+    ActivityCount = count(),
+    UniqueUsers = dcount(user_Id),
+    FirstSeen = min(timestamp),
+    LastActivity = max(timestamp)
+    by extensionName, extensionPublisher
+| extend DaysSinceLastUse = datetime_diff('day', now(), LastActivity)
+| extend UsageLevel = case(
+    ActivityCount == 0, "❌ Unused",
+    ActivityCount < 10, "⚠️ Rarely Used (< 10 events)",
+    ActivityCount < 100, "✓ Moderately Used (10-100 events)",
+    ActivityCount < 1000, "✓✓ Actively Used (100-1000 events)",
+    "✓✓✓ Heavily Used (1000+ events)"
+)
+| project
+    extensionName,
+    extensionPublisher,
+    ActivityCount,
+    UniqueUsers,
+    DaysSinceLastUse,
+    UsageLevel,
+    LastActivity
+| order by ActivityCount desc
+
+
+// ----------------------------------------------------------------------------
+// Query 2: Completely Unused Extensions
+// Identifies extensions with ZERO telemetry in last 30 days
+// ----------------------------------------------------------------------------
+let ActiveExtensions = traces
+| where timestamp > ago(30d)
+| extend extensionName = tostring(customDimensions.extensionName)
+| where isnotempty(extensionName)
+| distinct extensionName;
+traces
+| where timestamp > ago(1d)  // Get recent extension list
+| extend extensionName = tostring(customDimensions.extensionName)
+| where isnotempty(extensionName)
+| distinct extensionName
+| where extensionName !in (ActiveExtensions)
+| project UnusedExtension = extensionName
+| order by UnusedExtension asc
+
+
+// ----------------------------------------------------------------------------
+// Query 3: Page Usage Analysis by Extension
+// Shows which pages are opened and how frequently
+// ----------------------------------------------------------------------------
+traces
+| where timestamp > ago(30d)
+| extend eventId = tostring(customDimensions.eventId)
+| where eventId == "RT0005"  // RT0005 = Page opened
+| extend pageName = tostring(customDimensions.alObjectName)
+| extend pageId = tostring(customDimensions.alObjectId)
+| extend extensionName = tostring(customDimensions.extensionName)
+| where isnotempty(pageName)
+| summarize
+    OpenCount = count(),
+    UniqueUsers = dcount(user_Id),
+    AvgDurationMs = avg(todouble(customDimensions.serverExecutionTime)),
+    LastOpened = max(timestamp)
+    by pageName, pageId, extensionName
+| extend DaysSinceLastOpen = datetime_diff('day', now(), LastOpened)
+| project
+    extensionName,
+    pageName,
+    pageId,
+    OpenCount,
+    UniqueUsers,
+    AvgDurationMs,
+    DaysSinceLastOpen,
+    LastOpened
+| order by OpenCount desc
+
+
+// ----------------------------------------------------------------------------
+// Query 4: Codeunit Execution Frequency
+// Shows which codeunits are executed and performance metrics
+// ----------------------------------------------------------------------------
+traces
+| where timestamp > ago(30d)
+| extend eventId = tostring(customDimensions.eventId)
+| where eventId in ("RT0012", "RT0004")  // RT0012 = Job queue, RT0004 = Method execution
+| extend codeunitName = tostring(customDimensions.alObjectName)
+| extend codeunitId = tostring(customDimensions.alObjectId)
+| extend extensionName = tostring(customDimensions.extensionName)
+| extend methodName = tostring(customDimensions.alMethodName)
+| extend executionTimeMs = todouble(customDimensions.serverExecutionTime)
+| where isnotempty(codeunitName)
+| summarize
+    ExecutionCount = count(),
+    AvgExecutionTimeMs = avg(executionTimeMs),
+    P95ExecutionTimeMs = percentile(executionTimeMs, 95),
+    MaxExecutionTimeMs = max(executionTimeMs),
+    LastExecuted = max(timestamp)
+    by codeunitName, codeunitId, methodName, extensionName
+| extend DaysSinceLastExecution = datetime_diff('day', now(), LastExecuted)
+| project
+    extensionName,
+    codeunitName,
+    codeunitId,
+    methodName,
+    ExecutionCount,
+    AvgExecutionTimeMs,
+    P95ExecutionTimeMs,
+    MaxExecutionTimeMs,
+    DaysSinceLastExecution,
+    LastExecuted
+| order by ExecutionCount desc
+
+
+// ----------------------------------------------------------------------------
+// Query 5: Web Service / API Usage
+// Critical for WebStore, CustomerPortal, Datadwell integrations
+// ----------------------------------------------------------------------------
+traces
+| where timestamp > ago(30d)
+| extend eventId = tostring(customDimensions.eventId)
+| where eventId in ("RT0008", "RT0030")  // RT0008 = Web service called, RT0030 = API endpoint
+| extend endpoint = tostring(customDimensions.endpoint)
+| extend extensionName = tostring(customDimensions.extensionName)
+| extend httpMethod = tostring(customDimensions.httpMethod)
+| extend httpStatusCode = tostring(customDimensions.httpStatusCode)
+| extend executionTimeMs = todouble(customDimensions.serverExecutionTime)
+| summarize
+    CallCount = count(),
+    SuccessCount = countif(httpStatusCode startswith "2"),
+    ErrorCount = countif(httpStatusCode startswith "4" or httpStatusCode startswith "5"),
+    AvgExecutionTimeMs = avg(executionTimeMs),
+    P95ExecutionTimeMs = percentile(executionTimeMs, 95),
+    LastCalled = max(timestamp)
+    by endpoint, extensionName, httpMethod
+| extend
+    SuccessRate = round(todouble(SuccessCount) / todouble(CallCount) * 100, 2),
+    DaysSinceLastCall = datetime_diff('day', now(), LastCalled)
+| project
+    extensionName,
+    endpoint,
+    httpMethod,
+    CallCount,
+    SuccessRate,
+    ErrorCount,
+    AvgExecutionTimeMs,
+    P95ExecutionTimeMs,
+    DaysSinceLastCall,
+    LastCalled
+| order by CallCount desc
+
+
+// ----------------------------------------------------------------------------
+// Query 6: Job Queue Execution (Scheduled Tasks)
+// Monitors scheduled background jobs like PO creation, Datadwell sync
+// ----------------------------------------------------------------------------
+traces
+| where timestamp > ago(30d)
+| extend eventId = tostring(customDimensions.eventId)
+| where eventId == "RT0012"  // RT0012 = Job Queue Entry started
+| extend codeunitId = tostring(customDimensions.alObjectId)
+| extend codeunitName = tostring(customDimensions.alObjectName)
+| extend extensionName = tostring(customDimensions.extensionName)
+| extend jobQueueStatus = tostring(customDimensions.result)  // or status field
+| extend executionTimeMs = todouble(customDimensions.serverExecutionTime)
+| summarize
+    ExecutionCount = count(),
+    SuccessCount = countif(jobQueueStatus == "Success"),
+    ErrorCount = countif(jobQueueStatus == "Error" or jobQueueStatus == "Failed"),
+    AvgExecutionTimeMs = avg(executionTimeMs),
+    LastRun = max(timestamp)
+    by codeunitName, codeunitId, extensionName
+| extend DaysSinceLastRun = datetime_diff('day', now(), LastRun)
+| project
+    extensionName,
+    codeunitName,
+    codeunitId,
+    ExecutionCount,
+    SuccessCount,
+    ErrorCount,
+    AvgExecutionTimeMs,
+    DaysSinceLastRun,
+    LastRun
+| order by ExecutionCount desc
+
+
+// ----------------------------------------------------------------------------
+// Query 7: Extension Performance Impact (P95 Latency)
+// Identifies slow-performing extensions
+// ----------------------------------------------------------------------------
+traces
+| where timestamp > ago(7d)
+| extend extensionName = tostring(customDimensions.extensionName)
+| extend executionTimeMs = todouble(customDimensions.serverExecutionTime)
+| where isnotempty(extensionName) and executionTimeMs > 0
+| summarize
+    TotalExecutions = count(),
+    AvgExecutionTimeMs = avg(executionTimeMs),
+    P50ExecutionTimeMs = percentile(executionTimeMs, 50),
+    P95ExecutionTimeMs = percentile(executionTimeMs, 95),
+    P99ExecutionTimeMs = percentile(executionTimeMs, 99),
+    MaxExecutionTimeMs = max(executionTimeMs)
+    by extensionName
+| extend PerformanceRating = case(
+    P95ExecutionTimeMs < 100, "✓ Excellent (< 100ms)",
+    P95ExecutionTimeMs < 500, "✓ Good (100-500ms)",
+    P95ExecutionTimeMs < 2000, "⚠️ Acceptable (500-2000ms)",
+    "❌ Slow (> 2000ms)"
+)
+| project
+    extensionName,
+    TotalExecutions,
+    AvgExecutionTimeMs,
+    P95ExecutionTimeMs,
+    P99ExecutionTimeMs,
+    MaxExecutionTimeMs,
+    PerformanceRating
+| order by P95ExecutionTimeMs desc
+
+
+// ----------------------------------------------------------------------------
+// Query 8: Error Rate by Extension
+// Shows extensions with highest error counts
+// ----------------------------------------------------------------------------
+traces
+| where timestamp > ago(30d)
+| where severityLevel >= 3  // 3 = Warning, 4 = Error, 5 = Critical
+| extend extensionName = tostring(customDimensions.extensionName)
+| extend errorMessage = message
+| extend errorType = tostring(customDimensions.eventId)
+| summarize
+    ErrorCount = count(),
+    UniqueErrors = dcount(errorMessage),
+    LastError = max(timestamp),
+    SampleError = any(errorMessage)
+    by extensionName
+| extend DaysSinceLastError = datetime_diff('day', now(), LastError)
+| project
+    extensionName,
+    ErrorCount,
+    UniqueErrors,
+    DaysSinceLastError,
+    LastError,
+    SampleError
+| order by ErrorCount desc
+
+
+// ----------------------------------------------------------------------------
+// Query 9: Critical Storkaup Extensions - Detailed Activity
+// Focuses on core business-critical extensions
+// ----------------------------------------------------------------------------
+let CriticalExtensions = dynamic([
+    "Storkaup",
+    "OrderProcess",
+    "WebStore",
+    "CustomerCreditCheck",
+    "LiquorLicense",
+    "SalesReleaseCheck",
+    "NationalRegistry",
+    "Datadwell"
+]);
+traces
+| where timestamp > ago(30d)
+| extend extensionName = tostring(customDimensions.extensionName)
+| where extensionName in (CriticalExtensions)
+| extend eventId = tostring(customDimensions.eventId)
+| summarize
+    TotalActivities = count(),
+    UniqueUsers = dcount(user_Id),
+    PageOpens = countif(eventId == "RT0005"),
+    CodeunitExecutions = countif(eventId in ("RT0004", "RT0012")),
+    WebServiceCalls = countif(eventId in ("RT0008", "RT0030")),
+    Errors = countif(severityLevel >= 3),
+    LastActivity = max(timestamp)
+    by extensionName
+| extend
+    DaysSinceLastUse = datetime_diff('day', now(), LastActivity),
+    ErrorRate = round(todouble(Errors) / todouble(TotalActivities) * 100, 2)
+| project
+    extensionName,
+    TotalActivities,
+    UniqueUsers,
+    PageOpens,
+    CodeunitExecutions,
+    WebServiceCalls,
+    Errors,
+    ErrorRate,
+    DaysSinceLastUse,
+    LastActivity
+| order by TotalActivities desc
+
+
+// ----------------------------------------------------------------------------
+// Query 10: User Adoption by Extension
+// Shows which users are actively using which extensions
+// ----------------------------------------------------------------------------
+traces
+| where timestamp > ago(30d)
+| extend extensionName = tostring(customDimensions.extensionName)
+| extend userName = tostring(customDimensions.userAadId)  // or user_AuthenticatedId
+| where isnotempty(extensionName) and isnotempty(userName)
+| summarize
+    ActivityCount = count(),
+    ExtensionsUsed = make_set(extensionName),
+    ExtensionCount = dcount(extensionName)
+    by userName
+| order by ActivityCount desc
+
+
+// ----------------------------------------------------------------------------
+// Query 11: Page Usage Heatmap
+// Creates a heatmap view of page usage per extension
+// ----------------------------------------------------------------------------
+traces
+| where timestamp > ago(30d)
+| extend eventId = tostring(customDimensions.eventId)
+| where eventId == "RT0005"  // Page opened
+| extend pageName = tostring(customDimensions.alObjectName)
+| extend extensionName = tostring(customDimensions.extensionName)
+| summarize OpenCount = count() by extensionName, pageName
+| order by OpenCount desc
+| take 100  // Top 100 page/extension combinations
+
+
+// ----------------------------------------------------------------------------
+// Query 12: Slow Pages Report (> 2 seconds)
+// Identifies pages with poor performance
+// ----------------------------------------------------------------------------
+traces
+| where timestamp > ago(7d)
+| extend eventId = tostring(customDimensions.eventId)
+| where eventId == "RT0005"  // Page opened
+| extend pageName = tostring(customDimensions.alObjectName)
+| extend pageId = tostring(customDimensions.alObjectId)
+| extend extensionName = tostring(customDimensions.extensionName)
+| extend executionTimeMs = todouble(customDimensions.serverExecutionTime)
+| where executionTimeMs > 2000  // > 2 seconds
+| summarize
+    SlowLoadCount = count(),
+    AvgExecutionTimeMs = avg(executionTimeMs),
+    P95ExecutionTimeMs = percentile(executionTimeMs, 95),
+    MaxExecutionTimeMs = max(executionTimeMs)
+    by pageName, pageId, extensionName
+| project
+    extensionName,
+    pageName,
+    pageId,
+    SlowLoadCount,
+    AvgExecutionTimeMs,
+    P95ExecutionTimeMs,
+    MaxExecutionTimeMs
+| order by SlowLoadCount desc
+
+
+// ----------------------------------------------------------------------------
+// Query 13: Integration Point Activity
+// Tracks external integration activity (Datadwell, NationalRegistry, Adfong)
+// ----------------------------------------------------------------------------
+traces
+| where timestamp > ago(30d)
+| extend extensionName = tostring(customDimensions.extensionName)
+| where extensionName in ("Datadwell", "NationalRegistry", "StorkaupAddons")
+| extend eventId = tostring(customDimensions.eventId)
+| extend activityType = case(
+    eventId in ("RT0008", "RT0030"), "External API Call",
+    eventId == "RT0011", "Database Operation",
+    eventId in ("RT0004", "RT0012"), "Codeunit Execution",
+    "Other"
+)
+| summarize
+    ActivityCount = count(),
+    LastActivity = max(timestamp)
+    by extensionName, activityType
+| extend DaysSinceLastActivity = datetime_diff('day', now(), LastActivity)
+| project
+    extensionName,
+    activityType,
+    ActivityCount,
+    DaysSinceLastActivity,
+    LastActivity
+| order by ActivityCount desc
+
+
+// ----------------------------------------------------------------------------
+// Query 14: Feature Adoption Trend Over Time
+// Shows adoption of extensions over time (useful for new features)
+// ----------------------------------------------------------------------------
+traces
+| where timestamp > ago(90d)
+| extend extensionName = tostring(customDimensions.extensionName)
+| where extensionName in ("WebStore", "CustomerPortal", "Datadwell")  // Adjust for your features
+| summarize
+    ActivityCount = count(),
+    UniqueUsers = dcount(user_Id)
+    by bin(timestamp, 1d), extensionName
+| order by timestamp asc
+// Note: Use "render timechart" in Azure Data Explorer UI to visualize
+
+
+// ============================================================================
+// USAGE INSTRUCTIONS
+// ============================================================================
+//
+// 1. Copy the desired query to Azure Data Explorer or Application Insights
+// 2. Adjust time ranges (e.g., ago(30d)) as needed
+// 3. For dashboards, pin query results to your dashboard
+// 4. Customize extension lists in queries 9, 13, 14 for your environment
+//
+// RECOMMENDED QUERIES FOR INITIAL ANALYSIS:
+// - Query 1: Start here for overall extension usage
+// - Query 2: Identify unused extensions
+// - Query 3: Understand page usage patterns
+// - Query 9: Deep dive into critical extensions
+//
+// PERFORMANCE MONITORING:
+// - Query 7: Extension performance (P95 latency)
+// - Query 12: Slow page loads
+//
+// ERROR TRACKING:
+// - Query 8: Error rates by extension
+//
+// SCHEDULED JOBS:
+// - Query 6: Job queue execution monitoring
+//
+// ============================================================================
