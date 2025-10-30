@@ -1,0 +1,33 @@
+// ============================================================================
+// TEST QUERY - Preview How Your Dashboard Will Display Data
+// This simulates exactly what the dashboard will show
+// ============================================================================
+
+// Load the mapping file (same way the dashboard does)
+let onPremiseInstances = externaldata(roleInstance :string, instanceDescription:string)
+    [h@'https://raw.githubusercontent.com/Hagarhf/BCTelemetry/main/Azure%20Data%20Explorer/ExternalData/onPremiseInstances.json']
+    with(format='multijson');
+
+// Get your telemetry data
+traces
+| where timestamp > ago(7d)
+| extend companyName = tostring(customDimensions.companyName)
+| where isnotempty(companyName)
+| extend instanceId = companyName  // Dashboard uses companyName as instanceId
+
+// Join with the mapping (same way the dashboard does)
+| join kind=leftouter (onPremiseInstances | extend instanceId = roleInstance) on instanceId
+
+// Show what the dashboard will display
+| summarize EventCount = count() by 
+    RawCompanyName = companyName,
+    DashboardWillShow = instanceDescription
+| order by EventCount desc
+
+// ============================================================================
+// EXPECTED RESULTS:
+// RawCompanyName      | DashboardWillShow                                  | EventCount
+// --------------------|----------------------------------------------------|-----------
+// BAN_PROD_230807     | Production Database - BAN-PROD-BC Server (3 inst.) | 41,215
+// Bananar             | (empty - not in mapping file)                      | 520
+// ============================================================================

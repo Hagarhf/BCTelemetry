@@ -1,0 +1,174 @@
+// ============================================================================
+// Dashboard Filter Analysis - Check Your Data Against Dashboard Filters
+// This validates that your telemetry data will work with the dashboard
+// ============================================================================
+
+// ----------------------------------------------------------------------------
+// Query 1: Check All Filter Variables Used in Dashboard
+// The dashboard uses these filters - let's see what values you have
+// ----------------------------------------------------------------------------
+traces
+| where timestamp > ago(7d)
+| extend 
+    // All the fields the dashboard filters on
+    aadTenantId = tostring(customDimensions.aadTenantId),
+    companyName = tostring(customDimensions.companyName),
+    environmentName = tostring(customDimensions.environmentName),
+    environmentType = tostring(customDimensions.environmentType),
+    extensionName = tostring(customDimensions.extensionName),
+    extensionPublisher = tostring(customDimensions.extensionPublisher),
+    componentVersion = tostring(customDimensions.componentVersion),
+    eventId = tostring(customDimensions.eventId),
+    IsSaas = iff(isempty(environmentName) or environmentName in ('common','null','default','undefined'),false,true)
+| summarize 
+    TotalEvents = count(),
+    SampleValues = take_any(pack_all(), 5)
+    by FilterCategory = "Overview"
+| project 
+    FilterCategory,
+    TotalEvents,
+    SampleValues
+
+
+// ----------------------------------------------------------------------------
+// Query 2: Validate IsSaas Logic
+// The dashboard splits SaaS vs On-Premise - let's verify the logic
+// ----------------------------------------------------------------------------
+traces
+| where timestamp > ago(7d)
+| extend 
+    environmentName = tostring(customDimensions.environmentName),
+    environmentType = tostring(customDimensions.environmentType),
+    aadTenantId = tostring(customDimensions.aadTenantId),
+    companyName = tostring(customDimensions.companyName)
+| extend IsSaas = iff(isempty(environmentName) or environmentName in ('common','null','default','undefined'),false,true)
+| summarize 
+    EventCount = count(),
+    SampleCompanies = make_set(companyName, 10),
+    SampleEnvironmentTypes = make_set(environmentType, 10)
+    by 
+    IsSaas,
+    EnvironmentNameValue = iff(isempty(environmentName), "(empty)", environmentName),
+    TenantIdValue = iff(aadTenantId == "common", "common", iff(isempty(aadTenantId), "(empty)", "other"))
+| project 
+    IsSaas,
+    Classification = case(
+        IsSaas == true, "⚠️ SAAS - Might cause issues if not configured",
+        IsSaas == false, "✅ ON-PREMISE - This is your data!",
+        "Unknown"
+    ),
+    EnvironmentNameValue,
+    TenantIdValue,
+    EventCount,
+    SampleCompanies,
+    SampleEnvironmentTypes
+| order by IsSaas asc
+
+
+// ----------------------------------------------------------------------------
+// Query 3: Check for Empty/Missing Critical Fields
+// These fields are important - let's see if any are empty
+// ----------------------------------------------------------------------------
+traces
+| where timestamp > ago(7d)
+| extend 
+    companyName = tostring(customDimensions.companyName),
+    environmentType = tostring(customDimensions.environmentType),
+    componentVersion = tostring(customDimensions.componentVersion),
+    eventId = tostring(customDimensions.eventId)
+| summarize 
+    TotalEvents = count(),
+    CompanyNameEmpty = countif(isempty(companyName)),
+    EnvironmentTypeEmpty = countif(isempty(environmentType)),
+    ComponentVersionEmpty = countif(isempty(componentVersion)),
+    EventIdEmpty = countif(isempty(eventId))
+| extend 
+    CompanyNameStatus = case(
+        CompanyNameEmpty == 0, "✅ All have company name",
+        CompanyNameEmpty < TotalEvents * 0.1, "⚠️ Some missing (<10%)",
+        "❌ Many missing (>10%)"
+    ),
+    EnvironmentTypeStatus = case(
+        EnvironmentTypeEmpty == 0, "✅ All have environment type",
+        EnvironmentTypeEmpty < TotalEvents * 0.1, "⚠️ Some missing (<10%)",
+        "❌ Many missing (>10%)"
+    )
+| project 
+    TotalEvents,
+    CompanyNameEmpty,
+    CompanyNameStatus,
+    EnvironmentTypeEmpty,
+    EnvironmentTypeStatus,
+    ComponentVersionEmpty,
+    EventIdEmpty
+
+
+// ----------------------------------------------------------------------------
+// Query 4: Dashboard Default Filters - What Should You Set?
+// Recommended filter values for your dashboard
+// ----------------------------------------------------------------------------
+traces
+| where timestamp > ago(7d)
+| extend 
+    IsSaas = iff(isempty(tostring(customDimensions.environmentName)) or tostring(customDimensions.environmentName) in ('common','null','default','undefined'),false,true),
+    companyName = tostring(customDimensions.companyName),
+    environmentType = tostring(customDimensions.environmentType)
+| where IsSaas == false  // Only On-Premise
+| where environmentType == "Production"  // Only Production
+| summarize 
+    EventCount = count(),
+    Companies = make_set(companyName, 100),
+    EnvironmentTypes = make_set(environmentType, 100)
+| extend Recommendation = strcat(
+    "✅ Dashboard Filter Recommendations:\n",
+    "- _IsSaaS: Set to 'false' (On-Premise only)\n",
+    "- _entraTenantId: Leave empty or set to 'common' (not used for On-Premise)\n",
+    "- Environment Type: Set to 'Production'\n",
+    "- Company Filter: ", tostring(Companies), "\n",
+    "- This will show ", EventCount, " events from Production"
+)
+| project Recommendation, EventCount, Companies
+
+
+// ----------------------------------------------------------------------------
+// Query 5: Potential Issues Detection
+// Identifies potential problems with your data for the dashboard
+// ----------------------------------------------------------------------------
+traces
+| where timestamp > ago(7d)
+| extend 
+    companyName = tostring(customDimensions.companyName),
+    environmentName = tostring(customDimensions.environmentName),
+    environmentType = tostring(customDimensions.environmentType),
+    aadTenantId = tostring(customDimensions.aadTenantId)
+| extend 
+    IsSaas = iff(isempty(environmentName) or environmentName in ('common','null','default','undefined'),false,true),
+    Issue = case(
+        IsSaas == true and aadTenantId == "common", "⚠️ Classified as SaaS but has 'common' tenant ID",
+        IsSaas == false and isempty(companyName), "❌ On-Premise but missing company name",
+        IsSaas == false and isempty(environmentType), "⚠️ On-Premise but missing environment type",
+        "✅ No issues"
+    )
+| summarize EventCount = count() by Issue
+| order by EventCount desc
+
+
+// ============================================================================
+// EXPECTED RESULTS FOR YOUR SETUP:
+//
+// Query 2 should show:
+// - IsSaas = false, ~41,000 events, Classification = "✅ ON-PREMISE"
+//
+// Query 3 should show:
+// - CompanyNameStatus = "⚠️ Some missing" (a few empty company names is OK)
+// - EnvironmentTypeStatus = "⚠️ Some missing" (UAT has empty environmentType)
+//
+// Query 4 should recommend:
+// - Filter to IsSaas = false
+// - Filter to environmentType = "Production"
+// - Companies: ["BAN_PROD_230807"]
+//
+// Query 5 should show:
+// - Most events: "✅ No issues"
+// - Some events: "⚠️ On-Premise but missing environment type" (UAT data)
+// ============================================================================
