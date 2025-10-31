@@ -5976,6 +5976,114 @@
                 "table__renderLinks": [],
                 "colorRules": []
             }
+        },
+        {
+            "id": "a5b6c7d8-e9f0-4123-4567-890123abcdef",
+            "title": "Hagar Extensions Activity Overview",
+            "visualType": "table",
+            "pageId": "f4a5b6c7-d8e9-4012-3456-789012abcdef",
+            "layout": {
+                "x": 0,
+                "y": 0,
+                "width": 24,
+                "height": 8
+            },
+            "queryRef": {
+                "kind": "query",
+                "queryId": "f5a6b7c8-d9e0-4234-5678-901234abcde0"
+            },
+            "visualOptions": {
+                "table__enableRenderLinks": true,
+                "colorRulesDisabled": false,
+                "colorStyle": "light",
+                "crossFilterDisabled": false,
+                "drillthroughDisabled": false,
+                "crossFilter": [],
+                "drillthrough": [],
+                "table__renderLinks": [],
+                "colorRules": []
+            }
+        },
+        {
+            "id": "b6c7d8e9-f0a1-4234-5678-901234abcde1",
+            "title": "Azure Service Bus Queue Performance (HAG ASB Queue)",
+            "visualType": "table",
+            "pageId": "f4a5b6c7-d8e9-4012-3456-789012abcdef",
+            "layout": {
+                "x": 0,
+                "y": 8,
+                "width": 12,
+                "height": 8
+            },
+            "queryRef": {
+                "kind": "query",
+                "queryId": "a6b7c8d9-e0f1-4345-6789-012345abcde2"
+            },
+            "visualOptions": {
+                "table__enableRenderLinks": true,
+                "colorRulesDisabled": false,
+                "colorStyle": "light",
+                "crossFilterDisabled": false,
+                "drillthroughDisabled": false,
+                "crossFilter": [],
+                "drillthrough": [],
+                "table__renderLinks": [],
+                "colorRules": []
+            }
+        },
+        {
+            "id": "c7d8e9f0-a1b2-4345-6789-012345abcde3",
+            "title": "Export Processing & Slow Operations",
+            "visualType": "table",
+            "pageId": "f4a5b6c7-d8e9-4012-3456-789012abcdef",
+            "layout": {
+                "x": 12,
+                "y": 8,
+                "width": 12,
+                "height": 8
+            },
+            "queryRef": {
+                "kind": "query",
+                "queryId": "b7c8d9e0-f1a2-4456-7890-123456abcde4"
+            },
+            "visualOptions": {
+                "table__enableRenderLinks": true,
+                "colorRulesDisabled": false,
+                "colorStyle": "light",
+                "crossFilterDisabled": false,
+                "drillthroughDisabled": false,
+                "crossFilter": [],
+                "drillthrough": [],
+                "table__renderLinks": [],
+                "colorRules": []
+            }
+        },
+        {
+            "id": "d8e9f0a1-b2c3-4456-7890-123456abcde5",
+            "title": "Hagar Extensions Errors & Warnings",
+            "visualType": "table",
+            "pageId": "f4a5b6c7-d8e9-4012-3456-789012abcdef",
+            "layout": {
+                "x": 0,
+                "y": 16,
+                "width": 24,
+                "height": 6
+            },
+            "queryRef": {
+                "kind": "query",
+                "queryId": "c8d9e0f1-a2b3-4567-8901-234567abcde6"
+            },
+            "visualOptions": {
+                "table__enableRenderLinks": true,
+                "colorRulesDisabled": false,
+                "colorStyle": "light",
+                "crossFilterDisabled": false,
+                "drillthroughDisabled": false,
+                "crossFilter": [],
+                "drillthrough": [],
+                "table__renderLinks": [],
+                "colorRules": []
+            }
         }
     ],
     "baseQueries": [
@@ -6525,6 +6633,10 @@
         {
             "name": "Custom: Unused Objects",
             "id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+        },
+        {
+            "name": "Hagar Extensions",
+            "id": "f4a5b6c7-d8e9-4012-3456-789012abcdef"
         }
     ],
     "queries": [
@@ -8527,7 +8639,7 @@
                 "kind": "inline",
                 "dataSourceId": "05ae5610-5603-45ac-9458-616539c1c150"
             },
-            "text": "let TimeRange = 30d;\ntraces\n| where timestamp > ago(TimeRange)\n| extend\n    extensionName = tostring(customDimensions.extensionName),\n    extensionPublisher = tostring(customDimensions.extensionPublisher),\n    alObjectType = tostring(customDimensions.alObjectType),\n    alObjectId = tostring(customDimensions.alObjectId),\n    alObjectName = tostring(customDimensions.alObjectName)\n| where extensionPublisher in (\"Storkaup\", \"Hagar\", \"NVL\")\n| where isnotempty(alObjectId) and alObjectId != \"-1\"\n| where isnotempty(alObjectType)\n| summarize\n    UsageCount = count(),\n    UniqueUsers = dcount(user_Id),\n    LastUsed = max(timestamp),\n    FirstUsed = min(timestamp)\n    by extensionName, extensionPublisher, alObjectType, alObjectId, alObjectName\n| extend\n    DaysSinceLastUse = datetime_diff('day', now(), LastUsed),\n    UsagePerDay = round(toreal(UsageCount) / 30.0, 2)\n| extend Status = case(\n    UsageCount < 5, \"🔴 Remove?\",\n    UsageCount < 10, \"⚠️ Review\",\n    UsageCount < 50, \"📊 Monitor\",\n    \"✅ Keep\"\n)\n| project\n    Status,\n    extensionName,\n    alObjectType,\n    alObjectId,\n    alObjectName,\n    UsageCount,\n    UsagePerDay,\n    DaysSinceLastUse,\n    UniqueUsers,\n    LastUsed\n| order by UsageCount asc, DaysSinceLastUse desc",
+            "text": "let TimeRange = 30d;\ntraces\n| where timestamp > ago(TimeRange)\n| extend\n    extensionName = tostring(customDimensions.extensionName),\n    extensionPublisher = tostring(customDimensions.extensionPublisher),\n    alObjectType = tostring(customDimensions.alObjectType),\n    alObjectId = tostring(customDimensions.alObjectId),\n    alObjectName = tostring(customDimensions.alObjectName)\n| where extensionPublisher in (\"Storkaup\", \"NVL\")\n| where isnotempty(alObjectId) and alObjectId != \"-1\"\n| where isnotempty(alObjectType)\n| summarize\n    UsageCount = count(),\n    UniqueUsers = dcount(user_Id),\n    LastUsed = max(timestamp),\n    FirstUsed = min(timestamp)\n    by extensionName, extensionPublisher, alObjectType, alObjectId, alObjectName\n| extend\n    DaysSinceLastUse = datetime_diff('day', now(), LastUsed),\n    UsagePerDay = round(toreal(UsageCount) / 30.0, 2)\n| extend Status = case(\n    UsageCount < 5, \"🔴 Remove?\",\n    UsageCount < 10, \"⚠️ Review\",\n    UsageCount < 50, \"📊 Monitor\",\n    \"✅ Keep\"\n)\n| project\n    Status,\n    extensionName,\n    alObjectType,\n    alObjectId,\n    alObjectName,\n    UsageCount,\n    UsagePerDay,\n    DaysSinceLastUse,\n    UniqueUsers,\n    LastUsed\n| order by UsageCount asc, DaysSinceLastUse desc",
             "id": "c1a2b3d4-e5f6-7890-1234-567890abcdef",
             "usedVariables": []
         },
@@ -8536,7 +8648,7 @@
                 "kind": "inline",
                 "dataSourceId": "05ae5610-5603-45ac-9458-616539c1c150"
             },
-            "text": "let TimeRange = 30d;\ntraces\n| where timestamp > ago(TimeRange)\n| extend\n    extensionName = tostring(customDimensions.extensionName),\n    extensionPublisher = tostring(customDimensions.extensionPublisher),\n    alObjectType = tostring(customDimensions.alObjectType),\n    alObjectId = tostring(customDimensions.alObjectId),\n    alObjectName = tostring(customDimensions.alObjectName)\n| where extensionPublisher in (\"Storkaup\", \"Hagar\", \"NVL\")\n| where isnotempty(alObjectId) and alObjectId != \"-1\"\n| summarize\n    UsageCount = count(),\n    LastUsed = max(timestamp)\n    by extensionName, alObjectType, alObjectId, alObjectName\n| where UsageCount < 5\n| extend DaysSinceLastUse = datetime_diff('day', now(), LastUsed)\n| extend Recommendation = case(\n    UsageCount == 1 and DaysSinceLastUse > 60, \"🗑️ Strong removal candidate\",\n    UsageCount < 3 and DaysSinceLastUse > 30, \"🗑️ Consider removing\",\n    UsageCount < 5 and DaysSinceLastUse > 14, \"⚠️ Review with stakeholders\",\n    \"ℹ️ Monitor for another month\"\n)\n| project\n    extensionName,\n    alObjectType,\n    alObjectId,\n    alObjectName,\n    UsageCount,\n    DaysSinceLastUse,\n    LastUsed,\n    Recommendation\n| order by UsageCount asc, DaysSinceLastUse desc",
+            "text": "let TimeRange = 30d;\ntraces\n| where timestamp > ago(TimeRange)\n| extend\n    extensionName = tostring(customDimensions.extensionName),\n    extensionPublisher = tostring(customDimensions.extensionPublisher),\n    alObjectType = tostring(customDimensions.alObjectType),\n    alObjectId = tostring(customDimensions.alObjectId),\n    alObjectName = tostring(customDimensions.alObjectName)\n| where extensionPublisher in (\"Storkaup\", \"NVL\")\n| where isnotempty(alObjectId) and alObjectId != \"-1\"\n| summarize\n    UsageCount = count(),\n    LastUsed = max(timestamp)\n    by extensionName, alObjectType, alObjectId, alObjectName\n| where UsageCount < 5\n| extend DaysSinceLastUse = datetime_diff('day', now(), LastUsed)\n| extend Recommendation = case(\n    UsageCount == 1 and DaysSinceLastUse > 60, \"🗑️ Strong removal candidate\",\n    UsageCount < 3 and DaysSinceLastUse > 30, \"🗑️ Consider removing\",\n    UsageCount < 5 and DaysSinceLastUse > 14, \"⚠️ Review with stakeholders\",\n    \"ℹ️ Monitor for another month\"\n)\n| project\n    extensionName,\n    alObjectType,\n    alObjectId,\n    alObjectName,\n    UsageCount,\n    DaysSinceLastUse,\n    LastUsed,\n    Recommendation\n| order by UsageCount asc, DaysSinceLastUse desc",
             "id": "d2e3f4a5-b6c7-4890-2345-678901bcdef0",
             "usedVariables": []
         },
@@ -8545,8 +8657,44 @@
                 "kind": "inline",
                 "dataSourceId": "05ae5610-5603-45ac-9458-616539c1c150"
             },
-            "text": "let TimeRange = 30d;\ntraces\n| where timestamp > ago(TimeRange)\n| extend\n    extensionName = tostring(customDimensions.extensionName),\n    extensionPublisher = tostring(customDimensions.extensionPublisher),\n    alObjectId = tostring(customDimensions.alObjectId)\n| where extensionPublisher in (\"Storkaup\", \"Hagar\", \"NVL\")\n| where isnotempty(alObjectId) and alObjectId != \"-1\"\n| summarize\n    UniqueObjects = dcount(alObjectId),\n    TotalUsage = count()\n    by extensionName\n| extend\n    AvgUsagePerObject = round(toreal(TotalUsage) / toreal(UniqueObjects), 1),\n    Health = case(\n        AvgUsagePerObject < 5, \"🔴 Very Low\",\n        AvgUsagePerObject < 20, \"⚠️ Low\",\n        AvgUsagePerObject < 100, \"📊 Moderate\",\n        \"✅ High\"\n    )\n| project extensionName, UniqueObjects, TotalUsage, AvgUsagePerObject, Health\n| order by AvgUsagePerObject asc",
+            "text": "let TimeRange = 30d;\ntraces\n| where timestamp > ago(TimeRange)\n| extend\n    extensionName = tostring(customDimensions.extensionName),\n    extensionPublisher = tostring(customDimensions.extensionPublisher),\n    alObjectId = tostring(customDimensions.alObjectId)\n| where extensionPublisher in (\"Storkaup\", \"NVL\")\n| where isnotempty(alObjectId) and alObjectId != \"-1\"\n| summarize\n    UniqueObjects = dcount(alObjectId),\n    TotalUsage = count()\n    by extensionName\n| extend AvgUsagePerObject = round(toreal(TotalUsage) / toreal(UniqueObjects), 1)\n| extend Health = case(\n    AvgUsagePerObject < 5, \"🔴 Very Low\",\n    AvgUsagePerObject < 20, \"⚠️ Low\",\n    AvgUsagePerObject < 100, \"📊 Moderate\",\n    \"✅ High\"\n)\n| project extensionName, UniqueObjects, TotalUsage, AvgUsagePerObject, Health\n| order by AvgUsagePerObject asc",
             "id": "e3f4a5b6-c7d8-4901-3456-7890abcdef12",
+            "usedVariables": []
+        },
+        {
+            "dataSource": {
+                "kind": "inline",
+                "dataSourceId": "05ae5610-5603-45ac-9458-616539c1c150"
+            },
+            "text": "let TimeRange = 24h;\ntraces\n| where timestamp > ago(TimeRange)\n| extend\n    extensionName = tostring(customDimensions.extensionName),\n    alObjectName = tostring(customDimensions.alObjectName)\n| where extensionName startswith \"Hagar\" or extensionName == \"HAG\"\n| summarize\n    EventCount = count(),\n    UniqueObjects = dcount(alObjectName),\n    LastActivity = max(timestamp)\n    by extensionName\n| extend\n    EventsPerHour = round(toreal(EventCount) / 24.0, 1),\n    MinutesSinceActivity = datetime_diff('minute', now(), LastActivity)\n| extend Status = case(\n    MinutesSinceActivity > 60, \"⚠️ Inactive > 1h\",\n    MinutesSinceActivity > 30, \"📊 Low Activity\",\n    \"✅ Active\"\n)\n| project extensionName, EventCount, EventsPerHour, UniqueObjects, MinutesSinceActivity, LastActivity, Status\n| order by EventCount desc",
+            "id": "f5a6b7c8-d9e0-4234-5678-901234abcde0",
+            "usedVariables": []
+        },
+        {
+            "dataSource": {
+                "kind": "inline",
+                "dataSourceId": "05ae5610-5603-45ac-9458-616539c1c150"
+            },
+            "text": "let TimeRange = 24h;\ntraces\n| where timestamp > ago(TimeRange)\n| extend\n    extensionName = tostring(customDimensions.extensionName),\n    alObjectName = tostring(customDimensions.alObjectName)\n| where alObjectName contains \"ASB Queue\" or alObjectName contains \"Azure Service Bus\"\n| extend executionTimeMs = toreal(totimespan(customDimensions.serverExecutionTime))/10000\n| summarize\n    CallCount = count(),\n    AvgMs = round(avg(executionTimeMs), 2),\n    P50Ms = round(percentile(executionTimeMs, 50), 2),\n    P95Ms = round(percentile(executionTimeMs, 95), 2),\n    MaxMs = round(max(executionTimeMs), 2),\n    ErrorCount = countif(severityLevel >= 3)\n    by bin(timestamp, 1h), extensionName, alObjectName\n| extend\n    PerformanceStatus = case(\n        AvgMs > 1000, \"🔴 Slow\",\n        AvgMs > 500, \"⚠️ Moderate\",\n        \"✅ Fast\"\n    ),\n    ErrorStatus = case(\n        ErrorCount > 0, \"🔴 Has Errors\",\n        \"✅ No Errors\"\n    )\n| project timestamp, extensionName, alObjectName, CallCount, AvgMs, P95Ms, MaxMs, PerformanceStatus, ErrorCount, ErrorStatus\n| order by timestamp desc",
+            "id": "a6b7c8d9-e0f1-4345-6789-012345abcde2",
+            "usedVariables": []
+        },
+        {
+            "dataSource": {
+                "kind": "inline",
+                "dataSourceId": "05ae5610-5603-45ac-9458-616539c1c150"
+            },
+            "text": "let TimeRange = 24h;\ntraces\n| where timestamp > ago(TimeRange)\n| extend\n    extensionName = tostring(customDimensions.extensionName),\n    alObjectName = tostring(customDimensions.alObjectName)\n| where extensionName startswith \"Hagar\" or extensionName == \"HAG\"\n| where alObjectName contains \"Export\" or alObjectName contains \"Delete\"\n| extend executionTimeMs = toreal(totimespan(customDimensions.serverExecutionTime))/10000\n| extend executionTimeSec = round(executionTimeMs / 1000, 2)\n| where executionTimeSec > 1\n| summarize\n    OperationCount = count(),\n    AvgSeconds = round(avg(executionTimeSec), 2),\n    MaxSeconds = round(max(executionTimeSec), 2),\n    LastExecution = max(timestamp)\n    by extensionName, alObjectName\n| extend Status = case(\n    MaxSeconds > 60, \"🔴 Very Slow (>1min)\",\n    MaxSeconds > 30, \"⚠️ Slow (30s-1min)\",\n    AvgSeconds > 10, \"📊 Moderate (10s+)\",\n    \"✅ Normal\"\n)\n| project extensionName, alObjectName, OperationCount, AvgSeconds, MaxSeconds, Status, LastExecution\n| order by MaxSeconds desc",
+            "id": "b7c8d9e0-f1a2-4456-7890-123456abcde4",
+            "usedVariables": []
+        },
+        {
+            "dataSource": {
+                "kind": "inline",
+                "dataSourceId": "05ae5610-5603-45ac-9458-616539c1c150"
+            },
+            "text": "let TimeRange = 24h;\ntraces\n| where timestamp > ago(TimeRange)\n| extend\n    extensionName = tostring(customDimensions.extensionName),\n    alObjectName = tostring(customDimensions.alObjectName)\n| where extensionName startswith \"Hagar\" or extensionName == \"HAG\"\n| where severityLevel >= 2\n| extend severity = case(\n    severityLevel == 4, \"🔴 Critical\",\n    severityLevel == 3, \"⚠️ Error\",\n    \"ℹ️ Warning\"\n)\n| summarize\n    Count = count(),\n    FirstOccurrence = min(timestamp),\n    LastOccurrence = max(timestamp),\n    SampleMessages = make_set(message, 3)\n    by severity, extensionName, alObjectName\n| order by Count desc, severity asc\n| project severity, extensionName, alObjectName, Count, FirstOccurrence, LastOccurrence, SampleMessages",
+            "id": "c8d9e0f1-a2b3-4567-8901-234567abcde6",
             "usedVariables": []
         }
     ]
