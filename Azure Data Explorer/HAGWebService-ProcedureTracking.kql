@@ -1,0 +1,259 @@
+//================================================================
+// HAG Web Service - Procedure/Function Tracking
+//================================================================
+// Purpose: Track individual procedures/functions within HAG Web Service
+// Examples: GetTransactions, GetInvoice, etc.
+//================================================================
+
+//----------------------------------------------------------------
+// QUERY 1: Find Exact HAG Web Service by Object ID
+//----------------------------------------------------------------
+// More precise - use object ID instead of name
+traces
+| where timestamp > ago(24h)
+| extend
+    alObjectId = tostring(customDimensions.alObjectId),
+    alObjectName = tostring(customDimensions.alObjectName),
+    extensionName = tostring(customDimensions.extensionName)
+| where alObjectId == "80107"  // Exact page ID
+| summarize
+    TotalCalls = count(),
+    UniqueUsers = dcount(user_Id),
+    UniqueSessions = dcount(tostring(customDimensions.sessionId)),
+    FirstCall = min(timestamp),
+    LastCall = max(timestamp),
+    ErrorCount = countif(severityLevel >= 3)
+    by extensionName, alObjectId, alObjectName
+| extend CallsPerHour = round(toreal(TotalCalls) / 24.0, 1)
+| extend MinutesSinceLastCall = datetime_diff('minute', now(), LastCall)
+| extend HealthStatus = case(
+    ErrorCount > 10, "🔴 High Errors",
+    ErrorCount > 0, "⚠️ Some Errors",
+    MinutesSinceLastCall > 120, "⚠️ Inactive >2h",
+    MinutesSinceLastCall > 60, "📊 Inactive >1h",
+    "✅ Healthy"
+)
+| project
+    extensionName,
+    alObjectId,
+    alObjectName,
+    TotalCalls,
+    CallsPerHour,
+    UniqueUsers,
+    UniqueSessions,
+    ErrorCount,
+    MinutesSinceLastCall,
+    LastCall,
+    HealthStatus;
+
+//----------------------------------------------------------------
+// QUERY 2: Find Procedure/Function Names (Method 1 - alObjectMethod)
+//----------------------------------------------------------------
+// Check if procedures are logged in alObjectMethod custom dimension
+traces
+| where timestamp > ago(7d)
+| extend
+    alObjectId = tostring(customDimensions.alObjectId),
+    alObjectMethod = tostring(customDimensions.alObjectMethod),
+    alMethodName = tostring(customDimensions.alMethodName)
+| where alObjectId == "80107"
+| where isnotempty(alObjectMethod) or isnotempty(alMethodName)
+| summarize
+    CallCount = count(),
+    LastCalled = max(timestamp)
+    by alObjectMethod, alMethodName
+| order by CallCount desc;
+
+//----------------------------------------------------------------
+// QUERY 3: Find Procedures in Message Text
+//----------------------------------------------------------------
+// Sometimes procedure names appear in the message text
+traces
+| where timestamp > ago(7d)
+| extend
+    alObjectId = tostring(customDimensions.alObjectId)
+| where alObjectId == "80107"
+| extend
+    message_lower = tolower(message),
+    HasGetTransactions = message contains "GetTransactions" or message contains "gettransactions",
+    HasGetInvoice = message contains "GetInvoice" or message contains "getinvoice",
+    HasGetCustomer = message contains "GetCustomer" or message contains "getcustomer",
+    HasGetItem = message contains "GetItem" or message contains "getitem"
+| where HasGetTransactions or HasGetInvoice or HasGetCustomer or HasGetItem
+| summarize Count = count() by message
+| order by Count desc;
+
+//----------------------------------------------------------------
+// QUERY 4: Extract Procedure Names from Custom Dimensions
+//----------------------------------------------------------------
+// Look through ALL custom dimensions for procedure/function hints
+traces
+| where timestamp > ago(7d)
+| extend
+    alObjectId = tostring(customDimensions.alObjectId)
+| where alObjectId == "80107"
+| extend
+    // Common custom dimension keys that might contain procedure names
+    operation = tostring(customDimensions.operation),
+    method = tostring(customDimensions.method),
+    procedure = tostring(customDimensions.procedure),
+    function = tostring(customDimensions.function),
+    endpoint = tostring(customDimensions.endpoint),
+    action = tostring(customDimensions.action),
+    alObjectMethod = tostring(customDimensions.alObjectMethod)
+| where isnotempty(operation) or isnotempty(method) or isnotempty(procedure)
+    or isnotempty(function) or isnotempty(endpoint) or isnotempty(action)
+    or isnotempty(alObjectMethod)
+| summarize
+    CallCount = count(),
+    LastCalled = max(timestamp)
+    by operation, method, procedure, function, endpoint, action, alObjectMethod
+| order by CallCount desc;
+
+//----------------------------------------------------------------
+// QUERY 5: Raw Data Inspection (First 20 calls)
+//----------------------------------------------------------------
+// Look at raw telemetry to see what's available
+traces
+| where timestamp > ago(7d)
+| extend
+    alObjectId = tostring(customDimensions.alObjectId)
+| where alObjectId == "80107"
+| project
+    timestamp,
+    message,
+    severityLevel,
+    customDimensions
+| order by timestamp desc
+| take 20;
+
+//----------------------------------------------------------------
+// QUERY 6: Search for Specific Procedure Names
+//----------------------------------------------------------------
+// Replace with your actual procedure names
+let ProcedureNames = dynamic(["GetTransactions", "GetInvoice", "GetCustomer", "GetItem", "PostTransaction", "UpdateStatus"]);
+traces
+| where timestamp > ago(7d)
+| extend
+    alObjectId = tostring(customDimensions.alObjectId)
+| where alObjectId == "80107"
+| extend message_lower = tolower(message)
+| extend matched_procedure = array_concat(
+    array_iif(message_lower contains tolower("GetTransactions"), dynamic(["GetTransactions"]), dynamic([])),
+    array_iif(message_lower contains tolower("GetInvoice"), dynamic(["GetInvoice"]), dynamic([])),
+    array_iif(message_lower contains tolower("GetCustomer"), dynamic(["GetCustomer"]), dynamic([])),
+    array_iif(message_lower contains tolower("GetItem"), dynamic(["GetItem"]), dynamic([])),
+    array_iif(message_lower contains tolower("PostTransaction"), dynamic(["PostTransaction"]), dynamic([])),
+    array_iif(message_lower contains tolower("UpdateStatus"), dynamic(["UpdateStatus"]), dynamic([]))
+)
+| where array_length(matched_procedure) > 0
+| mv-expand procedure = matched_procedure
+| summarize
+    CallCount = count(),
+    LastCalled = max(timestamp)
+    by tostring(procedure)
+| order by CallCount desc;
+
+//----------------------------------------------------------------
+// QUERY 7: Session-Based Procedure Tracking
+//----------------------------------------------------------------
+// Group by session to see call patterns
+traces
+| where timestamp > ago(7d)
+| extend
+    alObjectId = tostring(customDimensions.alObjectId),
+    sessionId = tostring(customDimensions.sessionId)
+| where alObjectId == "80107"
+| summarize
+    CallsInSession = count(),
+    FirstCall = min(timestamp),
+    LastCall = max(timestamp),
+    SampleMessages = make_set(message, 5)
+    by sessionId, user_Id
+| extend SessionDurationSeconds = datetime_diff('second', LastCall, FirstCall)
+| project sessionId, user_Id, CallsInSession, SessionDurationSeconds, FirstCall, LastCall, SampleMessages
+| order by CallsInSession desc;
+
+//================================================================
+// SOLUTION: Add Custom Telemetry for Procedure Tracking
+//================================================================
+// If none of the above queries show procedure names, you'll need
+// to add custom telemetry to your AL code. Here's how:
+//
+// In your page 80107 "HAG Web Service":
+//
+// procedure GetTransactions(...): Text
+// var
+//     TelemetryDimensions: Dictionary of [Text, Text];
+// begin
+//     TelemetryDimensions.Add('Procedure', 'GetTransactions');
+//     TelemetryDimensions.Add('PageID', '80107');
+//     Session.LogMessage('0000HAG', 'HAG Web Service: GetTransactions called',
+//         Verbosity::Normal, DataClassification::SystemMetadata,
+//         TelemetryScope::All, TelemetryDimensions);
+//
+//     // Your procedure logic
+// end;
+//
+// Then this query will work:
+//
+// traces
+// | where timestamp > ago(24h)
+// | extend
+//     procedure = tostring(customDimensions.Procedure),
+//     pageId = tostring(customDimensions.PageID)
+// | where pageId == "80107"
+// | summarize CallCount = count() by procedure
+// | order by CallCount desc
+//
+//================================================================
+
+//----------------------------------------------------------------
+// QUERY 8: Dashboard Query - With Procedure Tracking (AFTER adding telemetry)
+//----------------------------------------------------------------
+// Use this after you've added custom telemetry to your procedures
+let TimeRange = 24h;
+traces
+| where timestamp > ago(TimeRange)
+| extend
+    alObjectId = tostring(customDimensions.alObjectId),
+    procedure = tostring(customDimensions.Procedure),  // From custom telemetry
+    endpoint = tostring(customDimensions.Endpoint)     // Alternative name
+| where alObjectId == "80107"
+| extend procedureName = coalesce(procedure, endpoint, "Unknown")
+| extend executionTimeMs = toreal(totimespan(customDimensions.serverExecutionTime))/10000
+| summarize
+    CallCount = count(),
+    AvgMs = round(avg(executionTimeMs), 2),
+    P95Ms = round(percentile(executionTimeMs, 95), 2),
+    MaxMs = round(max(executionTimeMs), 2),
+    ErrorCount = countif(severityLevel >= 3),
+    LastCall = max(timestamp)
+    by procedureName
+| extend PerformanceStatus = case(
+    AvgMs > 1000, "🔴 Slow (>1s)",
+    AvgMs > 500, "⚠️ Moderate (500ms-1s)",
+    "✅ Fast (<500ms)"
+)
+| project
+    procedureName,
+    CallCount,
+    AvgMs,
+    P95Ms,
+    MaxMs,
+    ErrorCount,
+    PerformanceStatus,
+    LastCall
+| order by CallCount desc;
+
+//================================================================
+// QUICK DIAGNOSTIC - Start Here
+//================================================================
+// Run this first to see what data is available
+traces
+| where timestamp > ago(24h)
+| extend alObjectId = tostring(customDimensions.alObjectId)
+| where alObjectId == "80107"
+| take 5
+| project timestamp, message, customDimensions
+| order by timestamp desc;

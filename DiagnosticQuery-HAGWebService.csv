@@ -1,0 +1,15 @@
+﻿eventId,alObjectType,alObjectName,Count
+RT0008,Query,HAG Sales Line Discounts API,388
+RT0008,Query,HAG Sales Price API,377
+RT0005,CodeUnit,HAG Delete Export Tools,276
+RT0008,Query,HAG Item Unit of Measures API,164
+RT0008,Page,HAG Web Service,157
+RT0008,Page,HAG Customer API,110
+RT0008,Page,HAG Items API,110
+RT0008,Query,HAG VAT Posting Setup,110
+RT0008,Query,HAG Unit of Measures API,94
+RT0018,CodeUnit,HAG Web Inventory Functions,7
+RT0030,TableExtension,"""HAG Contact""",3
+RT0005,Page,HAG Customer API,1
+RT0005,CodeUnit,HAG Webshop Order Creation,1
+RT0018,Page,HAG Web Service,1

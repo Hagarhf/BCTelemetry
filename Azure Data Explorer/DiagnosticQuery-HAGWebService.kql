@@ -1,0 +1,158 @@
+//================================================================
+// Diagnostic Query: HAG Web Service (Page 80107)
+//================================================================
+// Purpose: Find telemetry for HAG Web Service API endpoints
+// Expected: Web service calls from external sources
+//================================================================
+
+//----------------------------------------------------------------
+// QUERY 1: Search for Page 80107
+//----------------------------------------------------------------
+traces
+| where timestamp > ago(7d)
+| extend
+    alObjectId = tostring(customDimensions.alObjectId),
+    alObjectType = tostring(customDimensions.alObjectType),
+    alObjectName = tostring(customDimensions.alObjectName),
+    extensionName = tostring(customDimensions.extensionName)
+| where alObjectId == "80107" or alObjectName contains "HAG Web Service"
+| summarize Count = count() by alObjectType, alObjectId, alObjectName, extensionName
+| order by Count desc;
+
+//----------------------------------------------------------------
+// QUERY 2: Search for any HAG Web* objects
+//----------------------------------------------------------------
+traces
+| where timestamp > ago(7d)
+| extend
+    alObjectName = tostring(customDimensions.alObjectName),
+    alObjectType = tostring(customDimensions.alObjectType),
+    extensionName = tostring(customDimensions.extensionName)
+| where alObjectName contains "HAG Web"
+| summarize Count = count() by alObjectType, alObjectName, extensionName
+| order by Count desc;
+
+//----------------------------------------------------------------
+// QUERY 3: Search for Web Service calls (RT0008)
+//----------------------------------------------------------------
+// RT0008 = Web service called
+traces
+| where timestamp > ago(7d)
+| where customDimensions.eventId == "RT0008"
+| extend
+    endpoint = tostring(customDimensions.endpoint),
+    category = tostring(customDimensions.category),
+    extensionName = tostring(customDimensions.extensionName),
+    alObjectName = tostring(customDimensions.alObjectName)
+| where extensionName contains "Hagar" or extensionName contains "HAG"
+| summarize Count = count() by endpoint, category, extensionName, alObjectName
+| order by Count desc;
+
+//----------------------------------------------------------------
+// QUERY 4: Search for API page operations
+//----------------------------------------------------------------
+// Pages with "API" or "Service" in the name from Hagar extensions
+traces
+| where timestamp > ago(7d)
+| extend
+    alObjectType = tostring(customDimensions.alObjectType),
+    alObjectName = tostring(customDimensions.alObjectName),
+    extensionName = tostring(customDimensions.extensionName),
+    eventId = tostring(customDimensions.eventId)
+| where extensionName contains "Hagar" or extensionName contains "HAG"
+| where alObjectType == "Page"
+| where alObjectName contains "API" or alObjectName contains "Service" or alObjectName contains "Web"
+| summarize
+    Count = count(),
+    EventTypes = make_set(eventId),
+    LastSeen = max(timestamp)
+    by alObjectName, extensionName
+| order by Count desc;
+
+//----------------------------------------------------------------
+// QUERY 5: Check for unbound pages (API pages)
+//----------------------------------------------------------------
+// Unbound pages are typically used for APIs
+// Event: AL0000E3L (Page opened)
+traces
+| where timestamp > ago(7d)
+| where customDimensions.eventId == "AL0000E3L"
+| extend
+    alObjectId = tostring(customDimensions.alObjectId),
+    alObjectName = tostring(customDimensions.alObjectName),
+    extensionName = tostring(customDimensions.extensionName),
+    pageType = tostring(customDimensions.alPageType)
+| where extensionName contains "Hagar" or extensionName contains "HAG"
+| where pageType == "API" or alObjectName contains "API"
+| summarize Count = count() by alObjectId, alObjectName, extensionName, pageType
+| order by Count desc;
+
+//----------------------------------------------------------------
+// QUERY 6: Search by ID range (80xxx)
+//----------------------------------------------------------------
+// Your page is 80107, let's check all 80xxx objects from Hagar
+traces
+| where timestamp > ago(7d)
+| extend
+    alObjectId = toint(customDimensions.alObjectId),
+    alObjectType = tostring(customDimensions.alObjectType),
+    alObjectName = tostring(customDimensions.alObjectName),
+    extensionName = tostring(customDimensions.extensionName)
+| where extensionName contains "Hagar" or extensionName contains "HAG"
+| where alObjectId >= 80000 and alObjectId < 81000
+| summarize Count = count() by alObjectId, alObjectType, alObjectName, extensionName
+| order by alObjectId asc;
+
+//----------------------------------------------------------------
+// QUERY 7: Check all Hagar Webshop events
+//----------------------------------------------------------------
+// Get a complete picture of what's being logged
+traces
+| where timestamp > ago(7d)
+| extend extensionName = tostring(customDimensions.extensionName)
+| where extensionName == "Hagar Webshop"
+| extend
+    eventId = tostring(customDimensions.eventId),
+    alObjectType = tostring(customDimensions.alObjectType),
+    alObjectName = tostring(customDimensions.alObjectName)
+| summarize Count = count() by eventId, alObjectType, alObjectName
+| order by Count desc;
+
+//----------------------------------------------------------------
+// QUERY 8: Look for custom telemetry events
+//----------------------------------------------------------------
+// Maybe there's custom telemetry with a specific tag
+traces
+| where timestamp > ago(7d)
+| extend
+    extensionName = tostring(customDimensions.extensionName),
+    customTag = tostring(customDimensions.alTag),
+    alObjectName = tostring(customDimensions.alObjectName)
+| where extensionName contains "Hagar" or extensionName contains "HAG"
+| where isnotempty(customTag) or alObjectName contains "80107" or alObjectName contains "Web Service"
+| take 100;
+
+//================================================================
+// INSTRUCTIONS
+//================================================================
+//
+// Run these queries in order to diagnose why you're not seeing
+// the HAG Web Service (Page 80107) telemetry:
+//
+// 1. Start with Query 1 - Direct search for page 80107
+// 2. If empty, try Query 2 - Broader search for HAG Web*
+// 3. Query 3 - Check web service event logs (RT0008)
+// 4. Query 4 - Find all API/Service pages from Hagar
+// 5. Query 5 - Check for unbound API pages
+// 6. Query 6 - Check entire 80xxx range
+// 7. Query 7 - See what IS being logged from Hagar Webshop
+// 8. Query 8 - Look for any custom telemetry
+//
+// Common Issues:
+// - API pages may not generate standard telemetry
+// - External calls might not trigger page open events
+// - Object might use a codeunit instead of page
+// - Telemetry might be disabled for this object
+// - Object name might be different in telemetry
+//
+//================================================================
