@@ -1,0 +1,306 @@
+//================================================================
+// HAG Web Service - Detailed Analysis
+//================================================================
+// Purpose: Deep dive into HAG Web Service telemetry based on diagnostic results
+// Run these queries to understand your API usage patterns
+//================================================================
+
+//----------------------------------------------------------------
+// QUERY 1: HAG Web Service - Last 100 Calls (Raw Data)
+//----------------------------------------------------------------
+// See exactly what's being logged
+traces
+| where timestamp > ago(7d)
+| extend
+    alObjectId = tostring(customDimensions.alObjectId),
+    alObjectName = tostring(customDimensions.alObjectName),
+    extensionName = tostring(customDimensions.extensionName),
+    eventId = tostring(customDimensions.eventId)
+| where alObjectId == "80107" or alObjectName contains "HAG Web Service"
+| project
+    timestamp,
+    eventId,
+    message,
+    alObjectId,
+    alObjectName,
+    extensionName,
+    customDimensions
+| order by timestamp desc
+| take 100;
+
+//----------------------------------------------------------------
+// QUERY 2: HAG Web Service - Call Frequency by Hour
+//----------------------------------------------------------------
+// When is your API being called?
+traces
+| where timestamp > ago(7d)
+| extend
+    alObjectId = tostring(customDimensions.alObjectId),
+    alObjectName = tostring(customDimensions.alObjectName)
+| where alObjectId == "80107" or alObjectName contains "HAG Web Service"
+| summarize CallCount = count() by bin(timestamp, 1h)
+| extend
+    Hour = datetime_part("hour", timestamp),
+    DayOfWeek = dayofweek(timestamp)
+| project timestamp, Hour, DayOfWeek, CallCount
+| order by timestamp desc;
+
+//----------------------------------------------------------------
+// QUERY 3: HAG Web Service - Event Types
+//----------------------------------------------------------------
+// What events are being generated?
+traces
+| where timestamp > ago(7d)
+| extend
+    alObjectId = tostring(customDimensions.alObjectId),
+    alObjectName = tostring(customDimensions.alObjectName),
+    eventId = tostring(customDimensions.eventId)
+| where alObjectId == "80107" or alObjectName contains "HAG Web Service"
+| summarize
+    Count = count(),
+    SampleMessages = make_set(message, 3),
+    FirstSeen = min(timestamp),
+    LastSeen = max(timestamp)
+    by eventId
+| order by Count desc;
+
+//----------------------------------------------------------------
+// QUERY 4: HAG Web Service - Performance Analysis
+//----------------------------------------------------------------
+// How fast are the API calls?
+traces
+| where timestamp > ago(7d)
+| extend
+    alObjectId = tostring(customDimensions.alObjectId),
+    alObjectName = tostring(customDimensions.alObjectName)
+| where alObjectId == "80107" or alObjectName contains "HAG Web Service"
+| extend executionTimeMs = toreal(totimespan(customDimensions.serverExecutionTime))/10000
+| where isnotempty(executionTimeMs)
+| summarize
+    CallCount = count(),
+    AvgMs = round(avg(executionTimeMs), 2),
+    MinMs = round(min(executionTimeMs), 2),
+    MaxMs = round(max(executionTimeMs), 2),
+    P50Ms = round(percentile(executionTimeMs, 50), 2),
+    P95Ms = round(percentile(executionTimeMs, 95), 2),
+    P99Ms = round(percentile(executionTimeMs, 99), 2)
+    by bin(timestamp, 1d)
+| extend Status = case(
+    AvgMs > 1000, "🔴 Slow",
+    AvgMs > 500, "⚠️ Moderate",
+    "✅ Fast"
+)
+| project timestamp, CallCount, AvgMs, P50Ms, P95Ms, P99Ms, MaxMs, Status
+| order by timestamp desc;
+
+//----------------------------------------------------------------
+// QUERY 5: HAG Web Service - User/Session Analysis
+//----------------------------------------------------------------
+// Who is calling your API?
+traces
+| where timestamp > ago(7d)
+| extend
+    alObjectId = tostring(customDimensions.alObjectId),
+    alObjectName = tostring(customDimensions.alObjectName),
+    sessionId = tostring(customDimensions.sessionId),
+    clientType = tostring(customDimensions.clientType)
+| where alObjectId == "80107" or alObjectName contains "HAG Web Service"
+| summarize
+    CallCount = count(),
+    UniqueSessions = dcount(sessionId),
+    LastCall = max(timestamp)
+    by user_Id, clientType
+| extend CallsPerSession = round(toreal(CallCount) / toreal(UniqueSessions), 1)
+| project user_Id, clientType, CallCount, UniqueSessions, CallsPerSession, LastCall
+| order by CallCount desc;
+
+//----------------------------------------------------------------
+// QUERY 6: HAG Web Service - Errors and Warnings
+//----------------------------------------------------------------
+// Any issues with the API?
+traces
+| where timestamp > ago(7d)
+| extend
+    alObjectId = tostring(customDimensions.alObjectId),
+    alObjectName = tostring(customDimensions.alObjectName)
+| where alObjectId == "80107" or alObjectName contains "HAG Web Service"
+| where severityLevel >= 2
+| extend severity = case(
+    severityLevel == 4, "🔴 Critical",
+    severityLevel == 3, "⚠️ Error",
+    "ℹ️ Warning"
+)
+| summarize
+    Count = count(),
+    FirstOccurrence = min(timestamp),
+    LastOccurrence = max(timestamp),
+    SampleMessages = make_set(message, 5)
+    by severity, message
+| order by Count desc;
+
+//----------------------------------------------------------------
+// QUERY 7: HAG Web Service - Custom Dimensions Exploration
+//----------------------------------------------------------------
+// What data is available in customDimensions?
+traces
+| where timestamp > ago(7d)
+| extend
+    alObjectId = tostring(customDimensions.alObjectId),
+    alObjectName = tostring(customDimensions.alObjectName)
+| where alObjectId == "80107" or alObjectName contains "HAG Web Service"
+| take 10
+| project timestamp, message, customDimensions
+| order by timestamp desc;
+
+//----------------------------------------------------------------
+// QUERY 8: HAG Web Service - Related Codeunits
+//----------------------------------------------------------------
+// What codeunits are called during API execution?
+// Look for patterns in the same session/timeframe
+let WebServiceCalls = traces
+    | where timestamp > ago(7d)
+    | extend
+        alObjectId = tostring(customDimensions.alObjectId),
+        sessionId = tostring(customDimensions.sessionId)
+    | where alObjectId == "80107"
+    | project timestamp, sessionId;
+traces
+| where timestamp > ago(7d)
+| extend
+    sessionId = tostring(customDimensions.sessionId),
+    alObjectType = tostring(customDimensions.alObjectType),
+    alObjectName = tostring(customDimensions.alObjectName),
+    extensionName = tostring(customDimensions.extensionName)
+| join kind=inner WebServiceCalls on sessionId
+| where extensionName contains "Hagar" or extensionName contains "HAG"
+| where alObjectType == "CodeUnit"
+| summarize
+    CallCount = count(),
+    LastCalled = max(timestamp)
+    by alObjectName, extensionName
+| order by CallCount desc;
+
+//----------------------------------------------------------------
+// QUERY 9: HAG Web Service - API Procedure Identification
+//----------------------------------------------------------------
+// Try to identify which procedures are being called
+// (This works if there's operation context in telemetry)
+traces
+| where timestamp > ago(7d)
+| extend
+    alObjectId = tostring(customDimensions.alObjectId),
+    alObjectName = tostring(customDimensions.alObjectName),
+    operation = tostring(customDimensions.alObjectMethod),
+    category = tostring(customDimensions.category),
+    endpoint = tostring(customDimensions.endpoint)
+| where alObjectId == "80107" or alObjectName contains "HAG Web Service"
+| summarize
+    Count = count(),
+    LastCalled = max(timestamp)
+    by operation, category, endpoint, alObjectName
+| order by Count desc;
+
+//----------------------------------------------------------------
+// QUERY 10: Dashboard-Ready Query - HAG Web Service Monitoring
+//----------------------------------------------------------------
+// Use this in your Hagar Extensions dashboard page
+let TimeRange = 24h;
+traces
+| where timestamp > ago(TimeRange)
+| extend
+    alObjectId = tostring(customDimensions.alObjectId),
+    alObjectName = tostring(customDimensions.alObjectName)
+| where alObjectId == "80107" or alObjectName contains "HAG Web Service"
+| extend executionTimeMs = toreal(totimespan(customDimensions.serverExecutionTime))/10000
+| summarize
+    CallCount = count(),
+    AvgMs = round(avg(executionTimeMs), 2),
+    P95Ms = round(percentile(executionTimeMs, 95), 2),
+    MaxMs = round(max(executionTimeMs), 2),
+    ErrorCount = countif(severityLevel >= 3),
+    LastCall = max(timestamp)
+    by bin(timestamp, 1h)
+| extend
+    MinutesSinceLastCall = datetime_diff('minute', now(), LastCall),
+    PerformanceStatus = case(
+        AvgMs > 1000, "🔴 Slow (>1s)",
+        AvgMs > 500, "⚠️ Moderate (500ms-1s)",
+        "✅ Fast (<500ms)"
+    ),
+    HealthStatus = case(
+        ErrorCount > 0, "🔴 Has Errors",
+        MinutesSinceLastCall > 60, "⚠️ Inactive >1h",
+        "✅ Healthy"
+    )
+| project
+    timestamp,
+    CallCount,
+    AvgMs,
+    P95Ms,
+    MaxMs,
+    ErrorCount,
+    PerformanceStatus,
+    HealthStatus,
+    LastCall
+| order by timestamp desc;
+
+//================================================================
+// SUMMARY QUERY - Quick Health Check
+//================================================================
+// Run this first to get a quick overview
+traces
+| where timestamp > ago(24h)
+| extend
+    alObjectId = tostring(customDimensions.alObjectId),
+    alObjectName = tostring(customDimensions.alObjectName),
+    extensionName = tostring(customDimensions.extensionName)
+| where alObjectId == "80107" or alObjectName contains "HAG Web Service"
+| summarize
+    TotalCalls = count(),
+    UniqueUsers = dcount(user_Id),
+    UniqueSessions = dcount(tostring(customDimensions.sessionId)),
+    FirstCall = min(timestamp),
+    LastCall = max(timestamp),
+    ErrorCount = countif(severityLevel >= 3)
+    by extensionName, alObjectName
+| extend
+    CallsPerHour = round(toreal(TotalCalls) / 24.0, 1),
+    MinutesSinceLastCall = datetime_diff('minute', now(), LastCall),
+    HealthStatus = case(
+        ErrorCount > 10, "🔴 High Errors",
+        ErrorCount > 0, "⚠️ Some Errors",
+        MinutesSinceLastCall > 120, "⚠️ Inactive >2h",
+        MinutesSinceLastCall > 60, "📊 Inactive >1h",
+        "✅ Healthy"
+    )
+| project
+    extensionName,
+    alObjectName,
+    TotalCalls,
+    CallsPerHour,
+    UniqueUsers,
+    UniqueSessions,
+    ErrorCount,
+    MinutesSinceLastCall,
+    LastCall,
+    HealthStatus;
+
+//================================================================
+// USAGE INSTRUCTIONS
+//================================================================
+//
+// 1. Run SUMMARY QUERY first to get quick health check
+// 2. Run QUERY 1 to see raw data and understand structure
+// 3. Run QUERY 3 to see what event types are generated
+// 4. Run QUERY 4 for performance analysis
+// 5. Run QUERY 5 to understand who's calling the API
+// 6. Run QUERY 6 if you see any errors
+// 7. Use QUERY 10 in your dashboard
+//
+// Based on Results:
+// - If you see data: Great! Add QUERY 10 to your dashboard
+// - If performance is slow: Investigate with QUERY 4
+// - If errors exist: Debug with QUERY 6
+// - If usage is low: Check QUERY 2 for patterns
+//
+//================================================================
