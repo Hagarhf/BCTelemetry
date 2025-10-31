@@ -1,0 +1,21 @@
+//================================================================
+// TEST: Extract Function Names from Endpoint Field
+//================================================================
+// Verify we can extract function names from endpoint
+//================================================================
+
+traces
+| where timestamp > ago(7d)
+| extend alObjectId = tostring(customDimensions.alObjectId)
+| where alObjectId == "80107"
+| extend
+    endpoint = tostring(customDimensions.endpoint),
+    FunctionName = extract(@"Microsoft\.NAV\.(\w+)", 1, endpoint)
+| where isnotempty(FunctionName)
+| summarize
+    Count = count(),
+    FirstSeen = min(timestamp),
+    LastSeen = max(timestamp),
+    SampleEndpoints = make_set(endpoint, 2)
+    by FunctionName
+| order by Count desc;

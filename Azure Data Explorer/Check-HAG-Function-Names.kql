@@ -1,0 +1,87 @@
+//================================================================
+// Check if Function Names Are Available for HAG Web Service
+//================================================================
+// Run these queries to see if procedure/function names are logged
+//================================================================
+
+//----------------------------------------------------------------
+// QUERY 1: Check Raw Custom Dimensions
+//----------------------------------------------------------------
+// See ALL available fields in the telemetry
+traces
+| where timestamp > ago(24h)
+| extend alObjectId = tostring(customDimensions.alObjectId)
+| where alObjectId == "80107"
+| take 1
+| project timestamp, message, customDimensions;
+
+//----------------------------------------------------------------
+// QUERY 2: Check for Method/Procedure Names
+//----------------------------------------------------------------
+// Look for common fields that might contain function names
+traces
+| where timestamp > ago(24h)
+| extend
+    alObjectId = tostring(customDimensions.alObjectId),
+    alObjectMethod = tostring(customDimensions.alObjectMethod),
+    alMethodName = tostring(customDimensions.alMethodName),
+    alStackTrace = tostring(customDimensions.alStackTrace),
+    endpoint = tostring(customDimensions.endpoint),
+    operation = tostring(customDimensions.operation),
+    eventId = tostring(customDimensions.eventId)
+| where alObjectId == "80107"
+| summarize Count = count() by alObjectMethod, alMethodName, endpoint, operation, eventId
+| where isnotempty(alObjectMethod) or isnotempty(alMethodName) or isnotempty(endpoint) or isnotempty(operation);
+
+//----------------------------------------------------------------
+// QUERY 3: Check Message Text for Function Names
+//----------------------------------------------------------------
+// Sometimes function names appear in the message
+traces
+| where timestamp > ago(24h)
+| extend alObjectId = tostring(customDimensions.alObjectId)
+| where alObjectId == "80107"
+| project timestamp, message
+| take 20;
+
+//----------------------------------------------------------------
+// QUERY 4: Check for HTTP Request Information
+//----------------------------------------------------------------
+// API pages might log HTTP endpoint information
+traces
+| where timestamp > ago(24h)
+| extend
+    alObjectId = tostring(customDimensions.alObjectId),
+    httpMethod = tostring(customDimensions.httpMethod),
+    httpUrl = tostring(customDimensions.httpUrl),
+    httpRoute = tostring(customDimensions.httpRoute),
+    endpoint = tostring(customDimensions.endpoint)
+| where alObjectId == "80107"
+| where isnotempty(httpMethod) or isnotempty(httpUrl) or isnotempty(httpRoute) or isnotempty(endpoint)
+| summarize Count = count() by httpMethod, httpUrl, httpRoute, endpoint;
+
+//----------------------------------------------------------------
+// QUERY 5: All Custom Dimension Keys
+//----------------------------------------------------------------
+// List ALL keys available in customDimensions
+traces
+| where timestamp > ago(24h)
+| extend alObjectId = tostring(customDimensions.alObjectId)
+| where alObjectId == "80107"
+| take 1
+| evaluate bag_unpack(customDimensions);
+
+//================================================================
+// INSTRUCTIONS
+//================================================================
+//
+// Run these queries in order:
+//
+// 1. Run QUERY 1 to see the raw data structure
+// 2. Run QUERY 2 to check if method names are logged
+// 3. If QUERY 2 shows data: Function names ARE logged! ✅
+//    - Proceed to update the dashboard query
+// 4. If QUERY 2 shows no data: Function names NOT logged ❌
+//    - Need to add custom telemetry (see PROCEDURE-TRACKING-SUMMARY.md)
+//
+//================================================================

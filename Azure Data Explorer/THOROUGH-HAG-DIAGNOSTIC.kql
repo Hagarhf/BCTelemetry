@@ -1,0 +1,204 @@
+//================================================================
+// THOROUGH Diagnostic - HAG Web Service Function Names
+//================================================================
+// Let's check EVERY possible way function names might be logged
+//================================================================
+
+//----------------------------------------------------------------
+// QUERY 1: Raw Data - See EVERYTHING
+//----------------------------------------------------------------
+// Look at actual raw telemetry for Page 80107
+traces
+| where timestamp > ago(7d)  // Longer time range
+| extend alObjectId = tostring(customDimensions.alObjectId)
+| where alObjectId == "80107"
+| take 10
+| project
+    timestamp,
+    message,
+    severityLevel,
+    customDimensions;
+
+//----------------------------------------------------------------
+// QUERY 2: Unpack ALL Custom Dimensions
+//----------------------------------------------------------------
+// This shows ALL keys that exist in customDimensions
+traces
+| where timestamp > ago(7d)
+| extend alObjectId = tostring(customDimensions.alObjectId)
+| where alObjectId == "80107"
+| take 1
+| evaluate bag_unpack(customDimensions);
+
+//----------------------------------------------------------------
+// QUERY 3: List ALL Unique Custom Dimension Keys
+//----------------------------------------------------------------
+// Shows what fields are available
+traces
+| where timestamp > ago(7d)
+| extend alObjectId = tostring(customDimensions.alObjectId)
+| where alObjectId == "80107"
+| take 100
+| project customDimensions
+| evaluate bag_unpack(customDimensions)
+| getschema;
+
+//----------------------------------------------------------------
+// QUERY 4: Check Message Text for Patterns
+//----------------------------------------------------------------
+// Sometimes function names appear in the message field
+traces
+| where timestamp > ago(7d)
+| extend alObjectId = tostring(customDimensions.alObjectId)
+| where alObjectId == "80107"
+| summarize Count = count(), SampleMessages = make_set(message, 10)
+| project Count, SampleMessages;
+
+//----------------------------------------------------------------
+// QUERY 5: Check ALL Possible Method-Related Fields
+//----------------------------------------------------------------
+// Comprehensive check for ANY field containing method/function info
+traces
+| where timestamp > ago(7d)
+| extend
+    alObjectId = tostring(customDimensions.alObjectId),
+    // Standard BC fields
+    alObjectMethod = tostring(customDimensions.alObjectMethod),
+    alMethodName = tostring(customDimensions.alMethodName),
+    alObjectName = tostring(customDimensions.alObjectName),
+    alStackTrace = tostring(customDimensions.alStackTrace),
+    // Web service related
+    endpoint = tostring(customDimensions.endpoint),
+    operation = tostring(customDimensions.operation),
+    operationName = tostring(customDimensions.operationName),
+    actionName = tostring(customDimensions.actionName),
+    // HTTP related
+    httpMethod = tostring(customDimensions.httpMethod),
+    httpUrl = tostring(customDimensions.httpUrl),
+    httpRoute = tostring(customDimensions.httpRoute),
+    httpPath = tostring(customDimensions.httpPath),
+    // API related
+    apiOperation = tostring(customDimensions.apiOperation),
+    apiAction = tostring(customDimensions.apiAction),
+    category = tostring(customDimensions.category),
+    // Event related
+    eventId = tostring(customDimensions.eventId),
+    eventName = tostring(customDimensions.eventName)
+| where alObjectId == "80107"
+| summarize
+    Count = count(),
+    FirstSeen = min(timestamp),
+    LastSeen = max(timestamp)
+    by
+    alObjectMethod, alMethodName, alStackTrace,
+    endpoint, operation, operationName, actionName,
+    httpMethod, httpUrl, httpRoute, httpPath,
+    apiOperation, apiAction, category,
+    eventId, eventName
+| where
+    isnotempty(alObjectMethod) or isnotempty(alMethodName) or
+    isnotempty(endpoint) or isnotempty(operation) or
+    isnotempty(httpUrl) or isnotempty(httpRoute) or
+    isnotempty(apiOperation) or isnotempty(eventName);
+
+//----------------------------------------------------------------
+// QUERY 6: Check Operation Context
+//----------------------------------------------------------------
+// BC sometimes logs operation context separately
+traces
+| where timestamp > ago(7d)
+| extend
+    alObjectId = tostring(customDimensions.alObjectId),
+    operationName = tostring(operation_Name),  // Note: operation_Name is top-level field
+    operationId = tostring(operation_Id)
+| where alObjectId == "80107"
+| summarize
+    Count = count(),
+    Sample = make_set(operationName, 10)
+    by operationName
+| where isnotempty(operationName);
+
+//----------------------------------------------------------------
+// QUERY 7: Check Dependencies (Might Track API Calls)
+//----------------------------------------------------------------
+// Dependencies table might have API endpoint info
+dependencies
+| where timestamp > ago(7d)
+| where target contains "80107" or name contains "HAG" or name contains "Web Service"
+| take 20
+| project timestamp, name, type, target, data, customDimensions;
+
+//----------------------------------------------------------------
+// QUERY 8: Check Requests Table
+//----------------------------------------------------------------
+// API calls might be logged as requests
+requests
+| where timestamp > ago(7d)
+| where url contains "80107" or name contains "HAG" or name contains "Web Service"
+| take 20
+| project timestamp, name, url, operation_Name, customDimensions;
+
+//----------------------------------------------------------------
+// QUERY 9: Session-Based Analysis
+//----------------------------------------------------------------
+// Look at a complete session to see call patterns
+let SessionIds = traces
+    | where timestamp > ago(7d)
+    | extend alObjectId = tostring(customDimensions.alObjectId)
+    | where alObjectId == "80107"
+    | extend sessionId = tostring(customDimensions.sessionId)
+    | summarize by sessionId
+    | take 1;
+traces
+| where timestamp > ago(7d)
+| extend sessionId = tostring(customDimensions.sessionId)
+| where sessionId in (SessionIds)
+| extend
+    alObjectId = tostring(customDimensions.alObjectId),
+    alObjectType = tostring(customDimensions.alObjectType),
+    alObjectName = tostring(customDimensions.alObjectName),
+    eventId = tostring(customDimensions.eventId)
+| project
+    timestamp,
+    alObjectType,
+    alObjectId,
+    alObjectName,
+    eventId,
+    message,
+    customDimensions
+| order by timestamp asc;
+
+//----------------------------------------------------------------
+// QUERY 10: Check Event IDs Related to Page 80107
+//----------------------------------------------------------------
+// Different event types might have different information
+traces
+| where timestamp > ago(7d)
+| extend alObjectId = tostring(customDimensions.alObjectId)
+| where alObjectId == "80107"
+| extend eventId = tostring(customDimensions.eventId)
+| summarize
+    Count = count(),
+    SampleMessage = any(message),
+    SampleCustomDimensions = any(customDimensions)
+    by eventId
+| order by Count desc;
+
+//================================================================
+// INSTRUCTIONS: Run queries in this order
+//================================================================
+//
+// 1. Start with QUERY 1 - See raw data
+// 2. Run QUERY 2 - See all available fields
+// 3. Run QUERY 5 - Comprehensive field check
+// 4. Run QUERY 10 - Check different event types
+// 5. If still nothing, run remaining queries
+//
+// If ANY query shows data in method/function fields:
+//   → Function names ARE logged!
+//
+// If ALL queries return empty/no function data:
+//   → Function names are definitely NOT logged
+//   → Custom telemetry is required
+//
+//================================================================
