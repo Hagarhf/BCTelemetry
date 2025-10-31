@@ -1,0 +1,97 @@
+//================================================================
+// Check ALL Extension Publishers in Your Telemetry
+//================================================================
+// Run this to see what publishers are actually in your data
+//================================================================
+
+//----------------------------------------------------------------
+// QUERY 1: All Publishers with Extension Count
+//----------------------------------------------------------------
+traces
+| where timestamp > ago(30d)
+| extend
+    extensionPublisher = tostring(customDimensions.extensionPublisher),
+    extensionName = tostring(customDimensions.extensionName)
+| where isnotempty(extensionPublisher)
+| summarize
+    ExtensionCount = dcount(extensionName),
+    EventCount = count(),
+    Extensions = make_set(extensionName, 20)
+    by extensionPublisher
+| order by ExtensionCount desc;
+
+//----------------------------------------------------------------
+// QUERY 2: All Custom Extensions (Non-Microsoft)
+//----------------------------------------------------------------
+traces
+| where timestamp > ago(30d)
+| extend
+    extensionPublisher = tostring(customDimensions.extensionPublisher),
+    extensionName = tostring(customDimensions.extensionName),
+    alObjectId = tostring(customDimensions.alObjectId)
+| where isnotempty(extensionPublisher)
+| where extensionPublisher != "Microsoft"
+| where isnotempty(alObjectId) and alObjectId != "-1"
+| summarize
+    UniqueObjects = dcount(alObjectId),
+    TotalUsage = count()
+    by extensionName, extensionPublisher
+| extend AvgUsagePerObject = round(toreal(TotalUsage) / toreal(UniqueObjects), 1)
+| project extensionPublisher, extensionName, UniqueObjects, TotalUsage, AvgUsagePerObject
+| order by TotalUsage desc;
+
+//----------------------------------------------------------------
+// QUERY 3: Extensions by Your Custom Publishers
+//----------------------------------------------------------------
+// Based on your list, check these specific publishers
+traces
+| where timestamp > ago(30d)
+| extend
+    extensionPublisher = tostring(customDimensions.extensionPublisher),
+    extensionName = tostring(customDimensions.extensionName)
+| where extensionPublisher in ("Storkaup", "NVL", "Hagar", "Navax", "Storkjop")
+| where isnotempty(extensionName)
+| summarize
+    EventCount = count(),
+    FirstSeen = min(timestamp),
+    LastSeen = max(timestamp)
+    by extensionPublisher, extensionName
+| order by extensionPublisher, EventCount desc;
+
+//================================================================
+// Based on your extension list, these are the publishers:
+//================================================================
+// Publisher: Storkaup
+//   - Storkaup
+//
+// Publisher: NVL (Probably)
+//   - Stórkaup (Webstore)
+//
+// Publisher: Hagar
+//   - Hagar Connect
+//   - Hagar Webshop
+//
+// Publisher: Unknown (Need to check)
+//   - Advanced Intercompany
+//   - Autopost sales
+//   - Cash Book
+//   - Customer Mailbox
+//   - Easy Fixed Assets
+//   - Sales By Ship-To address
+//   - Automate
+//   - SIE File Creation
+//   - IS Order Receiving
+//   - Scheduled Orders - Receiver
+//   - Scheduled Orders - Sender
+//   - NIM Projects
+//   - VL Master Data
+//   - VL Master Data Setup
+//   - Payroll (Generic)
+//   - Sales Discount Agreement
+//   - Subscription
+//   - Vinna Logistics (No Scanning)
+//   - Vinna Logistics
+//   - Vinna Platform
+//   - Warehouse Documents Assistant
+//
+//================================================================
