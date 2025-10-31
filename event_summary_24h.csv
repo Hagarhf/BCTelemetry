@@ -1,0 +1,195 @@
+﻿eventId,clientType,alObjectType,alObjectId,alObjectName,extensionName,extensionPublisher,Count,PercentOfTotal,FirstSeen [UTC],LastSeen [UTC],AvgPerHour,AvgExecutionMs,MaxExecutionMs,SampleMessage
+RT0004,WebServiceClient,,,,,,63346,40.14,"10/30/2025, 8:29:21.214 AM","10/31/2025, 8:28:33.669 AM",2639.4,2.13,187.09,Authorization Succeeded (Open Company)
+RT0008,WebServiceClient,Codeunit,10033100,,LS Central,LS Retail,63137,40.01,"10/30/2025, 8:29:21.216 AM","10/31/2025, 8:28:33.671 AM",2630.7,2.88,218.36,Web service called (Soap): OmniWrapper
+RT0004,Background,,,,,,4545,2.88,"10/30/2025, 8:29:33.607 AM","10/31/2025, 8:28:25.834 AM",189.4,4.16,124.85,Authorization Succeeded (Open Company)
+LC0043,,,,,,,4402,2.79,"10/30/2025, 8:29:34.470 AM","10/31/2025, 8:28:26.679 AM",183.4,1529.97,498287.48,Task 29ff6e71-fcc2-4262-b9ab-2cb046c6a74a main codeunit 448 completed.
+LC0040,,,,,,,4167,2.64,"10/30/2025, 8:29:34.462 AM","10/31/2025, 8:28:26.671 AM",173.6,NaN,,Task 9a63e870-4203-48e7-bdfb-db952df1743c created: 448 scheduled to run after 2025-10-30 20:49:33Z. Ready to run: True
+AL0000E24,Background,CodeUnit,8713,System Telemetry Logger,System Application,Microsoft,4149,2.63,"10/30/2025, 8:29:34.463 AM","10/31/2025, 8:28:26.672 AM",172.9,NaN,,Job queue entry enqueued: 1CD300DB-E671-45EB-B087-1C91ADA98D6A
+AL0000E25,Background,CodeUnit,8713,System Telemetry Logger,System Application,Microsoft,3401,2.16,"10/30/2025, 8:29:33.620 AM","10/31/2025, 8:28:25.847 AM",141.7,NaN,,Job queue entry started: 0F5E5372-51CB-4289-A080-3B28E44DA7ED
+AL0000E26,Background,CodeUnit,8713,System Telemetry Logger,System Application,Microsoft,3398,2.15,"10/30/2025, 8:29:34.464 AM","10/31/2025, 8:28:26.672 AM",141.6,NaN,,Job queue entry finished: 0F5E5372-51CB-4289-A080-3B28E44DA7ED
+LC0042,,,,,,,3338,2.12,"10/30/2025, 8:29:34.460 AM","10/31/2025, 8:28:26.669 AM",139.1,NaN,,Task 4ad8deac-9a01-48c7-ab20-15bfed0fec33 removed: 448
+RT0019,Background,CodeUnit,80256,HAG ASB Queue,Hagar Connect,Hagar,858,0.54,"10/30/2025, 8:30:33.273 AM","10/31/2025, 8:27:53.026 AM",35.8,4285.92,5496.29,Web Service Called (Outgoing): https://sb-hagarmiddlelayer-prod.servicebus.windows.net
+RT0019,Background,CodeUnit,10025916,RSMInexchangeWebservices,Wise e-Invoices,Wise,558,0.35,"10/30/2025, 8:42:01.979 AM","10/31/2025, 8:22:02.085 AM",23.3,529.97,6429.16,Web Service Called (Outgoing): https://ws.inexchange.is
+CL0001,Desktop,Page,-1,Dialog,,,516,0.33,"10/30/2025, 8:35:00.581 AM","10/31/2025, 8:26:25.981 AM",21.5,NaN,,
+RT0019,Background,CodeUnit,80260,HAG Datadog Utils,Hagar Connect,Hagar,251,0.16,"10/30/2025, 8:30:56.890 AM","10/31/2025, 8:17:02.512 AM",10.5,217.63,1156.08,Web Service Called (Outgoing): https://http-intake.logs.datadoghq.eu
+CL0001,Desktop,Page,10000807,LSC Retail Item Card,,,219,0.14,"10/30/2025, 8:43:20.765 AM","10/31/2025, 8:24:48.517 AM",9.1,NaN,,
+CL0001,Desktop,Page,42,Sales Order,,,203,0.13,"10/30/2025, 8:33:19.842 AM","10/31/2025, 8:25:05.322 AM",8.5,NaN,,
+CL0001,Desktop,Page,9006,Order Processor Role Center,,,187,0.12,"10/30/2025, 8:29:38.545 AM","10/31/2025, 8:24:40.733 AM",7.8,NaN,,
+CL0001,Desktop,Page,22,Customer List,,,185,0.12,"10/30/2025, 8:29:55.193 AM","10/31/2025, 8:25:47.781 AM",7.7,NaN,,
+CL0001,Desktop,Page,132,Posted Sales Invoice,,,158,0.1,"10/30/2025, 8:41:07.518 AM","10/31/2025, 8:24:28.802 AM",6.6,NaN,,
+RT0018,Background,CodeUnit,90,Purch.-Post,Base Application,Microsoft,158,0.1,"10/31/2025, 8:00:27.250 AM","10/31/2025, 8:14:04.336 AM",6.6,NaN,,Operation exceeded time threshold (AL method)
+CL0001,Desktop,Page,21,Customer Card,,,149,0.09,"10/30/2025, 8:30:04.855 AM","10/31/2025, 8:25:54.653 AM",6.2,NaN,,
+RT0018,Background,CodeUnit,80,Sales-Post,Base Application,Microsoft,142,0.09,"10/31/2025, 8:05:12.345 AM","10/31/2025, 8:16:34.841 AM",5.9,NaN,,Operation exceeded time threshold (AL method)
+AL0000GDP,Background,CodeUnit,8713,System Telemetry Logger,System Application,Microsoft,139,0.09,"10/30/2025, 8:02:12.941 PM","10/31/2025, 8:07:36.963 AM",5.8,NaN,,Feature Workflows is Used
+CL0001,Desktop,Page,9305,Sales Order List,,,136,0.09,"10/30/2025, 8:31:43.069 AM","10/31/2025, 8:27:40.394 AM",5.7,NaN,,
+CL0001,Desktop,Page,143,Posted Sales Invoices,,,121,0.08,"10/30/2025, 8:41:02.583 AM","10/31/2025, 8:28:37.757 AM",5,NaN,,
+RT0018,Background,CodeUnit,99009542,LSC Http Wrapper,LS Central,LS Retail,117,0.07,"10/31/2025, 8:00:27.234 AM","10/31/2025, 8:16:34.821 AM",4.9,NaN,,Operation exceeded time threshold (AL method)
+RT0004,ChildSession,,,,,,115,0.07,"10/30/2025, 11:59:24.521 AM","10/30/2025, 3:02:30.080 PM",4.8,2.63,18.92,Authorization Succeeded (Open Company)
+RT0018,Background,CodeUnit,1380,Batch Processing Mgt.,Base Application,Microsoft,112,0.07,"10/31/2025, 8:00:29.671 AM","10/31/2025, 8:16:42.920 AM",4.7,NaN,,Operation exceeded time threshold (AL method)
+RT0018,Background,CodeUnit,22,Item Jnl.-Post Line,Base Application,Microsoft,110,0.07,"10/31/2025, 8:05:12.344 AM","10/31/2025, 8:14:03.058 AM",4.6,NaN,,Operation exceeded time threshold (AL method)
+RT0018,Background,CodeUnit,703,Find Record Management,Base Application,Microsoft,110,0.07,"10/31/2025, 8:05:12.344 AM","10/31/2025, 8:14:03.057 AM",4.6,NaN,,Operation exceeded time threshold (AL method)
+RT0019,Background,CodeUnit,10025903,RSMWiseCourierWebservices,Wise e-Invoices,Wise,96,0.06,"10/30/2025, 8:42:02.960 AM","10/31/2025, 8:20:31.455 AM",4,783.05,1110.7,Web Service Called (Outgoing): https://api.manzo.is
+CL0001,Desktop,Page,99001452,LSC Retail Item List,,,96,0.06,"10/30/2025, 8:37:02.182 AM","10/31/2025, 8:24:04.371 AM",4,NaN,,
+RT0006,Background,Report,496,Batch Post Purchase Orders,Base Application,Microsoft,93,0.06,"10/30/2025, 8:30:30.284 AM","10/31/2025, 8:24:05.320 AM",3.9,15118.91,846886.44,Report rendered: 496 - Fjöldabóka innkaupapantanir
+RT0005,Background,CodeUnit,703,Find Record Management,Base Application,Microsoft,89,0.06,"10/31/2025, 8:05:12.342 AM","10/31/2025, 8:14:03.055 AM",3.7,NaN,,Operation exceeded time threshold (SQL query)
+AL0000GDP,WebClient,CodeUnit,8713,System Telemetry Logger,System Application,Microsoft,45,0.03,"10/30/2025, 11:57:33.194 AM","10/30/2025, 3:01:20.666 PM",1.9,NaN,,Feature Workflows is Used
+CL0001,Desktop,Page,10008432,RSM Document,,,41,0.03,"10/30/2025, 8:41:13.963 AM","10/31/2025, 7:17:14.437 AM",1.7,NaN,,
+CL0001,Desktop,Page,301,Ship-to Address List,,,40,0.03,"10/30/2025, 8:34:34.779 AM","10/31/2025, 8:10:22.842 AM",1.7,NaN,,
+RT0019,Background,CodeUnit,99009542,LSC Http Wrapper,LS Central,LS Retail,39,0.02,"10/31/2025, 8:00:27.233 AM","10/31/2025, 8:16:34.820 AM",1.6,21050.88,21596.17,Web Service Called (Outgoing): https://adf-prod-app01-lscommerce.hagar.is
+CL0001,Desktop,Page,50,Purchase Order,,,39,0.02,"10/30/2025, 9:37:45.038 AM","10/31/2025, 8:19:45.198 AM",1.6,NaN,,
+RT0005,Background,CodeUnit,80,Sales-Post,Base Application,Microsoft,39,0.02,"10/31/2025, 8:05:53.368 AM","10/31/2025, 8:10:55.766 AM",1.6,NaN,,Operation exceeded time threshold (SQL query)
+RT0018,Background,CodeUnit,61000,PTE AX Int. Update Inventory,Storkaup,Storkaup,36,0.02,"10/30/2025, 9:15:13.362 AM","10/31/2025, 8:16:05.091 AM",1.5,NaN,,Operation exceeded time threshold (AL method)
+RT0018,Background,CodeUnit,50201,NVL CO Status Mgmt,WebStore,NVL,36,0.02,"10/31/2025, 8:00:27.235 AM","10/31/2025, 8:14:04.335 AM",1.5,NaN,,Operation exceeded time threshold (AL method)
+RT0018,Background,CodeUnit,50115,NVL Omni BO Utils,WebStore,NVL,36,0.02,"10/31/2025, 8:00:27.234 AM","10/31/2025, 8:14:04.334 AM",1.5,NaN,,Operation exceeded time threshold (AL method)
+CL0001,Desktop,Page,-1,String Menu,,,35,0.02,"10/30/2025, 9:23:40.937 AM","10/31/2025, 8:01:19.504 AM",1.5,NaN,,
+RT0005,Background,CodeUnit,80112,HAG Delete Export Tools,Hagar Webshop,Hagar,27,0.02,"10/30/2025, 12:02:59.832 PM","10/31/2025, 4:36:45.589 AM",1.1,NaN,,Operation exceeded time threshold (SQL query)
+CL0001,Desktop,Page,41,Sales Quote,,,27,0.02,"10/30/2025, 9:44:15.609 AM","10/31/2025, 8:10:38.122 AM",1.1,NaN,,
+CL0001,Desktop,Page,5802,Value Entries,,,25,0.02,"10/30/2025, 9:54:48.962 AM","10/30/2025, 4:44:36.757 PM",1,NaN,,
+RT0018,Background,CodeUnit,448,Job Queue Dispatcher,Base Application,Microsoft,25,0.02,"10/30/2025, 8:30:58.712 AM","10/31/2025, 8:22:02.108 AM",1,NaN,,Operation exceeded time threshold (AL method)
+CL0001,Desktop,Page,32,Item Lookup,,,25,0.02,"10/30/2025, 9:18:41.961 AM","10/31/2025, 8:10:11.416 AM",1,NaN,,
+CL0001,Desktop,Page,10016651,LSC Customer Order,,,23,0.01,"10/30/2025, 2:21:57.550 PM","10/30/2025, 3:29:54.350 PM",1,NaN,,
+CL0001,Desktop,Page,-1,PageSearchForm,,,20,0.01,"10/30/2025, 8:40:53.056 AM","10/31/2025, 7:55:05.893 AM",0.8,NaN,,
+CL0001,Desktop,Page,232,Apply Customer Entries,,,19,0.01,"10/30/2025, 1:40:20.698 PM","10/31/2025, 7:50:34.531 AM",0.8,NaN,,
+CL0001,Desktop,Page,9212,Roles,,,19,0.01,"10/30/2025, 10:22:51.985 AM","10/30/2025, 2:37:19.410 PM",0.8,NaN,,
+RT0018,Background,CodeUnit,99001467,LSC Scheduler Util,LS Central,LS Retail,18,0.01,"10/30/2025, 9:16:01.400 AM","10/31/2025, 8:16:05.101 AM",0.8,NaN,,Operation exceeded time threshold (AL method)
+CL0001,Desktop,Page,9204,User Settings,,,17,0.01,"10/30/2025, 10:22:50.521 AM","10/30/2025, 2:37:18.057 PM",0.7,NaN,,
+RT0004,WebClient,,,,,,17,0.01,"10/30/2025, 11:59:23.122 AM","10/30/2025, 3:02:25.445 PM",0.7,46.36,202.48,Authorization Succeeded (Open Company)
+CL0001,Desktop,Page,1173,Document Attachment Details,,,16,0.01,"10/30/2025, 8:44:53.850 AM","10/30/2025, 4:04:38.961 PM",0.7,NaN,,
+CL0001,Desktop,Page,-1,Lookupform18_Customer,,,15,0.01,"10/30/2025, 9:54:50.601 AM","10/30/2025, 3:30:53.296 PM",0.6,NaN,,
+CL0001,Desktop,Page,300,Ship-to Address,,,15,0.01,"10/30/2025, 8:34:43.628 AM","10/30/2025, 2:48:33.413 PM",0.6,NaN,,
+AL0000GKL,Background,CodeUnit,4615,MailKit Client,Email - SMTP API,Microsoft,13,0.01,"10/30/2025, 9:23:24.177 AM","10/31/2025, 8:25:45.393 AM",0.5,NaN,,Sent email.
+CL0001,Desktop,Page,9022,Business Manager Role Center,,,13,0.01,"10/30/2025, 10:23:23.408 AM","10/31/2025, 7:50:00.275 AM",0.5,NaN,,
+AL0000GKJ,Background,CodeUnit,4615,MailKit Client,Email - SMTP API,Microsoft,13,0.01,"10/30/2025, 9:23:24.161 AM","10/31/2025, 8:25:45.385 AM",0.5,NaN,,Connected to SMTP server.
+CL0001,Desktop,Page,700,Error Messages,,,13,0.01,"10/30/2025, 9:23:42.269 AM","10/31/2025, 8:01:30.947 AM",0.5,NaN,,
+CL0001,Desktop,Page,10008441,RSM Purchase Invoices List,,,13,0.01,"10/30/2025, 8:40:58.870 AM","10/31/2025, 7:44:01.937 AM",0.5,NaN,,
+CL0001,Desktop,Page,9307,Purchase Order List,,,12,0.01,"10/30/2025, 11:27:04.478 AM","10/31/2025, 7:04:25.575 AM",0.5,NaN,,
+CL0001,Desktop,Page,5052,Contact List,,,11,0.01,"10/30/2025, 8:30:49.840 AM","10/30/2025, 2:43:41.604 PM",0.5,NaN,,
+RT0019,Background,CodeUnit,10027351,BaseCustomerAccess,Wise Base,Wise,10,0.01,"10/30/2025, 11:59:46.423 AM","10/30/2025, 3:01:29.449 PM",0.4,21070.69,21119.43,Web Service Called (Outgoing): https://prod-09.northeurope.logic.azure.com
+RT0018,Background,CodeUnit,10027351,BaseCustomerAccess,Wise Base,Wise,10,0.01,"10/30/2025, 11:59:46.423 AM","10/30/2025, 3:01:29.449 PM",0.4,NaN,,Operation exceeded time threshold (AL method)
+AL0000CZ0,WebServiceClient,CodeUnit,1351,Telemetry Subscribers,Base Application,Microsoft,9,0.01,"10/30/2025, 8:57:12.951 AM","10/30/2025, 1:43:29.423 PM",0.4,NaN,,Sales invoice posted: SR25-20974
+RT0018,Background,CodeUnit,449,Job Queue Start Codeunit,Base Application,Microsoft,9,0.01,"10/30/2025, 9:30:29.648 AM","10/31/2025, 8:16:42.943 AM",0.4,NaN,,Operation exceeded time threshold (AL method)
+CL0001,Desktop,Page,5050,Contact Card,,,9,0.01,"10/30/2025, 10:03:17.952 AM","10/30/2025, 2:43:44.205 PM",0.4,NaN,,
+CL0001,Desktop,Page,10008002,Appr Invoice Registration,,,9,0.01,"10/30/2025, 2:12:05.256 PM","10/31/2025, 7:17:34.369 AM",0.4,NaN,,
+CL0001,Desktop,Page,7004,Sales Line Discounts,,,9,0.01,"10/30/2025, 9:19:35.561 AM","10/30/2025, 2:28:47.922 PM",0.4,NaN,,
+RT0006,WebServiceClient,Report,1306,Standard Sales - Invoice,Base Application,Microsoft,9,0.01,"10/30/2025, 8:57:13.140 AM","10/30/2025, 1:43:29.607 PM",0.4,187.08,282.52,Report rendered: 1306 - Sales - Invoice
+CL0001,Desktop,Page,10008444,RSM XML Sales Invoices,,,9,0.01,"10/30/2025, 9:37:25.673 AM","10/31/2025, 7:55:09.925 AM",0.4,NaN,,
+CL0001,Desktop,Page,134,Posted Sales Credit Memo,,,8,0.01,"10/30/2025, 8:43:44.588 AM","10/30/2025, 3:33:20.051 PM",0.3,NaN,,
+CL0001,Desktop,Page,9300,Sales Quotes,,,7,0,"10/30/2025, 1:04:29.912 PM","10/30/2025, 3:45:10.705 PM",0.3,NaN,,
+RT0018,Background,CodeUnit,1371,Sales Batch Post Mgt.,Base Application,Microsoft,6,0,"10/31/2025, 8:10:56.472 AM","10/31/2025, 8:16:42.924 AM",0.3,NaN,,Operation exceeded time threshold (AL method)
+CL0001,Desktop,Page,51,Purchase Invoice,,,6,0,"10/30/2025, 8:42:13.883 AM","10/30/2025, 10:36:10.419 AM",0.3,NaN,,
+RT0029,Background,CodeUnit,99001468,LSC NAS Scheduler Service,LS Central,LS Retail,6,0,"10/30/2025, 11:48:31.256 AM","10/31/2025, 7:48:35.287 AM",0.3,NaN,,The StopSession method was invoked on session 276840
+RT0019,Background,CodeUnit,10027207,RepCustomerAccess,Wise Reports,Wise,6,0,"10/30/2025, 2:34:14.404 PM","10/30/2025, 3:01:29.465 PM",0.3,21043.28,21074.49,Web Service Called (Outgoing): https://prod-09.northeurope.logic.azure.com
+CL0001,Desktop,Page,10016653,LSC Customer Order List,,,6,0,"10/30/2025, 10:18:51.520 AM","10/30/2025, 3:29:49.512 PM",0.3,NaN,,
+RT0018,Background,CodeUnit,99001469,LSC Scheduler Service,LS Central,LS Retail,6,0,"10/30/2025, 11:48:31.256 AM","10/31/2025, 7:48:35.287 AM",0.3,NaN,,Operation exceeded time threshold (AL method)
+CL0001,Desktop,Page,-1,Lookupform36_Sales Header,,,6,0,"10/30/2025, 12:06:06.347 PM","10/30/2025, 3:00:10.169 PM",0.3,NaN,,
+RT0018,Background,CodeUnit,10027207,RepCustomerAccess,Wise Reports,Wise,6,0,"10/30/2025, 2:34:14.404 PM","10/30/2025, 3:01:29.465 PM",0.3,NaN,,Operation exceeded time threshold (AL method)
+CL0001,Desktop,Page,45,Sales List,,,6,0,"10/30/2025, 12:06:09.008 PM","10/30/2025, 3:00:11.908 PM",0.3,NaN,,
+RT0018,Background,CodeUnit,80253,HAG Export Processing,Hagar Connect,Hagar,6,0,"10/30/2025, 8:30:52.588 AM","10/31/2025, 1:04:57.930 AM",0.3,NaN,,Operation exceeded time threshold (AL method)
+CL0001,Desktop,Page,10008004,Appr Invoice,,,6,0,"10/30/2025, 2:25:47.255 PM","10/31/2025, 7:15:10.431 AM",0.3,NaN,,
+CL0001,Desktop,Page,251,General Journal Batches,,,6,0,"10/30/2025, 1:33:05.772 PM","10/31/2025, 7:27:48.521 AM",0.3,NaN,,
+RT0019,Background,CodeUnit,10025918,RSM Customer Access,Wise e-Invoices,Wise,5,0,"10/30/2025, 12:02:31.358 PM","10/30/2025, 2:54:44.431 PM",0.2,21056.04,21097.7,Web Service Called (Outgoing): https://prod-09.northeurope.logic.azure.com
+AL0000CST,WebClient,CodeUnit,1351,Telemetry Subscribers,Base Application,Microsoft,5,0,"10/30/2025, 12:06:03.462 PM","10/30/2025, 3:01:20.676 PM",0.2,NaN,,Purchase document posted: IP22-83467
+CL0001,Desktop,Page,25,Customer Ledger Entries,,,5,0,"10/30/2025, 9:46:35.078 AM","10/31/2025, 7:50:15.163 AM",0.2,NaN,,
+CL0001,Desktop,Page,138,Posted Purchase Invoice,,,5,0,"10/30/2025, 1:09:31.192 PM","10/30/2025, 2:28:12.394 PM",0.2,NaN,,
+CL0001,Desktop,Page,80101,HAG Webshop Order List,,,5,0,"10/30/2025, 8:57:36.089 AM","10/30/2025, 9:00:30.097 AM",0.2,NaN,,
+AL0000E24,WebClient,CodeUnit,8713,System Telemetry Logger,System Application,Microsoft,5,0,"10/30/2025, 11:59:24.461 AM","10/30/2025, 2:45:41.029 PM",0.2,NaN,,Job queue entry enqueued: 9F4A0666-9DAD-43BA-A5FE-8BD280FE2421
+CL0001,Desktop,Page,144,Posted Sales Credit Memos,,,5,0,"10/30/2025, 8:46:01.384 AM","10/30/2025, 3:30:08.684 PM",0.2,NaN,,
+RT0018,Background,CodeUnit,10025918,RSM Customer Access,Wise e-Invoices,Wise,5,0,"10/30/2025, 12:02:31.358 PM","10/30/2025, 2:54:44.431 PM",0.2,NaN,,Operation exceeded time threshold (AL method)
+CL0001,Desktop,Page,130,Posted Sales Shipment,,,5,0,"10/30/2025, 8:55:06.287 AM","10/30/2025, 2:31:25.779 PM",0.2,NaN,,
+RT0006,Background,Report,296,Batch Post Sales Orders,Base Application,Microsoft,5,0,"10/30/2025, 12:07:10.621 PM","10/31/2025, 8:16:42.924 AM",0.2,146269.12,355630.26,Report rendered: 296 - Fjöldabóka sölupantanir
+CL0001,Desktop,Page,9308,Purchase Invoices,,,5,0,"10/30/2025, 8:42:12.081 AM","10/30/2025, 1:08:04.816 PM",0.2,NaN,,
+CL0001,Desktop,Page,10027222,REP Sales - Invoice Wise,,,5,0,"10/30/2025, 9:35:15.312 AM","10/30/2025, 1:41:21.300 PM",0.2,NaN,,
+RT0018,Background,CodeUnit,487,Job Queue Start Report,Base Application,Microsoft,5,0,"10/31/2025, 8:10:56.476 AM","10/31/2025, 8:16:42.925 AM",0.2,NaN,,Operation exceeded time threshold (AL method)
+RT0018,Background,CodeUnit,1372,Purchase Batch Post Mgt.,Base Application,Microsoft,4,0,"10/31/2025, 8:14:03.105 AM","10/31/2025, 8:14:08.558 AM",0.2,NaN,,Operation exceeded time threshold (AL method)
+CL0001,Desktop,Page,31,Item List,,,4,0,"10/30/2025, 3:12:33.109 PM","10/30/2025, 3:34:00.069 PM",0.2,NaN,,
+CL0001,Desktop,Page,52,Purchase Credit Memo,,,4,0,"10/30/2025, 1:08:34.168 PM","10/30/2025, 3:01:44.428 PM",0.2,NaN,,
+AL0000CSU,WebClient,CodeUnit,1351,Telemetry Subscribers,Base Application,Microsoft,4,0,"10/30/2025, 11:59:46.643 AM","10/30/2025, 3:01:06.829 PM",0.2,NaN,,Sales document posted: SP25-25601
+CL0001,Desktop,Page,10007990,Appr Invoice Registrations,,,4,0,"10/30/2025, 2:12:02.187 PM","10/31/2025, 7:43:43.228 AM",0.2,NaN,,
+CL0001,Desktop,Page,44,Sales Credit Memo,,,4,0,"10/30/2025, 8:43:03.058 AM","10/30/2025, 3:32:45.703 PM",0.2,NaN,,
+CL0001,Desktop,Page,10008155,Iobs Get E-entries and Adjust,,,4,0,"10/30/2025, 1:39:50.037 PM","10/31/2025, 7:32:37.918 AM",0.2,NaN,,
+CL0001,Desktop,Page,10008000,Appr Role Center,,,4,0,"10/30/2025, 10:22:59.084 AM","10/30/2025, 2:25:41.489 PM",0.2,NaN,,
+CL0001,Desktop,Page,516,Sales Lines,,,4,0,"10/30/2025, 9:44:08.735 AM","10/30/2025, 4:48:24.104 PM",0.2,NaN,,
+CL0001,Desktop,Page,-1,Lookupform38_Purchase Header,,,4,0,"10/30/2025, 12:05:51.951 PM","10/31/2025, 8:19:38.190 AM",0.2,NaN,,
+CL0001,Desktop,Page,9631,Page Inspection,,,4,0,"10/30/2025, 12:59:42.424 PM","10/31/2025, 8:10:44.141 AM",0.2,NaN,,
+CL0001,Desktop,Page,26,Vendor Card,,,3,0,"10/30/2025, 12:32:15.886 PM","10/31/2025, 8:21:06.425 AM",0.1,NaN,,
+CL0001,Desktop,Page,80106,HAG Webshop Logins,,,3,0,"10/30/2025, 10:06:34.167 AM","10/30/2025, 1:03:22.499 PM",0.1,NaN,,
+CL0001,Desktop,Page,7,Customer Price Groups,,,3,0,"10/30/2025, 9:29:19.268 AM","10/30/2025, 3:38:11.050 PM",0.1,NaN,,
+CL0001,Desktop,Page,7002,Sales Prices,,,3,0,"10/30/2025, 9:30:50.400 AM","10/30/2025, 3:38:19.834 PM",0.1,NaN,,
+RT0006,WebClient,Report,10027222,REP Sales - Invoice Wise,Wise Reports,Wise,3,0,"10/30/2025, 12:00:02.563 PM","10/30/2025, 2:42:04.870 PM",0.1,803.1,930.99,Report rendered: 10027222 - Sala - Reikningur Wise
+CL0001,Desktop,Page,379,Bank Acc. Reconciliation,,,3,0,"10/30/2025, 1:35:58.514 PM","10/31/2025, 7:21:56.128 AM",0.1,NaN,,
+LC0045,,,,,,,3,0,"10/31/2025, 8:10:56.547 AM","10/31/2025, 8:14:08.666 AM",0.1,505868.25,847057.3,Task d7c271a5-1f58-4c79-9878-4f3ded2c59d6 main codeunit 448 failed. It will not be retried and the failure codeunit 450 will be run. Reason: Exception is not retriable.
+RT0018,Background,Report,296,Batch Post Sales Orders,Base Application,Microsoft,3,0,"10/31/2025, 8:10:56.476 AM","10/31/2025, 8:16:42.924 AM",0.1,NaN,,Operation exceeded time threshold (AL method)
+AL0000HE7,Background,CodeUnit,8713,System Telemetry Logger,System Application,Microsoft,3,0,"10/31/2025, 8:10:56.561 AM","10/31/2025, 8:14:08.719 AM",0.1,NaN,,Job queue entry errored: D9A751EF-5ED8-4437-BC3C-E20C4A06F96A
+RT0018,Background,CodeUnit,10036994,LSC Retail Sales Order Ext.,LS Central,LS Retail,3,0,"10/31/2025, 8:05:41.110 AM","10/31/2025, 8:16:34.823 AM",0.1,NaN,,Operation exceeded time threshold (AL method)
+CL0001,Desktop,Page,38,Item Ledger Entries,,,3,0,"10/30/2025, 2:24:00.565 PM","10/31/2025, 6:59:20.341 AM",0.1,NaN,,
+CL0001,Desktop,Page,34,Vendor Lookup,,,3,0,"10/30/2025, 9:43:00.225 AM","10/30/2025, 12:32:02.755 PM",0.1,NaN,,
+CL0001,Desktop,Page,142,Posted Sales Shipments,,,3,0,"10/30/2025, 9:13:01.810 AM","10/30/2025, 2:31:12.835 PM",0.1,NaN,,
+CL0001,Desktop,Page,9620,Page Fields,,,3,0,"10/30/2025, 1:22:56.860 PM","10/30/2025, 1:52:49.597 PM",0.1,NaN,,
+CL0001,Desktop,Page,9150,My Customers,,,3,0,"10/30/2025, 1:22:19.763 PM","10/30/2025, 1:23:22.010 PM",0.1,NaN,,
+CL0001,Desktop,Page,9309,Purchase Credit Memos,,,3,0,"10/30/2025, 1:08:32.312 PM","10/30/2025, 2:56:26.479 PM",0.1,NaN,,
+CL0001,Desktop,Page,146,Posted Purchase Invoices,,,3,0,"10/30/2025, 1:09:01.293 PM","10/30/2025, 2:27:53.610 PM",0.1,NaN,,
+RT0018,Background,CodeUnit,10008444,RSM Send and Receive documents,Wise e-Invoices,Wise,3,0,"10/30/2025, 3:30:52.975 PM","10/31/2025, 8:22:02.098 AM",0.1,NaN,,Operation exceeded time threshold (AL method)
+CL0001,Desktop,Page,344,Navigate,,,3,0,"10/30/2025, 9:54:59.941 AM","10/30/2025, 2:27:02.372 PM",0.1,NaN,,
+CL0001,Desktop,Page,1408,Bank Acc. Recon. - Test,,,3,0,"10/30/2025, 1:43:50.708 PM","10/31/2025, 7:32:43.444 AM",0.1,NaN,,
+RT0018,Background,CodeUnit,99009649,LSC Omni BO Utils,LS Central,LS Retail,3,0,"10/31/2025, 8:05:41.109 AM","10/31/2025, 8:16:34.822 AM",0.1,NaN,,Operation exceeded time threshold (AL method)
+CL0001,Desktop,Page,9027,Accountant Role Center,,,2,0,"10/31/2025, 8:08:38.735 AM","10/31/2025, 8:08:55.351 AM",0.1,NaN,,
+CL0001,Desktop,Page,16,Chart of Accounts,,,2,0,"10/30/2025, 1:32:06.126 PM","10/30/2025, 1:32:22.097 PM",0.1,NaN,,
+CL0001,Desktop,Page,10008166,Iobs Imported Statements,,,2,0,"10/30/2025, 1:38:42.067 PM","10/31/2025, 7:23:34.362 AM",0.1,NaN,,
+CL0001,Desktop,Page,5404,Item Units of Measure,,,2,0,"10/30/2025, 10:32:54.107 AM","10/30/2025, 10:33:21.652 AM",0.1,NaN,,
+CL0001,Desktop,Page,10007994,Appr Invoices,,,2,0,"10/30/2025, 2:25:43.382 PM","10/31/2025, 7:15:05.409 AM",0.1,NaN,,
+RT0018,Background,Report,496,Batch Post Purchase Orders,Base Application,Microsoft,2,0,"10/31/2025, 8:14:03.107 AM","10/31/2025, 8:14:08.558 AM",0.1,NaN,,Operation exceeded time threshold (AL method)
+CL0001,Desktop,Page,10003013,Winn Collectors Communication,,,2,0,"10/30/2025, 1:32:25.882 PM","10/31/2025, 7:20:15.252 AM",0.1,NaN,,
+CL0001,Desktop,Page,124,Comment Sheet,,,2,0,"10/30/2025, 10:57:20.996 AM","10/30/2025, 11:03:21.557 AM",0.1,NaN,,
+CL0001,Desktop,Page,10003049,Winn Payments From Collector,,,2,0,"10/30/2025, 1:32:48.695 PM","10/31/2025, 7:20:37.001 AM",0.1,NaN,,
+CL0001,Desktop,Page,255,Cash Receipt Journal,,,2,0,"10/30/2025, 1:33:02.890 PM","10/31/2025, 7:20:49.353 AM",0.1,NaN,,
+CL0001,Desktop,Page,10008171,Iobs Statements - Process,,,2,0,"10/30/2025, 1:38:45.231 PM","10/31/2025, 7:23:37.393 AM",0.1,NaN,,
+RT0018,Background,CodeUnit,10008431,RSM Read Xml Functions,Wise e-Invoices,Wise,2,0,"10/30/2025, 8:17:37.423 PM","10/30/2025, 8:17:37.423 PM",0.1,NaN,,Operation exceeded time threshold (AL method)
+RT0005,WebClient,Page,143,Posted Sales Invoices,Base Application,Microsoft,2,0,"10/30/2025, 2:54:53.633 PM","10/30/2025, 2:54:54.681 PM",0.1,NaN,,Operation exceeded time threshold (SQL query)
+CL0001,Desktop,Page,99001453,LSC Item Barcodes,,,2,0,"10/30/2025, 9:49:59.088 AM","10/30/2025, 10:27:33.247 AM",0.1,NaN,,
+CL0001,Desktop,Page,40,Item Journal,,,2,0,"10/30/2025, 9:40:17.424 AM","10/30/2025, 3:04:08.432 PM",0.1,NaN,,
+CL0001,Desktop,Page,262,Item Journal Batches,,,2,0,"10/30/2025, 9:40:11.386 AM","10/30/2025, 3:04:04.593 PM",0.1,NaN,,
+CL0001,Desktop,Page,113,Customer/Item Sales,,,2,0,"10/30/2025, 8:44:00.078 AM","10/30/2025, 11:36:08.082 AM",0.1,NaN,,
+RT0018,Background,CodeUnit,59000,LiquorLicenseMgt,Liquor License,Hagar,2,0,"10/31/2025, 8:02:17.820 AM","10/31/2025, 8:02:17.820 AM",0.1,NaN,,Operation exceeded time threshold (AL method)
+CL0001,Desktop,Page,-1,Lookupform27_Item,,,2,0,"10/30/2025, 1:39:02.514 PM","10/30/2025, 1:40:37.167 PM",0.1,NaN,,
+CL0001,Desktop,Page,388,Bank Acc. Reconciliation List,,,2,0,"10/30/2025, 1:35:54.174 PM","10/31/2025, 7:21:22.005 AM",0.1,NaN,,
+RT0028,Background,CodeUnit,703,Find Record Management,Base Application,Microsoft,2,0,"10/31/2025, 8:10:02.283 AM","10/31/2025, 8:10:07.287 AM",0.1,NaN,,Database deadlock occurred
+CL0001,Desktop,Page,672,Job Queue Entries,,,2,0,"10/30/2025, 4:48:08.026 PM","10/30/2025, 4:48:11.940 PM",0.1,NaN,,
+CL0001,Desktop,Page,-1,Lookupform13_Salesperson/Purchaser,,,2,0,"10/30/2025, 9:20:41.823 AM","10/31/2025, 8:05:10.016 AM",0.1,NaN,,
+CL0001,Desktop,Page,53,Purchase List,,,2,0,"10/30/2025, 3:10:03.521 PM","10/31/2025, 8:19:39.874 AM",0.1,NaN,,
+CL0001,Desktop,Page,1306,Standard Sales - Invoice,,,1,0,"10/30/2025, 12:33:01.754 PM","10/30/2025, 12:33:01.754 PM",0,NaN,,
+CL0001,Desktop,Page,982,Payment Registration Setup,,,1,0,"10/30/2025, 10:20:03.130 AM","10/30/2025, 10:20:03.130 AM",0,NaN,,
+CL0001,Desktop,Page,-1,Lookupform_42023715,,,1,0,"10/30/2025, 2:28:20.383 PM","10/30/2025, 2:28:20.383 PM",0,NaN,,
+CL0001,Desktop,Page,27,Vendor List,,,1,0,"10/30/2025, 2:17:16.602 PM","10/30/2025, 2:17:16.602 PM",0,NaN,,
+CL0001,Desktop,Page,10007616,Winn Role Center,,,1,0,"10/30/2025, 1:32:24.653 PM","10/30/2025, 1:32:24.653 PM",0,NaN,,
+CL0001,Desktop,Page,-1,FileUploadForm,,,1,0,"10/30/2025, 2:30:37.392 PM","10/30/2025, 2:30:37.392 PM",0,NaN,,
+CL0001,Desktop,Page,1,Company Information,,,1,0,"10/30/2025, 11:10:35.810 AM","10/30/2025, 11:10:35.810 AM",0,NaN,,
+CL0001,Desktop,Page,518,Purchase Lines,,,1,0,"10/30/2025, 3:05:05.604 PM","10/30/2025, 3:05:05.604 PM",0,NaN,,
+RT0005,Background,CodeUnit,5895,Inventory Adjustment,Base Application,Microsoft,1,0,"10/31/2025, 8:10:02.278 AM","10/31/2025, 8:10:02.278 AM",0,NaN,,Operation exceeded time threshold (SQL query)
+RT0019,WebClient,CodeUnit,10025900,RSM Help functions,Wise e-Invoices,Wise,1,0,"10/30/2025, 12:05:10.428 PM","10/30/2025, 12:05:10.428 PM",0,328.07,328.07,Web Service Called (Outgoing): https://hagar-prod-api1
+CL0001,Desktop,Page,10007993,Approved Invoices,,,1,0,"10/31/2025, 7:43:21.513 AM","10/31/2025, 7:43:21.513 AM",0,NaN,,
+CL0001,Desktop,Page,579,Post Application,,,1,0,"10/31/2025, 7:50:45.114 AM","10/31/2025, 7:50:45.114 AM",0,NaN,,
+CL0001,Desktop,Page,80261,HAG Import Message List,,,1,0,"10/30/2025, 8:58:34.378 AM","10/30/2025, 8:58:34.378 AM",0,NaN,,
+CL0001,Desktop,Page,30,Item Card,,,1,0,"10/30/2025, 1:39:05.757 PM","10/30/2025, 1:39:05.757 PM",0,NaN,,
+CL0001,Desktop,Page,80259,HAG Export Message List,,,1,0,"10/30/2025, 10:19:01.342 AM","10/30/2025, 10:19:01.342 AM",0,NaN,,
+RT0005,Background,Table,32,Item Ledger Entry,Base Application,Microsoft,1,0,"10/31/2025, 8:10:07.285 AM","10/31/2025, 8:10:07.285 AM",0,NaN,,Operation exceeded time threshold (SQL query)
+CL0001,Desktop,Page,29,Vendor Ledger Entries,,,1,0,"10/30/2025, 2:17:23.781 PM","10/30/2025, 2:17:23.781 PM",0,NaN,,
+RT0005,WebServiceClient,Page,80114,HAG Customer API,Hagar Webshop,Hagar,1,0,"10/31/2025, 1:00:21.768 AM","10/31/2025, 1:00:21.768 AM",0,NaN,,Operation exceeded time threshold (SQL query)
+RT0018,Background,CodeUnit,61002,PTEEventSubscriber,Storkaup,Storkaup,1,0,"10/30/2025, 9:30:29.606 AM","10/30/2025, 9:30:29.606 AM",0,NaN,,Operation exceeded time threshold (AL method)
+CL0001,Desktop,Page,761,Trailing Sales Orders Setup,,,1,0,"10/30/2025, 1:23:08.493 PM","10/30/2025, 1:23:08.493 PM",0,NaN,,
+RT0006,WebServiceClient,Report,10027221,REP Sales - Credit Memo Wise,Wise Reports,Wise,1,0,"10/30/2025, 10:55:46.019 AM","10/30/2025, 10:55:46.019 AM",0,769.64,769.64,Report rendered: 10027221 - Sales - Credit Memo Wise
+RT0005,WebClient,Page,10008441,RSM Purchase Invoices List,Wise e-Invoices,Wise,1,0,"10/30/2025, 12:02:11.535 PM","10/30/2025, 12:02:11.535 PM",0,NaN,,Operation exceeded time threshold (SQL query)
+CL0001,Desktop,Page,1304,Standard Sales - Quote,,,1,0,"10/31/2025, 8:17:57.268 AM","10/31/2025, 8:17:57.268 AM",0,NaN,,
+CL0001,Desktop,Page,9026,Sales & Relationship Mgr. RC,,,1,0,"10/30/2025, 4:44:38.902 PM","10/30/2025, 4:44:38.902 PM",0,NaN,,
+CL0001,Desktop,Page,104,Customer - Detail Trial Bal.,,,1,0,"10/30/2025, 8:36:53.341 AM","10/30/2025, 8:36:53.341 AM",0,NaN,,
+CL0001,Desktop,Page,9599,Sales Invoice Line,,,1,0,"10/30/2025, 4:50:23.274 PM","10/30/2025, 4:50:23.274 PM",0,NaN,,
+CL0001,Desktop,Page,233,Apply Vendor Entries,,,1,0,"10/31/2025, 7:28:00.612 AM","10/31/2025, 7:28:00.612 AM",0,NaN,,
+RT0005,Background,CodeUnit,80253,HAG Export Processing,Hagar Connect,Hagar,1,0,"10/31/2025, 1:04:57.939 AM","10/31/2025, 1:04:57.939 AM",0,NaN,,Operation exceeded time threshold (SQL query)
+CL0001,Desktop,Page,33,Customer Lookup,,,1,0,"10/31/2025, 7:04:55.839 AM","10/31/2025, 7:04:55.839 AM",0,NaN,,
+RT0006,Background,Report,1511,Delegate Approval Requests,Base Application,Microsoft,1,0,"10/30/2025, 1:30:50.562 PM","10/30/2025, 1:30:50.562 PM",0,2.16,2.16,Report rendered: 1511 - Framselja samþykktarbeiðnir
+CL0001,Desktop,Page,10008445,RSM XML Sales Invoices sent,,,1,0,"10/30/2025, 4:49:01.901 PM","10/30/2025, 4:49:01.901 PM",0,NaN,,
+RT0018,Background,CodeUnit,80103,HAG Web Inventory Functions,Hagar Webshop,Hagar,1,0,"10/30/2025, 9:30:29.606 AM","10/30/2025, 9:30:29.606 AM",0,NaN,,Operation exceeded time threshold (AL method)
+RT0018,Background,CodeUnit,10008432,RSM Write Xml Function,Wise e-Invoices,Wise,1,0,"10/31/2025, 8:22:02.098 AM","10/31/2025, 8:22:02.098 AM",0,NaN,,Operation exceeded time threshold (AL method)
+CL0001,Desktop,Page,1345,Sales Price and Line Discounts,,,1,0,"10/30/2025, 11:24:49.003 AM","10/30/2025, 11:24:49.003 AM",0,NaN,,
+CL0001,Desktop,Page,10000707,LSC Retail Item Categories,,,1,0,"10/30/2025, 1:50:41.459 PM","10/30/2025, 1:50:41.459 PM",0,NaN,,
+CL0001,Desktop,Page,10016658,LSC Posted Customer Order List,,,1,0,"10/30/2025, 1:25:36.253 PM","10/30/2025, 1:25:36.253 PM",0,NaN,,
+RT0018,Background,CodeUnit,50014,PTEUpdateUnitPrFromSalesPr,Storkaup,Storkaup,1,0,"10/31/2025, 12:30:14.527 AM","10/31/2025, 12:30:14.527 AM",0,NaN,,Operation exceeded time threshold (AL method)

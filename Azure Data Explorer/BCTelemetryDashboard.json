@@ -5895,6 +5895,87 @@
                 "table__renderLinks": [],
                 "colorRules": []
             }
+        },
+        {
+            "id": "uc-tile-001-main-view",
+            "title": "Unused/Low Usage Objects (All)",
+            "visualType": "table",
+            "pageId": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+            "layout": {
+                "x": 0,
+                "y": 0,
+                "width": 24,
+                "height": 10
+            },
+            "queryRef": {
+                "kind": "query",
+                "queryId": "uc-query-001-main"
+            },
+            "visualOptions": {
+                "table__enableRenderLinks": true,
+                "colorRulesDisabled": false,
+                "colorStyle": "light",
+                "crossFilterDisabled": false,
+                "drillthroughDisabled": false,
+                "crossFilter": [],
+                "drillthrough": [],
+                "table__renderLinks": [],
+                "colorRules": []
+            }
+        },
+        {
+            "id": "uc-tile-002-critical",
+            "title": "Critical Low Usage (< 5 uses in 30 days)",
+            "visualType": "table",
+            "pageId": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+            "layout": {
+                "x": 0,
+                "y": 10,
+                "width": 24,
+                "height": 8
+            },
+            "queryRef": {
+                "kind": "query",
+                "queryId": "uc-query-002-critical"
+            },
+            "visualOptions": {
+                "table__enableRenderLinks": true,
+                "colorRulesDisabled": false,
+                "colorStyle": "light",
+                "crossFilterDisabled": false,
+                "drillthroughDisabled": false,
+                "crossFilter": [],
+                "drillthrough": [],
+                "table__renderLinks": [],
+                "colorRules": []
+            }
+        },
+        {
+            "id": "uc-tile-003-summary",
+            "title": "Extension Health Summary",
+            "visualType": "table",
+            "pageId": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+            "layout": {
+                "x": 0,
+                "y": 18,
+                "width": 24,
+                "height": 6
+            },
+            "queryRef": {
+                "kind": "query",
+                "queryId": "uc-query-003-summary"
+            },
+            "visualOptions": {
+                "table__enableRenderLinks": true,
+                "colorRulesDisabled": false,
+                "colorStyle": "light",
+                "crossFilterDisabled": false,
+                "drillthroughDisabled": false,
+                "crossFilter": [],
+                "drillthrough": [],
+                "table__renderLinks": [],
+                "colorRules": []
+            }
         }
     ],
     "baseQueries": [
@@ -6440,6 +6521,10 @@
         {
             "name": "BCPT",
             "id": "c57aad53-d31f-4c8c-a0b7-39424d755d88"
+        },
+        {
+            "name": "Custom: Unused Objects",
+            "id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890"
         }
     ],
     "queries": [
@@ -8435,6 +8520,33 @@
             },
             "text": "traces\n| where customDimensions has 'AL0000DGF'\n| where customDimensions.eventId == 'AL0000DGF'\n| extend tag = iif(customDimensions.alTag contains_cs \"PTE\", \"PTE\", \n                iif(customDimensions.alTag contains \"Focus\", \"CustSpecific\"\n                    , tostring(customDimensions.alTag)))\n| summarize by tag",
             "id": "131192bf-b588-4e2a-95f1-851f8c5b2686",
+            "usedVariables": []
+        },
+        {
+            "dataSource": {
+                "kind": "inline",
+                "dataSourceId": "05ae5610-5603-45ac-9458-616539c1c150"
+            },
+            "text": "let TimeRange = 30d;\ntraces\n| where timestamp > ago(TimeRange)\n| extend\n    extensionName = tostring(customDimensions.extensionName),\n    extensionPublisher = tostring(customDimensions.extensionPublisher),\n    alObjectType = tostring(customDimensions.alObjectType),\n    alObjectId = tostring(customDimensions.alObjectId),\n    alObjectName = tostring(customDimensions.alObjectName)\n| where extensionPublisher in (\"Storkaup\", \"Hagar\", \"NVL\")\n| where isnotempty(alObjectId) and alObjectId != \"-1\"\n| where isnotempty(alObjectType)\n| summarize\n    UsageCount = count(),\n    UniqueUsers = dcount(user_Id),\n    LastUsed = max(timestamp),\n    FirstUsed = min(timestamp)\n    by extensionName, extensionPublisher, alObjectType, alObjectId, alObjectName\n| extend\n    DaysSinceLastUse = datetime_diff('day', now(), LastUsed),\n    UsagePerDay = round(toreal(UsageCount) / 30.0, 2)\n| extend Status = case(\n    UsageCount < 5, \"🔴 Remove?\",\n    UsageCount < 10, \"⚠️ Review\",\n    UsageCount < 50, \"📊 Monitor\",\n    \"✅ Keep\"\n)\n| project\n    Status,\n    extensionName,\n    alObjectType,\n    alObjectId,\n    alObjectName,\n    UsageCount,\n    UsagePerDay,\n    DaysSinceLastUse,\n    UniqueUsers,\n    LastUsed\n| order by UsageCount asc, DaysSinceLastUse desc",
+            "id": "uc-query-001-main",
+            "usedVariables": []
+        },
+        {
+            "dataSource": {
+                "kind": "inline",
+                "dataSourceId": "05ae5610-5603-45ac-9458-616539c1c150"
+            },
+            "text": "let TimeRange = 30d;\ntraces\n| where timestamp > ago(TimeRange)\n| extend\n    extensionName = tostring(customDimensions.extensionName),\n    extensionPublisher = tostring(customDimensions.extensionPublisher),\n    alObjectType = tostring(customDimensions.alObjectType),\n    alObjectId = tostring(customDimensions.alObjectId),\n    alObjectName = tostring(customDimensions.alObjectName)\n| where extensionPublisher in (\"Storkaup\", \"Hagar\", \"NVL\")\n| where isnotempty(alObjectId) and alObjectId != \"-1\"\n| summarize\n    UsageCount = count(),\n    LastUsed = max(timestamp)\n    by extensionName, alObjectType, alObjectId, alObjectName\n| where UsageCount < 5\n| extend DaysSinceLastUse = datetime_diff('day', now(), LastUsed)\n| extend Recommendation = case(\n    UsageCount == 1 and DaysSinceLastUse > 60, \"🗑️ Strong removal candidate\",\n    UsageCount < 3 and DaysSinceLastUse > 30, \"🗑️ Consider removing\",\n    UsageCount < 5 and DaysSinceLastUse > 14, \"⚠️ Review with stakeholders\",\n    \"ℹ️ Monitor for another month\"\n)\n| project\n    extensionName,\n    alObjectType,\n    alObjectId,\n    alObjectName,\n    UsageCount,\n    DaysSinceLastUse,\n    LastUsed,\n    Recommendation\n| order by UsageCount asc, DaysSinceLastUse desc",
+            "id": "uc-query-002-critical",
+            "usedVariables": []
+        },
+        {
+            "dataSource": {
+                "kind": "inline",
+                "dataSourceId": "05ae5610-5603-45ac-9458-616539c1c150"
+            },
+            "text": "let TimeRange = 30d;\ntraces\n| where timestamp > ago(TimeRange)\n| extend\n    extensionName = tostring(customDimensions.extensionName),\n    extensionPublisher = tostring(customDimensions.extensionPublisher),\n    alObjectId = tostring(customDimensions.alObjectId)\n| where extensionPublisher in (\"Storkaup\", \"Hagar\", \"NVL\")\n| where isnotempty(alObjectId) and alObjectId != \"-1\"\n| summarize\n    UniqueObjects = dcount(alObjectId),\n    TotalUsage = count()\n    by extensionName\n| extend\n    AvgUsagePerObject = round(toreal(TotalUsage) / toreal(UniqueObjects), 1),\n    Health = case(\n        AvgUsagePerObject < 5, \"🔴 Very Low\",\n        AvgUsagePerObject < 20, \"⚠️ Low\",\n        AvgUsagePerObject < 100, \"📊 Moderate\",\n        \"✅ High\"\n    )\n| project extensionName, UniqueObjects, TotalUsage, AvgUsagePerObject, Health\n| order by AvgUsagePerObject asc",
+            "id": "uc-query-003-summary",
             "usedVariables": []
         }
     ]

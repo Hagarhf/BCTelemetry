@@ -1,0 +1,340 @@
+//================================================================
+// Unused/Low Usage Customizations - Storkaup & Hagar Extensions
+//================================================================
+// Purpose: Identify custom objects with minimal or no usage
+// Focus: Only Storkaup, Hagar Connect, Hagar Webshop extensions
+// Run: Monthly to identify candidates for cleanup/decommissioning
+//================================================================
+
+//================================================================
+// MAIN QUERY: Custom Objects Usage Summary
+//================================================================
+
+let TimeRange = 30d;  // Adjust as needed (7d, 30d, 90d)
+let MinimumUsageThreshold = 10;  // Objects used less than this many times
+
+// Get all telemetry for YOUR custom extensions only
+let CustomExtensionActivity = traces
+    | where timestamp > ago(TimeRange)
+    | extend
+        extensionName = tostring(customDimensions.extensionName),
+        extensionPublisher = tostring(customDimensions.extensionPublisher),
+        alObjectType = tostring(customDimensions.alObjectType),
+        alObjectId = tostring(customDimensions.alObjectId),
+        alObjectName = tostring(customDimensions.alObjectName),
+        eventId = tostring(customDimensions.eventId)
+    | where extensionPublisher in ("Storkaup", "Hagar", "NVL")  // YOUR publishers only
+    | where isnotempty(alObjectId) and alObjectId != "-1"
+    | where isnotempty(alObjectType);
+
+// Summarize usage by object
+CustomExtensionActivity
+| summarize
+    UsageCount = count(),
+    UniqueUsers = dcount(user_Id),
+    FirstSeen = min(timestamp),
+    LastSeen = max(timestamp),
+    EventTypes = make_set(eventId, 5),
+    AvgPerDay = round(count() / 30.0, 2)
+    by extensionName, extensionPublisher, alObjectType, alObjectId, alObjectName
+| extend
+    DaysSinceLastUse = datetime_diff('day', now(), LastSeen),
+    DaysSinceFirstSeen = datetime_diff('day', now(), FirstSeen)
+| extend UsageLevel = case(
+    UsageCount == 0, "🔴 ZERO Usage",
+    UsageCount < 5, "🔴 Critical Low (< 5 uses in 30 days)",
+    UsageCount < 10, "⚠️ Very Low (5-10 uses)",
+    UsageCount < 50, "⚠️ Low (10-50 uses)",
+    UsageCount < 100, "📊 Moderate (50-100 uses)",
+    "✅ Active (> 100 uses)"
+)
+| extend RecommendedAction = case(
+    UsageCount == 0 and DaysSinceFirstSeen > 30, "🗑️ Consider removing - Never used",
+    UsageCount == 0, "⚠️ Monitor - Not used yet",
+    UsageCount < 5 and DaysSinceLastUse > 30, "🗑️ Consider removing - Not used in 30+ days",
+    UsageCount < 5, "⚠️ Review - Very rare usage",
+    UsageCount < 10, "ℹ️ Low priority - Monitor",
+    "✅ Keep - In use"
+)
+| project
+    extensionName,
+    extensionPublisher,
+    alObjectType,
+    alObjectId,
+    alObjectName,
+    UsageCount,
+    AvgPerDay,
+    UniqueUsers,
+    DaysSinceLastUse,
+    UsageLevel,
+    RecommendedAction,
+    LastSeen,
+    EventTypes
+| order by UsageCount asc, extensionName asc, alObjectType asc;
+
+//================================================================
+// ALTERNATE VIEW: Group by Extension
+//================================================================
+
+// Uncomment this section to see summary by extension
+/*
+CustomExtensionActivity
+| summarize
+    TotalObjects = dcount(alObjectId),
+    TotalUsage = count(),
+    ObjectTypes = make_set(alObjectType),
+    SampleObjects = make_set(alObjectName, 5)
+    by extensionName, extensionPublisher
+| extend AvgUsagePerObject = round(toreal(TotalUsage) / toreal(TotalObjects), 1)
+| extend HealthStatus = case(
+    AvgUsagePerObject < 1, "🔴 Very Low Usage",
+    AvgUsagePerObject < 10, "⚠️ Low Usage",
+    AvgUsagePerObject < 100, "📊 Moderate Usage",
+    "✅ High Usage"
+)
+| project
+    extensionName,
+    extensionPublisher,
+    TotalObjects,
+    TotalUsage,
+    AvgUsagePerObject,
+    HealthStatus,
+    ObjectTypes,
+    SampleObjects
+| order by AvgUsagePerObject asc;
+*/
+
+//================================================================
+// BREAKDOWN VIEW: By Object Type
+//================================================================
+
+// Uncomment to see breakdown by object type (Pages, Codeunits, etc.)
+/*
+CustomExtensionActivity
+| summarize
+    ObjectCount = dcount(alObjectId),
+    TotalUsage = count(),
+    AvgUsagePerObject = round(count() / toreal(dcount(alObjectId)), 1)
+    by extensionName, alObjectType
+| extend Status = case(
+    AvgUsagePerObject < 1, "🔴 Very Low",
+    AvgUsagePerObject < 10, "⚠️ Low",
+    AvgUsagePerObject < 50, "📊 Moderate",
+    "✅ Active"
+)
+| project
+    extensionName,
+    alObjectType,
+    ObjectCount,
+    TotalUsage,
+    AvgUsagePerObject,
+    Status
+| order by extensionName asc, AvgUsagePerObject asc;
+*/
+
+//================================================================
+// DASHBOARD-READY QUERIES (For creating dashboard tiles)
+//================================================================
+
+//----------------------------------------------------------------
+// 1. Zero Usage Objects (HIGHEST PRIORITY)
+//----------------------------------------------------------------
+/*
+let TimeRange = 30d;
+traces
+    | where timestamp > ago(TimeRange)
+    | extend
+        extensionName = tostring(customDimensions.extensionName),
+        extensionPublisher = tostring(customDimensions.extensionPublisher),
+        alObjectId = tostring(customDimensions.alObjectId),
+        alObjectName = tostring(customDimensions.alObjectName),
+        alObjectType = tostring(customDimensions.alObjectType)
+    | where extensionPublisher in ("Storkaup", "Hagar", "NVL")
+    | where isnotempty(alObjectId) and alObjectId != "-1"
+    | summarize UsageCount = count() by extensionName, alObjectType, alObjectId, alObjectName
+    | where UsageCount == 0  // This won't show anything - need to query installed objects
+    | project extensionName, alObjectType, alObjectId, alObjectName
+    | extend Status = "🔴 ZERO USAGE - Consider Removal"
+    | order by extensionName, alObjectType;
+*/
+// NOTE: This query will only show objects that HAVE telemetry.
+// To find truly unused objects, you need to compare against installed objects list.
+
+//----------------------------------------------------------------
+// 2. Critical Low Usage (< 5 uses in 30 days)
+//----------------------------------------------------------------
+/*
+let TimeRange = 30d;
+traces
+    | where timestamp > ago(TimeRange)
+    | extend
+        extensionName = tostring(customDimensions.extensionName),
+        extensionPublisher = tostring(customDimensions.extensionPublisher),
+        alObjectType = tostring(customDimensions.alObjectType),
+        alObjectId = tostring(customDimensions.alObjectId),
+        alObjectName = tostring(customDimensions.alObjectName)
+    | where extensionPublisher in ("Storkaup", "Hagar", "NVL")
+    | where isnotempty(alObjectId) and alObjectId != "-1"
+    | summarize
+        UsageCount = count(),
+        LastSeen = max(timestamp)
+        by extensionName, alObjectType, alObjectId, alObjectName
+    | where UsageCount < 5
+    | extend
+        DaysSinceLastUse = datetime_diff('day', now(), LastSeen),
+        Status = "🔴 Critical Low Usage"
+    | project extensionName, alObjectType, alObjectId, alObjectName, UsageCount, DaysSinceLastUse, LastSeen, Status
+    | order by UsageCount asc, DaysSinceLastUse desc;
+*/
+
+//----------------------------------------------------------------
+// 3. Extension Health Summary (For overview tile)
+//----------------------------------------------------------------
+/*
+let TimeRange = 30d;
+traces
+    | where timestamp > ago(TimeRange)
+    | extend
+        extensionName = tostring(customDimensions.extensionName),
+        extensionPublisher = tostring(customDimensions.extensionPublisher),
+        alObjectId = tostring(customDimensions.alObjectId)
+    | where extensionPublisher in ("Storkaup", "Hagar", "NVL")
+    | where isnotempty(alObjectId) and alObjectId != "-1"
+    | summarize
+        TotalObjects = dcount(alObjectId),
+        TotalUsage = count()
+        by extensionName
+    | extend
+        AvgUsagePerObject = round(toreal(TotalUsage) / toreal(TotalObjects), 1),
+        HealthScore = case(
+            AvgUsagePerObject < 1, "🔴 Poor",
+            AvgUsagePerObject < 10, "⚠️ Fair",
+            AvgUsagePerObject < 50, "📊 Good",
+            "✅ Excellent"
+        )
+    | project extensionName, TotalObjects, TotalUsage, AvgUsagePerObject, HealthScore
+    | order by AvgUsagePerObject asc;
+*/
+
+//================================================================
+// ADVANCED: Compare Against Expected Objects
+//================================================================
+
+// This query helps identify objects that exist in code but don't appear in telemetry
+// You'll need to manually create a reference table of all your custom objects
+
+/*
+let ExpectedObjects = datatable(extensionName: string, objectType: string, objectId: string, objectName: string)
+[
+    // Add your known objects here, e.g.:
+    // "Storkaup", "Codeunit", "61000", "PTE AX Int. Update Inventory",
+    // "Storkaup", "Codeunit", "61001", "PTEFunctions",
+    // etc.
+];
+let ActualUsage = traces
+    | where timestamp > ago(30d)
+    | extend
+        extensionName = tostring(customDimensions.extensionName),
+        objectType = tostring(customDimensions.alObjectType),
+        objectId = tostring(customDimensions.alObjectId),
+        objectName = tostring(customDimensions.alObjectName)
+    | where extensionName in ("Storkaup", "Hagar Connect", "Hagar Webshop")
+    | summarize UsageCount = count() by extensionName, objectType, objectId, objectName;
+ExpectedObjects
+| join kind=leftouter ActualUsage on extensionName, objectType, objectId
+| extend
+    UsageCount = iff(isempty(UsageCount), 0, UsageCount),
+    Status = case(
+        UsageCount == 0, "🔴 ZERO Usage",
+        UsageCount < 5, "⚠️ Very Low",
+        "✅ In Use"
+    )
+| project extensionName, objectType, objectId, objectName, UsageCount, Status
+| order by UsageCount asc;
+*/
+
+//================================================================
+// USAGE INSTRUCTIONS
+//================================================================
+//
+// 1. Run the MAIN QUERY first to see all objects with usage data
+//
+// 2. Filter for specific concerns:
+//    - Sort by UsageCount ascending to see least used objects
+//    - Filter by RecommendedAction contains "remove" for cleanup candidates
+//    - Filter by DaysSinceLastUse > 30 for long-unused objects
+//
+// 3. For dashboard, uncomment the dashboard-ready queries and create tiles
+//
+// 4. Review objects with "🔴" status first - highest priority
+//
+// 5. Common filters to add:
+//    | where UsageCount < 10  // Only show low usage
+//    | where DaysSinceLastUse > 30  // Not used in 30 days
+//    | where extensionName == "Storkaup"  // Specific extension
+//    | where alObjectType == "Page"  // Specific object type
+//
+//================================================================
+// INTERPRETING RESULTS
+//================================================================
+//
+// Usage Levels:
+// - 🔴 ZERO or < 5: Consider removing (get stakeholder approval first!)
+// - ⚠️ 5-50: Monitor, may be rarely-used but important features
+// - 📊 50-100: Moderate usage, keep but watch trends
+// - ✅ > 100: Active usage, definitely keep
+//
+// Recommended Actions:
+// - 🗑️ Consider removing: Strong candidates for decommissioning
+// - ⚠️ Review/Monitor: Low usage but may be needed occasionally
+// - ℹ️ Low priority: Keep an eye on trends
+// - ✅ Keep: Actively used
+//
+// Important Considerations:
+// 1. Some objects may be used only during month-end, quarter-end, etc.
+//    -> Increase TimeRange to 90d or 180d for these
+//
+// 2. Error handlers, event subscribers may not generate direct telemetry
+//    -> Review dependencies before removing
+//
+// 3. Background processes may not show object-level telemetry
+//    -> Check extension-level usage too
+//
+// 4. Setup pages may only be used once during implementation
+//    -> Low usage is expected, don't remove
+//
+// 5. ALWAYS get stakeholder approval before removing objects
+//    -> Ask business users if they need the functionality
+//
+//================================================================
+// EXAMPLE OUTPUT INTERPRETATION
+//================================================================
+//
+// Example: Codeunit with 2 uses in 30 days, last used 45 days ago
+// -> 🔴 Critical Low + old = Strong removal candidate
+//
+// Example: Page with 8 uses in 30 days, last used yesterday
+// -> ⚠️ Very Low but recent = Monitor, may be seasonal feature
+//
+// Example: Codeunit with 0 uses in 30 days
+// -> Could be event subscriber (no direct telemetry) or truly unused
+//    -> Check: Is it subscribed to events? Does extension have any usage?
+//
+//================================================================
+// NEXT STEPS AFTER RUNNING THIS QUERY
+//================================================================
+//
+// 1. Export results to Excel/CSV
+// 2. Share with business stakeholders for validation
+// 3. Categorize objects:
+//    - Safe to remove (unanimous agreement)
+//    - Needs more investigation
+//    - Keep (occasional but critical use)
+// 4. For "safe to remove" candidates:
+//    - Create a removal plan
+//    - Test in non-production first
+//    - Document removed objects
+//    - Create rollback plan
+// 5. Schedule quarterly reviews to track trends
+//
+//================================================================
