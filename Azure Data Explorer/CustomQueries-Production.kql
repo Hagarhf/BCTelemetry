@@ -1,0 +1,444 @@
+//================================================================
+// Custom KQL Queries for Storkaup Production System
+//================================================================
+// Based on 24-hour telemetry analysis (157,802 events)
+// Created: 2025-10-31
+// Purpose: Production monitoring and analysis queries
+//================================================================
+
+//================================================================
+// QUERY 1: OmniWrapper Performance Monitoring (CRITICAL)
+//================================================================
+// Purpose: Monitor your most critical integration (63K calls/day, 44/minute)
+// Alert when: Success rate < 95%, P95 > 100ms
+// Run: Every 15 minutes
+//================================================================
+
+traces
+| where timestamp > ago(24h)
+| where customDimensions.eventId == "RT0008"
+| where customDimensions.endpoint == "OmniWrapper"
+| extend executionTimeMs = toreal(totimespan(customDimensions.serverExecutionTime))/10000
+| summarize
+    CallCount = count(),
+    AvgMs = round(avg(executionTimeMs), 2),
+    P50Ms = round(percentile(executionTimeMs, 50), 2),
+    P95Ms = round(percentile(executionTimeMs, 95), 2),
+    P99Ms = round(percentile(executionTimeMs, 99), 2),
+    MaxMs = round(max(executionTimeMs), 2),
+    FailureCount = countif(customDimensions contains "error" or customDimensions contains "fail")
+    by bin(timestamp, 1h)
+| extend SuccessRate = round((CallCount - FailureCount) * 100.0 / CallCount, 2)
+| extend Status = case(
+    SuccessRate < 95, "🔴 Alert",
+    P95Ms > 100, "⚠️ Warning",
+    "✅ Healthy"
+)
+| project timestamp, CallCount, AvgMs, P50Ms, P95Ms, P99Ms, MaxMs, SuccessRate, Status
+| order by timestamp desc;
+
+//================================================================
+// QUERY 2: Top Pages by User Activity
+//================================================================
+// Purpose: Understand which pages users actually use
+// Shows: Most accessed pages, unique users, daily average
+// Run: Weekly or when analyzing user behavior
+//================================================================
+
+traces
+| where timestamp > ago(7d)
+| where customDimensions.clientType == "Desktop"
+| extend alObjectId = tostring(customDimensions.alObjectId)
+| extend alObjectName = tostring(customDimensions.alObjectName)
+| where isnotempty(alObjectId) and alObjectId != "-1"
+| summarize
+    OpenCount = count(),
+    UniqueUsers = dcount(user_Id),
+    AvgPerDay = round(count() / 7.0, 1),
+    LastAccess = max(timestamp)
+    by alObjectId, alObjectName
+| extend DaysSinceLastUse = datetime_diff('day', now(), LastAccess)
+| extend UsageCategory = case(
+    AvgPerDay > 20, "🔥 Very High",
+    AvgPerDay > 10, "✅ High",
+    AvgPerDay > 5, "⚠️ Moderate",
+    AvgPerDay > 1, "📊 Low",
+    "❓ Rarely Used"
+)
+| project alObjectId, alObjectName, OpenCount, UniqueUsers, AvgPerDay, UsageCategory, DaysSinceLastUse
+| order by OpenCount desc
+| take 50;
+
+//================================================================
+// QUERY 3: Slow Batch Posting Alert
+//================================================================
+// Purpose: Alert when batch posting (Sales/Purchase) takes too long
+// Alert when: > 10 minutes (600,000ms)
+// Run: Real-time or every 15 minutes
+//================================================================
+
+traces
+| where timestamp > ago(1h)
+| where customDimensions.eventId == "RT0006"
+| extend reportId = tostring(customDimensions.alObjectId)
+| where reportId in ("296", "496")  // Batch posting reports
+| extend executionTimeMs = toreal(totimespan(customDimensions.serverExecutionTime))/10000
+| where executionTimeMs > 600000  // Over 10 minutes
+| extend executionTimeMin = round(executionTimeMs / 60000, 1)
+| extend reportName = tostring(customDimensions.alObjectName)
+| extend companyName = tostring(customDimensions.companyName)
+| extend severity = case(
+    executionTimeMin > 20, "🔴 Critical",
+    executionTimeMin > 15, "⚠️ Warning",
+    "ℹ️ Info"
+)
+| project
+    timestamp,
+    severity,
+    reportId,
+    reportName,
+    executionTimeMin,
+    companyName
+| order by executionTimeMin desc;
+
+//================================================================
+// QUERY 4: External API Performance Dashboard
+//================================================================
+// Purpose: Monitor all external API calls and their performance
+// Shows: All outgoing web services with performance metrics
+// Run: Daily or when investigating integration issues
+//================================================================
+
+traces
+| where timestamp > ago(24h)
+| where customDimensions.eventId == "RT0019"
+| extend
+    endpoint = tostring(customDimensions.endpoint),
+    executionTimeMs = toreal(totimespan(customDimensions.serverExecutionTime))/10000,
+    codeunitName = tostring(customDimensions.alObjectName),
+    extensionName = tostring(customDimensions.extensionName)
+| summarize
+    CallCount = count(),
+    AvgMs = round(avg(executionTimeMs), 2),
+    MinMs = round(min(executionTimeMs), 2),
+    MaxMs = round(max(executionTimeMs), 2),
+    P50Ms = round(percentile(executionTimeMs, 50), 2),
+    P95Ms = round(percentile(executionTimeMs, 95), 2),
+    P99Ms = round(percentile(executionTimeMs, 99), 2)
+    by endpoint, codeunitName, extensionName
+| where CallCount > 5  // Filter out one-offs
+| extend Rating = case(
+    AvgMs < 1000, "✅ Fast (<1s)",
+    AvgMs < 5000, "⚠️ Moderate (1-5s)",
+    AvgMs < 20000, "🔴 Slow (5-20s)",
+    "🚨 Very Slow (>20s)"
+)
+| extend CallsPerHour = round(CallCount / 24.0, 1)
+| project
+    endpoint,
+    codeunitName,
+    extensionName,
+    CallCount,
+    CallsPerHour,
+    AvgMs,
+    P50Ms,
+    P95Ms,
+    MaxMs,
+    Rating
+| order by AvgMs desc;
+
+//================================================================
+// QUERY 5: Job Queue Health Dashboard
+//================================================================
+// Purpose: Complete health status of all job queues
+// Shows: Start count, finish count, errors, success rate, execution times
+// Run: Hourly or when investigating job queue issues
+//================================================================
+
+let JobStarts = traces
+    | where timestamp > ago(24h)
+    | where customDimensions.eventId == "AL0000E25"
+    | extend jobId = tostring(customDimensions.alJobQueueId)
+    | extend jobName = tostring(customDimensions.alJobQueueObjectName)
+    | summarize StartCount = count() by jobId, jobName;
+let JobFinishes = traces
+    | where timestamp > ago(24h)
+    | where customDimensions.eventId == "AL0000E26"
+    | extend jobId = tostring(customDimensions.alJobQueueId)
+    | extend executionTimeMs = toint(customDimensions.alJobQueueExecutionTimeInMs)
+    | summarize
+        FinishCount = count(),
+        AvgExecutionMs = round(avg(executionTimeMs), 2),
+        MaxExecutionMs = max(executionTimeMs)
+        by jobId;
+let JobErrors = traces
+    | where timestamp > ago(24h)
+    | where customDimensions.eventId == "AL0000HE7"
+    | extend jobId = tostring(customDimensions.alJobQueueId)
+    | summarize ErrorCount = count() by jobId;
+JobStarts
+| join kind=leftouter JobFinishes on jobId
+| join kind=leftouter JobErrors on jobId
+| extend
+    ErrorCount = iff(isempty(ErrorCount), 0, ErrorCount),
+    FinishCount = iff(isempty(FinishCount), 0, FinishCount),
+    SuccessRate = round((FinishCount * 100.0) / StartCount, 2),
+    Status = case(
+        ErrorCount > 0, "🔴 Has Errors",
+        SuccessRate < 95, "⚠️ Low Success",
+        SuccessRate < 100, "✅ Mostly Healthy",
+        "✅ Perfect"
+    )
+| extend AvgExecutionSec = round(AvgExecutionMs / 1000, 1)
+| extend MaxExecutionSec = round(MaxExecutionMs / 1000, 1)
+| project
+    jobName,
+    StartCount,
+    FinishCount,
+    ErrorCount,
+    SuccessRate,
+    AvgExecutionSec,
+    MaxExecutionSec,
+    Status
+| order by ErrorCount desc, StartCount desc;
+
+//================================================================
+// QUERY 6: Extension Usage Summary (Custom Extensions Only)
+//================================================================
+// Purpose: Track YOUR custom extension usage (not Microsoft/LS Retail)
+// Shows: Activity levels for Storkaup, Hagar, Wise, NVL extensions
+// Run: Weekly or monthly for trend analysis
+//================================================================
+
+traces
+| where timestamp > ago(7d)
+| extend extensionName = tostring(customDimensions.extensionName)
+| extend extensionPublisher = tostring(customDimensions.extensionPublisher)
+| where extensionPublisher in ("Storkaup", "NVL", "Hagar", "Wise")
+| summarize
+    EventCount = count(),
+    AvgPerDay = round(count() / 7.0, 1),
+    FirstSeen = min(timestamp),
+    LastSeen = max(timestamp),
+    UniqueObjects = dcount(tostring(customDimensions.alObjectId)),
+    SampleEvents = make_set(tostring(customDimensions.eventId), 5)
+    by extensionName, extensionPublisher
+| extend DaysSinceLastUse = datetime_diff('day', now(), LastSeen)
+| extend UsageLevel = case(
+    AvgPerDay > 100, "🔥 Heavy (>100/day)",
+    AvgPerDay > 10, "✅ Moderate (10-100/day)",
+    AvgPerDay > 1, "⚠️ Light (1-10/day)",
+    "❓ Minimal (<1/day)"
+)
+| extend HealthStatus = case(
+    DaysSinceLastUse > 7, "⚠️ Not used in week",
+    DaysSinceLastUse > 1, "✅ Used recently",
+    "✅ Active today"
+)
+| project
+    extensionName,
+    extensionPublisher,
+    EventCount,
+    AvgPerDay,
+    UsageLevel,
+    UniqueObjects,
+    LastSeen,
+    DaysSinceLastUse,
+    HealthStatus,
+    SampleEvents
+| order by AvgPerDay desc;
+
+//================================================================
+// QUERY 7: User Session Activity Analysis
+//================================================================
+// Purpose: Understand user activity patterns and identify power users
+// Shows: Sessions per user, pages accessed, activity timeframe
+// Run: Weekly or when analyzing user behavior
+//================================================================
+
+traces
+| where timestamp > ago(7d)
+| where customDimensions.clientType == "Desktop"
+| extend
+    user = user_Id,
+    sessionId = tostring(customDimensions.sessionId),
+    page = tostring(customDimensions.alObjectName),
+    roleCenter = tostring(customDimensions.alObjectName)
+| where isnotempty(sessionId)
+| summarize
+    SessionCount = dcount(sessionId),
+    PageAccessCount = count(),
+    UniquePagesAccessed = dcount(page),
+    FirstActivity = min(timestamp),
+    LastActivity = max(timestamp),
+    TopPages = make_set(page, 10),
+    ActiveDays = dcount(bin(timestamp, 1d))
+    by user
+| extend
+    DaysSinceFirstActivity = datetime_diff('day', now(), FirstActivity),
+    DaysSinceLastActivity = datetime_diff('day', now(), LastActivity),
+    AvgPagesPerSession = round(toreal(PageAccessCount) / toreal(SessionCount), 1),
+    UserType = case(
+        SessionCount > 50, "🔥 Power User",
+        SessionCount > 20, "✅ Regular User",
+        SessionCount > 5, "⚠️ Occasional User",
+        "❓ New/Rare User"
+    ),
+    ActivityStatus = case(
+        DaysSinceLastActivity == 0, "✅ Active Today",
+        DaysSinceLastActivity <= 1, "✅ Active Yesterday",
+        DaysSinceLastActivity <= 7, "⚠️ Active This Week",
+        "⚠️ Inactive"
+    )
+| project
+    user,
+    UserType,
+    ActivityStatus,
+    SessionCount,
+    PageAccessCount,
+    UniquePagesAccessed,
+    AvgPagesPerSession,
+    ActiveDays,
+    FirstActivity,
+    LastActivity,
+    TopPages
+| order by SessionCount desc;
+
+//================================================================
+// BONUS QUERY: Hourly Activity Heatmap
+//================================================================
+// Purpose: Visualize when your system is busiest
+// Shows: Event count by hour of day over last 7 days
+// Run: When planning maintenance windows or capacity planning
+//================================================================
+
+traces
+| where timestamp > ago(7d)
+| extend hour = datetime_part("hour", timestamp)
+| extend dayOfWeek = dayofweek(timestamp)
+| extend dayName = case(
+    dayOfWeek == 0d, "Sunday",
+    dayOfWeek == 1d, "Monday",
+    dayOfWeek == 2d, "Tuesday",
+    dayOfWeek == 3d, "Wednesday",
+    dayOfWeek == 4d, "Thursday",
+    dayOfWeek == 5d, "Friday",
+    dayOfWeek == 6d, "Saturday",
+    "Unknown"
+)
+| summarize EventCount = count() by hour, dayName, dayOfWeek
+| extend ActivityLevel = case(
+    EventCount > 10000, "🔥 Very High",
+    EventCount > 5000, "✅ High",
+    EventCount > 2000, "⚠️ Moderate",
+    "📊 Low"
+)
+| project dayName, dayOfWeek, hour, EventCount, ActivityLevel
+| order by dayOfWeek asc, hour asc;
+
+//================================================================
+// BONUS QUERY: Error and Warning Summary
+//================================================================
+// Purpose: Quick overview of any errors or warnings in the system
+// Shows: Error counts, messages, affected components
+// Run: Daily or when investigating issues
+//================================================================
+
+traces
+| where timestamp > ago(24h)
+| where severityLevel >= 2  // Warning or higher
+    or message contains "error"
+    or message contains "fail"
+    or message contains "exception"
+    or customDimensions.eventId in ("LC0045", "AL0000HE7")  // Task failed, Job queue error
+| extend
+    severity = case(
+        severityLevel == 4 or message contains "critical", "🔴 Critical",
+        severityLevel == 3 or message contains "error", "⚠️ Error",
+        "ℹ️ Warning"
+    ),
+    eventId = tostring(customDimensions.eventId),
+    extensionName = tostring(customDimensions.extensionName),
+    objectName = tostring(customDimensions.alObjectName)
+| summarize
+    Count = count(),
+    FirstOccurrence = min(timestamp),
+    LastOccurrence = max(timestamp),
+    SampleMessages = make_set(message, 3)
+    by severity, eventId, extensionName, objectName
+| order by Count desc, severity asc;
+
+//================================================================
+// BONUS QUERY: Deadlock Analysis
+//================================================================
+// Purpose: Identify and analyze database deadlocks
+// Shows: When deadlocks occur, which objects are involved
+// Run: When investigating performance issues or after alerts
+//================================================================
+
+traces
+| where timestamp > ago(7d)
+| where customDimensions.eventId == "RT0028"  // Deadlock detected
+| extend
+    codeunitId = tostring(customDimensions.alObjectId),
+    codeunitName = tostring(customDimensions.alObjectName),
+    extensionName = tostring(customDimensions.extensionName),
+    sqlStatement = tostring(customDimensions.sqlStatement)
+| extend hour = datetime_part("hour", timestamp)
+| project
+    timestamp,
+    hour,
+    codeunitId,
+    codeunitName,
+    extensionName,
+    message,
+    sqlStatement
+| order by timestamp desc;
+
+//================================================================
+// USAGE RECOMMENDATIONS
+//================================================================
+//
+// 1. **Critical Monitoring** (Run every 15 minutes):
+//    - Query 1: OmniWrapper Performance
+//    - Query 3: Slow Batch Posting Alert
+//
+// 2. **Daily Monitoring** (Run every morning):
+//    - Query 4: External API Performance
+//    - Query 5: Job Queue Health
+//    - Error Summary (Bonus)
+//
+// 3. **Weekly Analysis** (Run Monday morning):
+//    - Query 2: Top Pages by User
+//    - Query 6: Extension Usage
+//    - Query 7: User Session Activity
+//    - Hourly Activity Heatmap (Bonus)
+//
+// 4. **On-Demand Investigation**:
+//    - Deadlock Analysis (when deadlocks occur)
+//    - Error Summary (when issues reported)
+//
+//================================================================
+// ALERT THRESHOLDS
+//================================================================
+//
+// Set up these alerts in Azure Data Explorer or Application Insights:
+//
+// 🔴 CRITICAL:
+// - OmniWrapper success rate < 95%
+// - OmniWrapper P95 response time > 100ms
+// - Job queue error count > 10/hour
+// - Batch posting > 30 minutes
+//
+// ⚠️ WARNING:
+// - External API calls > 30 seconds average
+// - Deadlocks > 5/hour
+// - Job queue success rate < 98%
+// - OmniWrapper call rate drops by > 50%
+//
+// ℹ️ INFO:
+// - Slow SQL queries > 50/hour
+// - User sessions drop by > 50%
+// - New errors/warnings appear
+//
+//================================================================

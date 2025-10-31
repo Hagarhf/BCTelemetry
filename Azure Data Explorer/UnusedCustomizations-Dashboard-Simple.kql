@@ -1,0 +1,195 @@
+//================================================================
+// SIMPLE: Unused Customizations Dashboard Query
+//================================================================
+// Purpose: Quick view of low/unused custom objects
+// Focus: Storkaup, Hagar Connect, Hagar Webshop only
+// Use: Copy-paste into Azure Data Explorer for dashboard tile
+//================================================================
+
+//================================================================
+// QUERY 1: Low Usage Objects (Main View)
+//================================================================
+// Shows all custom objects with usage counts
+// Sort by least used first - these are removal candidates
+//================================================================
+
+let TimeRange = 30d;  // Change to 7d, 90d, 180d as needed
+
+traces
+| where timestamp > ago(TimeRange)
+| extend
+    extensionName = tostring(customDimensions.extensionName),
+    extensionPublisher = tostring(customDimensions.extensionPublisher),
+    alObjectType = tostring(customDimensions.alObjectType),
+    alObjectId = tostring(customDimensions.alObjectId),
+    alObjectName = tostring(customDimensions.alObjectName)
+// Filter for YOUR extensions only (not Microsoft, not LS Retail, not Wise)
+| where extensionPublisher in ("Storkaup", "Hagar", "NVL")
+| where isnotempty(alObjectId) and alObjectId != "-1"
+| where isnotempty(alObjectType)
+| summarize
+    UsageCount = count(),
+    UniqueUsers = dcount(user_Id),
+    LastUsed = max(timestamp),
+    FirstUsed = min(timestamp)
+    by extensionName, extensionPublisher, alObjectType, alObjectId, alObjectName
+| extend
+    DaysSinceLastUse = datetime_diff('day', now(), LastUsed),
+    UsagePerDay = round(toreal(UsageCount) / 30.0, 2)
+| extend Status = case(
+    UsageCount < 5, "🔴 Remove?",
+    UsageCount < 10, "⚠️ Review",
+    UsageCount < 50, "📊 Monitor",
+    "✅ Keep"
+)
+| project
+    Status,
+    extensionName,
+    alObjectType,
+    alObjectId,
+    alObjectName,
+    UsageCount,
+    UsagePerDay,
+    DaysSinceLastUse,
+    UniqueUsers,
+    LastUsed
+| order by UsageCount asc, DaysSinceLastUse desc;
+
+//================================================================
+// QUERY 2: Critical Low Usage (< 5 uses in 30 days)
+//================================================================
+// Shows ONLY objects with very low usage
+// These are your top removal candidates
+//================================================================
+
+/*
+let TimeRange = 30d;
+
+traces
+| where timestamp > ago(TimeRange)
+| extend
+    extensionName = tostring(customDimensions.extensionName),
+    extensionPublisher = tostring(customDimensions.extensionPublisher),
+    alObjectType = tostring(customDimensions.alObjectType),
+    alObjectId = tostring(customDimensions.alObjectId),
+    alObjectName = tostring(customDimensions.alObjectName)
+| where extensionPublisher in ("Storkaup", "Hagar", "NVL")
+| where isnotempty(alObjectId) and alObjectId != "-1"
+| summarize
+    UsageCount = count(),
+    LastUsed = max(timestamp)
+    by extensionName, alObjectType, alObjectId, alObjectName
+| where UsageCount < 5  // ONLY show very low usage
+| extend DaysSinceLastUse = datetime_diff('day', now(), LastUsed)
+| extend Recommendation = case(
+    UsageCount == 1 and DaysSinceLastUse > 60, "🗑️ Strong removal candidate",
+    UsageCount < 3 and DaysSinceLastUse > 30, "🗑️ Consider removing",
+    UsageCount < 5 and DaysSinceLastUse > 14, "⚠️ Review with stakeholders",
+    "ℹ️ Monitor for another month"
+)
+| project
+    extensionName,
+    alObjectType,
+    alObjectId,
+    alObjectName,
+    UsageCount,
+    DaysSinceLastUse,
+    LastUsed,
+    Recommendation
+| order by UsageCount asc, DaysSinceLastUse desc;
+*/
+
+//================================================================
+// QUERY 3: Summary by Extension
+//================================================================
+// High-level view of extension health
+//================================================================
+
+/*
+let TimeRange = 30d;
+
+traces
+| where timestamp > ago(TimeRange)
+| extend
+    extensionName = tostring(customDimensions.extensionName),
+    extensionPublisher = tostring(customDimensions.extensionPublisher),
+    alObjectId = tostring(customDimensions.alObjectId)
+| where extensionPublisher in ("Storkaup", "Hagar", "NVL")
+| where isnotempty(alObjectId) and alObjectId != "-1"
+| summarize
+    UniqueObjects = dcount(alObjectId),
+    TotalUsage = count()
+    by extensionName
+| extend
+    AvgUsagePerObject = round(toreal(TotalUsage) / toreal(UniqueObjects), 1),
+    Health = case(
+        AvgUsagePerObject < 5, "🔴 Very Low",
+        AvgUsagePerObject < 20, "⚠️ Low",
+        AvgUsagePerObject < 100, "📊 Moderate",
+        "✅ High"
+    )
+| project extensionName, UniqueObjects, TotalUsage, AvgUsagePerObject, Health
+| order by AvgUsagePerObject asc;
+*/
+
+//================================================================
+// QUICK FILTERS
+//================================================================
+// Add these to the end of QUERY 1 to filter results:
+
+// Show only specific extension:
+// | where extensionName == "Storkaup"
+
+// Show only specific object type:
+// | where alObjectType == "Page"
+
+// Show only objects not used in last 30 days:
+// | where DaysSinceLastUse > 30
+
+// Show only objects with zero unique users:
+// | where UniqueUsers == 0
+
+// Combine filters:
+// | where extensionName == "Hagar Connect" and alObjectType == "Codeunit" and UsageCount < 10
+
+//================================================================
+// BASED ON YOUR 24-HOUR DATA
+//================================================================
+// From the analysis, here's what we know about YOUR extensions:
+//
+// Storkaup: 38 events (0.02%) - Very Low Usage
+// - PTE AX Int. Update Inventory: 36 operations (long-running)
+// - PTEEventSubscriber: 1 operation
+// - PTEUpdateUnitPrFromSalesPr: 1 operation
+//
+// Hagar Connect: 1,115 events (0.71%) - Active
+// - HAG ASB Queue: 858 calls
+// - HAG Datadog Utils: 251 calls
+// - HAG Export Processing: 6 operations
+//
+// Hagar Webshop: 64 events (0.04%) - Light Usage
+// - HAG Delete Export Tools: 27 slow queries
+// - HAG Web Inventory Functions: 1 operation
+// - HAG Customer API: 1 operation
+//
+// WebStore (NVL): 72 events (0.05%) - Light Usage
+// - NVL CO Status Mgmt: 36 operations
+// - NVL Omni BO Utils: 36 operations
+//
+// Expected to see but MISSING (0 events in 24h):
+// - OrderProcess
+// - CustomerPricing
+// - CustPriceDisc
+// - Datadwell
+// - NationalRegistry
+// - SalesReleaseCheck
+// - CustomerCreditCheck
+// ... and 12 more extensions
+//
+// These missing extensions are candidates for investigation:
+// 1. Are they installed?
+// 2. Are they used less frequently (weekly/monthly)?
+// 3. Are they event subscribers (no direct telemetry)?
+// 4. Are they deprecated but still deployed?
+//
+//================================================================
