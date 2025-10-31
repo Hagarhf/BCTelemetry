@@ -1,0 +1,108 @@
+//================================================================
+// HAG Web Service API - Dashboard Query with Custom Telemetry
+//================================================================
+// Use this query AFTER adding custom telemetry to Page 80107
+// This will show function names from your custom Procedure dimension
+//================================================================
+
+let TimeRange = 24h;
+traces
+| where timestamp > ago(TimeRange)
+| extend
+    pageId = tostring(customDimensions.PageID),
+    procedure = tostring(customDimensions.Procedure),
+    status = tostring(customDimensions.Status),
+    executionTimeMs = toint(customDimensions.ExecutionTimeMs)
+| where pageId == "80107"
+| where isnotempty(procedure)  // Only show calls with procedure tracking
+| summarize
+    CallCount = count(),
+    SuccessCount = countif(status == "Success"),
+    ErrorCount = countif(status startswith "Error"),
+    AvgMs = round(avg(executionTimeMs), 2),
+    P95Ms = round(percentile(executionTimeMs, 95), 2),
+    MaxMs = max(executionTimeMs),
+    LastCall = max(timestamp)
+    by bin(timestamp, 1h), procedure
+| extend MinutesSinceLastCall = datetime_diff('minute', now(), LastCall)
+| extend
+    SuccessRate = round(toreal(SuccessCount) * 100.0 / toreal(CallCount), 1),
+    PerformanceStatus = case(
+        AvgMs > 1000, "🔴 Slow (>1s)",
+        AvgMs > 500, "⚠️ Moderate (500ms-1s)",
+        "✅ Fast (<500ms)"
+    ),
+    HealthStatus = case(
+        ErrorCount > 0, "🔴 Has Errors",
+        MinutesSinceLastCall > 60, "⚠️ Inactive >1h",
+        "✅ Healthy"
+    )
+| project
+    timestamp,
+    procedure,
+    CallCount,
+    SuccessRate,
+    AvgMs,
+    P95Ms,
+    MaxMs,
+    ErrorCount,
+    PerformanceStatus,
+    HealthStatus,
+    LastCall
+| order by timestamp desc, CallCount desc;
+
+//================================================================
+// ALTERNATIVE: Summary View (No Time Bins)
+//================================================================
+// Shows overall stats per procedure, not broken down by hour
+//================================================================
+
+/*
+let TimeRange = 24h;
+traces
+| where timestamp > ago(TimeRange)
+| extend
+    pageId = tostring(customDimensions.PageID),
+    procedure = tostring(customDimensions.Procedure),
+    status = tostring(customDimensions.Status),
+    executionTimeMs = toint(customDimensions.ExecutionTimeMs)
+| where pageId == "80107"
+| where isnotempty(procedure)
+| summarize
+    CallCount = count(),
+    SuccessCount = countif(status == "Success"),
+    ErrorCount = countif(status startswith "Error"),
+    AvgMs = round(avg(executionTimeMs), 2),
+    P50Ms = round(percentile(executionTimeMs, 50), 2),
+    P95Ms = round(percentile(executionTimeMs, 95), 2),
+    P99Ms = round(percentile(executionTimeMs, 99), 2),
+    MaxMs = max(executionTimeMs),
+    LastCall = max(timestamp)
+    by procedure
+| extend
+    SuccessRate = round(toreal(SuccessCount) * 100.0 / toreal(CallCount), 1),
+    PerformanceStatus = case(
+        AvgMs > 1000, "🔴 Slow (>1s)",
+        AvgMs > 500, "⚠️ Moderate (500ms-1s)",
+        "✅ Fast (<500ms)"
+    ),
+    HealthStatus = case(
+        ErrorCount > 10, "🔴 High Errors",
+        ErrorCount > 0, "⚠️ Has Errors",
+        "✅ Healthy"
+    )
+| project
+    procedure,
+    CallCount,
+    SuccessRate,
+    AvgMs,
+    P50Ms,
+    P95Ms,
+    P99Ms,
+    MaxMs,
+    ErrorCount,
+    PerformanceStatus,
+    HealthStatus,
+    LastCall
+| order by CallCount desc;
+*/

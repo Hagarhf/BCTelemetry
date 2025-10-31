@@ -1,0 +1,34 @@
+//================================================================
+// TEST: Extract Function Names from HAG Web Service Messages
+//================================================================
+// Run this to see what function names will be extracted
+//================================================================
+
+traces
+| where timestamp > ago(7d)
+| extend alObjectId = tostring(customDimensions.alObjectId)
+| where alObjectId == "80107"
+// Extract function name from message
+// Pattern: "Web service called (Api): .../Microsoft.NAV.functionName"
+| extend FunctionName = extract(@"Microsoft\.NAV\.(\w+)", 1, message)
+| where isnotempty(FunctionName)
+| summarize
+    Count = count(),
+    FirstSeen = min(timestamp),
+    LastSeen = max(timestamp),
+    SampleMessages = make_set(message, 3)
+    by FunctionName
+| order by Count desc;
+
+//================================================================
+// If the above doesn't work, try this alternative:
+//================================================================
+/*
+traces
+| where timestamp > ago(7d)
+| extend alObjectId = tostring(customDimensions.alObjectId)
+| where alObjectId == "80107"
+// Show the actual message patterns
+| project timestamp, message
+| take 20;
+*/
