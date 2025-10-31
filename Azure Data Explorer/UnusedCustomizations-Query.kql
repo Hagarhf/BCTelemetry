@@ -204,14 +204,13 @@ traces
         TotalObjects = dcount(alObjectId),
         TotalUsage = count()
         by extensionName
-    | extend
-        AvgUsagePerObject = round(toreal(TotalUsage) / toreal(TotalObjects), 1),
-        HealthScore = case(
-            AvgUsagePerObject < 1, "🔴 Poor",
-            AvgUsagePerObject < 10, "⚠️ Fair",
-            AvgUsagePerObject < 50, "📊 Good",
-            "✅ Excellent"
-        )
+    | extend AvgUsagePerObject = round(toreal(TotalUsage) / toreal(TotalObjects), 1)
+    | extend HealthScore = case(
+        AvgUsagePerObject < 1, "🔴 Poor",
+        AvgUsagePerObject < 10, "⚠️ Fair",
+        AvgUsagePerObject < 50, "📊 Good",
+        "✅ Excellent"
+    )
     | project extensionName, TotalObjects, TotalUsage, AvgUsagePerObject, HealthScore
     | order by AvgUsagePerObject asc;
 */
