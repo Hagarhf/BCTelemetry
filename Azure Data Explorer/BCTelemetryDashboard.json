@@ -6556,7 +6556,7 @@
     {
       "kind": "string",
       "selectionType": "freetext",
-      "id": "3e4666bf-d5e5-4aa7-b8ce-cefe41c7568a",
+      "id": "340b0e17-7da7-45b5-8dbc-3052992729b6",
       "displayName": "Custom Extensions Config",
       "variableName": "_CustomExtensionsConfig",
       "description": "Format: Publisher1:*,Publisher2:App1,Publisher3:App2|App3 (use * for all extensions, | to separate multiple apps)",
