@@ -1,0 +1,276 @@
+// ============================================================
+// DEADLOCKS & LOCK TIMEOUTS PAGE
+// Focus: What is conflicting, why, and what to fix
+// ============================================================
+// Events:
+//   RT0028 = Deadlock (SQL killed one process)
+//   RT0012 = Lock timeout (process waited too long)
+//   RT0013 = Lock snapshot (details of who holds the lock)
+// ============================================================
+
+
+// ------------------------------------------------------------
+// 1. DEADLOCK ROOT CAUSE SUMMARY
+// THE key tile: shows which object pairs keep deadlocking
+// and what SQL operations are conflicting.
+// Visualization: table
+// ------------------------------------------------------------
+allTraces
+| where eventId == 'RT0028'
+| where customDimensions.alObjectId != '0'
+| where isnotempty(customDimensions.alObjectId)
+| extend
+    ObjectName = tostring(customDimensions.alObjectName),
+    ObjectId = tostring(customDimensions.alObjectId),
+    sqlStatement = tostring(customDimensions.sqlStatement),
+    stackTrace = tostring(customDimensions.alStackTrace),
+    ExtensionName = tostring(customDimensions.extensionName)
+| extend
+    // What SQL operation was happening
+    SqlOp = case(
+        sqlStatement startswith "UPDATE", "UPDATE",
+        sqlStatement startswith "DELETE", "DELETE",
+        sqlStatement has "INSERT INTO", "INSERT",
+        sqlStatement startswith "SELECT", "SELECT",
+        sqlStatement has "sp_getapplock", "APP_LOCK",
+        "OTHER"
+    )
+| // Extract table name from SQL
+  parse kind=regex sqlStatement with * "FROM [^.]*\\.dbo\\.\"[^$]*\\$" TableName "\\$" *
+| extend TableName = iff(isempty(TableName), extract("\"([^\"]+)\"", 1, sqlStatement), TableName)
+| // Parse stack trace: first line = locking object, last line = source process
+  extend splitStack = split(stackTrace, "\n")
+| extend
+    LockingObject = tostring(splitStack[0]),
+    SourceProcess = tostring(splitStack[array_length(splitStack) - 1])
+| // Extract just the object names from stack trace lines
+  extend
+    LockingObjectShort = extract("\"(.+?)\"", 1, LockingObject),
+    SourceProcessShort = extract("\"(.+?)\"", 1, SourceProcess)
+| summarize
+    Deadlocks = count(),
+    LastSeen = max(timestamp),
+    FirstSeen = min(timestamp),
+    AffectedUsers = dcount(user_Id),
+    SqlOps = make_set(SqlOp),
+    Extensions = make_set(ExtensionName)
+    by TableName, LockingObjectShort, SourceProcessShort
+| extend
+    Severity = case(
+        Deadlocks > 20, "🔴 CRITICAL",
+        Deadlocks > 5,  "🟠 FREQUENT",
+        Deadlocks > 1,  "🟡 RECURRING",
+        "⚪ ONE-OFF"
+    ),
+    DaysSinceFirst = datetime_diff('day', now(), FirstSeen)
+| project
+    Severity,
+    Deadlocks,
+    TableName,
+    ["Locking Object"] = LockingObjectShort,
+    ["Source Process"] = SourceProcessShort,
+    SqlOps,
+    Extensions,
+    AffectedUsers,
+    LastSeen,
+    DaysSinceFirst
+| order by Deadlocks desc
+
+
+// ------------------------------------------------------------
+// 2. DEADLOCK TIMELINE
+// When do deadlocks happen? Shows patterns (batch jobs, peak hours)
+// Visualization: stackedcolumn
+// ------------------------------------------------------------
+allTraces
+| where eventId == 'RT0028'
+| where customDimensions.alObjectId != '0'
+| extend
+    ObjectName = tostring(customDimensions.alObjectName),
+    stackTrace = tostring(customDimensions.alStackTrace)
+| extend splitStack = split(stackTrace, "\n")
+| extend SourceProcess = extract("\"(.+?)\"", 1, tostring(splitStack[array_length(splitStack) - 1]))
+| extend SourceProcess = coalesce(SourceProcess, ObjectName, "Unknown")
+| summarize Deadlocks = count() by bin(timestamp, 1h), SourceProcess
+| order by timestamp asc
+
+
+// ------------------------------------------------------------
+// 3. LATEST DEADLOCKS (DETAILED)
+// Full detail for investigating specific incidents
+// Visualization: table
+// ------------------------------------------------------------
+allTraces
+| where eventId == 'RT0028'
+| where customDimensions.alObjectId != '0'
+| where isnotempty(customDimensions.alObjectId)
+| extend
+    ObjectName = tostring(customDimensions.alObjectName),
+    ObjectId = tostring(customDimensions.alObjectId),
+    ObjectType = tostring(customDimensions.alObjectType),
+    sqlStatement = tostring(customDimensions.sqlStatement),
+    stackTrace = tostring(customDimensions.alStackTrace),
+    ExtensionName = tostring(customDimensions.extensionName),
+    Company = tostring(customDimensions.companyName),
+    UserId = user_Id
+| extend
+    SqlOp = case(
+        sqlStatement startswith "UPDATE", "UPDATE",
+        sqlStatement startswith "DELETE", "DELETE",
+        sqlStatement has "INSERT INTO", "INSERT",
+        sqlStatement startswith "SELECT", "SELECT",
+        sqlStatement has "sp_getapplock", "APP_LOCK",
+        "OTHER"
+    )
+| extend TableName = extract("CURRENTCOMPANY[$](.+?)[$]", 1, sqlStatement)
+| extend splitStack = split(stackTrace, "\n")
+| extend
+    LockingObject = tostring(splitStack[0]),
+    SourceProcess = tostring(splitStack[array_length(splitStack) - 1]),
+    StackDepth = array_length(splitStack)
+| project
+    timestamp,
+    Company,
+    UserId,
+    ObjectName,
+    ExtensionName,
+    SqlOp,
+    TableName,
+    ["Locking Object"] = LockingObject,
+    ["Source Process"] = SourceProcess,
+    ["Stack Depth"] = StackDepth,
+    ["Full Stack"] = stackTrace,
+    sqlStatement
+| order by timestamp desc
+| take 50
+
+
+// ------------------------------------------------------------
+// 4. LOCK TIMEOUT ROOT CAUSE
+// Same analysis as deadlocks but for timeouts (RT0012)
+// These are more common and often precede deadlocks
+// Visualization: table
+// ------------------------------------------------------------
+allTraces
+| where eventId == 'RT0012'
+| where customDimensions.alObjectId != '0'
+| where isnotempty(customDimensions.alObjectId)
+| extend
+    ObjectName = tostring(customDimensions.alObjectName),
+    sqlStatement = tostring(customDimensions.sqlStatement),
+    stackTrace = tostring(customDimensions.alStackTrace),
+    ExtensionName = tostring(customDimensions.extensionName)
+| extend
+    SqlOp = case(
+        sqlStatement startswith "UPDATE", "UPDATE",
+        sqlStatement startswith "DELETE", "DELETE",
+        sqlStatement has "INSERT INTO", "INSERT",
+        sqlStatement startswith "SELECT", "SELECT",
+        "OTHER"
+    )
+| extend TableName = extract("CURRENTCOMPANY[$](.+?)[$]", 1, sqlStatement)
+| extend splitStack = split(stackTrace, "\n")
+| extend
+    LockingObject = extract("\"(.+?)\"", 1, tostring(splitStack[0])),
+    SourceProcess = extract("\"(.+?)\"", 1, tostring(splitStack[array_length(splitStack) - 1]))
+| summarize
+    Timeouts = count(),
+    LastSeen = max(timestamp),
+    AffectedUsers = dcount(user_Id),
+    SqlOps = make_set(SqlOp),
+    Extensions = make_set(ExtensionName)
+    by TableName, LockingObject, SourceProcess
+| extend
+    Severity = case(
+        Timeouts > 50, "🔴 CRITICAL",
+        Timeouts > 15, "🟠 FREQUENT",
+        Timeouts > 3,  "🟡 RECURRING",
+        "⚪ ONE-OFF"
+    )
+| project Severity, Timeouts, TableName, LockingObject, SourceProcess, SqlOps, Extensions, AffectedUsers, LastSeen
+| order by Timeouts desc
+
+
+// ------------------------------------------------------------
+// 5. LOCK TIMEOUT TIMELINE
+// Visualization: stackedcolumn
+// ------------------------------------------------------------
+allTraces
+| where eventId == 'RT0012'
+| where customDimensions.alObjectId != '0'
+| extend
+    ObjectName = tostring(customDimensions.alObjectName),
+    stackTrace = tostring(customDimensions.alStackTrace)
+| extend splitStack = split(stackTrace, "\n")
+| extend SourceProcess = extract("\"(.+?)\"", 1, tostring(splitStack[array_length(splitStack) - 1]))
+| extend SourceProcess = coalesce(SourceProcess, ObjectName, "Unknown")
+| summarize Timeouts = count() by bin(timestamp, 1h), SourceProcess
+| order by timestamp asc
+
+
+// ------------------------------------------------------------
+// 6. LOCK SNAPSHOT - WHO IS HOLDING THE LOCK?
+// RT0013 shows the OTHER side: what process holds the lock
+// that RT0012/RT0028 is waiting for
+// Visualization: table
+// ------------------------------------------------------------
+allTraces
+| where eventId == 'RT0013'
+| project
+    timestamp,
+    Company = tostring(customDimensions.companyName),
+    SnapshotId = tostring(customDimensions.snapshotId),
+    // Who holds the lock
+    HoldingObject = tostring(customDimensions.alObjectName),
+    HoldingObjectId = tostring(customDimensions.alObjectId),
+    HoldingObjectType = tostring(customDimensions.alObjectType),
+    HoldingExtension = tostring(customDimensions.extensionName),
+    HoldingStack = tostring(customDimensions.alStackTrace),
+    HoldingSession = tostring(customDimensions.sessionId),
+    HoldingClientType = tostring(customDimensions.clientType),
+    // What is locked
+    LockedTable = tostring(customDimensions.sqlTableName),
+    LockType = tostring(customDimensions.sqlLockResourceType),
+    LockMode = tostring(customDimensions.sqlLockRequestMode),
+    LockStatus = tostring(customDimensions.sqlLockRequestStatus)
+| order by timestamp desc
+| take 50
+
+
+// ------------------------------------------------------------
+// 7. HOT TABLES - Tables with most lock contention
+// Combines deadlocks + lock timeouts to show problem tables
+// Visualization: bar
+// ------------------------------------------------------------
+allTraces
+| where eventId in ('RT0012', 'RT0028')
+| where customDimensions.alObjectId != '0'
+| extend
+    sqlStatement = tostring(customDimensions.sqlStatement),
+    EventType = iff(eventId == 'RT0028', 'Deadlock', 'Lock Timeout')
+| extend TableName = extract("CURRENTCOMPANY[$](.+?)[$]", 1, sqlStatement)
+| where isnotempty(TableName)
+| summarize
+    Deadlocks = countif(EventType == 'Deadlock'),
+    LockTimeouts = countif(EventType == 'Lock Timeout'),
+    Total = count()
+    by TableName
+| project TableName, Total, Deadlocks, LockTimeouts
+| order by Total desc
+| take 20
+
+
+// ------------------------------------------------------------
+// 8. DEADLOCK HEATMAP - Hour of day pattern
+// Shows what time of day deadlocks cluster
+// Helps identify if batch jobs are the cause
+// Visualization: column
+// ------------------------------------------------------------
+allTraces
+| where eventId in ('RT0012', 'RT0028')
+| extend HourOfDay = hourofday(timestamp)
+| summarize
+    Deadlocks = countif(eventId == 'RT0028'),
+    LockTimeouts = countif(eventId == 'RT0012')
+    by HourOfDay
+| order by HourOfDay asc

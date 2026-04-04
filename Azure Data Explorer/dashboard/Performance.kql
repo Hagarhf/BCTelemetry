@@ -1,0 +1,269 @@
+// ============================================================
+// PERFORMANCE PAGE
+// Consolidated: Slow SQL, Slow AL, Slow Pages
+// Focus: What is slow, how slow, and where to look
+// ============================================================
+// Events:
+//   RT0005 = Slow SQL query (exceeded threshold)
+//   RT0018 = Slow AL method (exceeded threshold)
+//   CL0001 = Page opened (has duration)
+//   RT0008 = Incoming web service call (has duration)
+// ============================================================
+
+
+// ------------------------------------------------------------
+// 1. PERFORMANCE HEALTH SUMMARY
+// Single-row overview of current performance state
+// Visualization: table
+// ------------------------------------------------------------
+allTraces
+| where eventId in ('RT0005', 'RT0018', 'RT0008')
+| summarize
+    SlowSQL = countif(eventId == 'RT0005'),
+    SlowAL = countif(eventId == 'RT0018'),
+    WebServiceCalls = countif(eventId == 'RT0008'),
+    AvgSqlTime = avgif(totimespan(customDimensions.executionTime) / 1ms, eventId == 'RT0005'),
+    P95SqlTime = percentileif(totimespan(customDimensions.executionTime) / 1ms, 95, eventId == 'RT0005'),
+    MaxSqlTime = maxif(totimespan(customDimensions.executionTime) / 1ms, eventId == 'RT0005'),
+    AvgALTime = avgif(totimespan(customDimensions.executionTime) / 1ms, eventId == 'RT0018'),
+    P95ALTime = percentileif(totimespan(customDimensions.executionTime) / 1ms, 95, eventId == 'RT0018')
+| extend
+    Health = case(
+        P95SqlTime > 10000, "🔴 CRITICAL",
+        SlowSQL > 100 or SlowAL > 50, "🟠 DEGRADED",
+        SlowSQL > 20 or SlowAL > 10, "🟡 SOME ISSUES",
+        "🟢 HEALTHY"
+    )
+| project
+    Health,
+    ["Slow SQL"] = SlowSQL,
+    ["Slow AL"] = SlowAL,
+    ["Web Svc Calls"] = WebServiceCalls,
+    ["Avg SQL (ms)"] = round(AvgSqlTime, 0),
+    ["P95 SQL (ms)"] = round(P95SqlTime, 0),
+    ["Max SQL (ms)"] = round(MaxSqlTime, 0),
+    ["Avg AL (ms)"] = round(AvgALTime, 0),
+    ["P95 AL (ms)"] = round(P95ALTime, 0)
+
+
+// ------------------------------------------------------------
+// 2. SLOWEST SQL QUERIES - Top offenders
+// What SQL is slow, which objects trigger it, how often
+// Visualization: table
+// ------------------------------------------------------------
+allTraces
+| where eventId == 'RT0005'
+| extend
+    ExecutionTime = totimespan(customDimensions.executionTime) / 1ms,
+    ObjectName = tostring(customDimensions.alObjectName),
+    ObjectId = tostring(customDimensions.alObjectId),
+    ObjectType = tostring(customDimensions.alObjectType),
+    SqlStatement = tostring(customDimensions.sqlStatement),
+    ExtensionName = tostring(customDimensions.extensionName),
+    Company = tostring(customDimensions.companyName),
+    StackTrace = tostring(customDimensions.alStackTrace)
+| extend
+    SqlOp = case(
+        SqlStatement startswith "UPDATE", "UPDATE",
+        SqlStatement startswith "DELETE", "DELETE",
+        SqlStatement has "INSERT INTO", "INSERT",
+        SqlStatement startswith "SELECT", "SELECT",
+        "OTHER"
+    )
+| extend TableName = extract("CURRENTCOMPANY[$](.+?)[$]", 1, SqlStatement)
+| summarize
+    Count = count(),
+    AvgMs = round(avg(ExecutionTime), 0),
+    P95Ms = round(percentile(ExecutionTime, 95), 0),
+    MaxMs = round(max(ExecutionTime), 0),
+    LastSeen = max(timestamp)
+    by ObjectName, ObjectId, ExtensionName, SqlOp, TableName
+| extend
+    Severity = case(
+        P95Ms > 10000, "🔴 VERY SLOW",
+        P95Ms > 5000,  "🟠 SLOW",
+        P95Ms > 2000,  "🟡 MODERATE",
+        "⚪ OK"
+    ),
+    TotalTimeMs = Count * AvgMs  // Total impact
+| project Severity, ObjectName, ExtensionName, SqlOp, TableName, Count, AvgMs, P95Ms, MaxMs, TotalTimeMs, LastSeen
+| order by TotalTimeMs desc
+| take 30
+
+
+// ------------------------------------------------------------
+// 3. SLOWEST AL METHODS
+// Which AL code exceeds the time threshold
+// Visualization: table
+// ------------------------------------------------------------
+allTraces
+| where eventId == 'RT0018'
+| extend
+    ExecutionTime = totimespan(customDimensions.executionTime) / 1ms,
+    ObjectName = tostring(customDimensions.alObjectName),
+    ObjectId = tostring(customDimensions.alObjectId),
+    ObjectType = tostring(customDimensions.alObjectType),
+    MethodName = tostring(customDimensions.alMethodName),
+    ExtensionName = tostring(customDimensions.extensionName),
+    SqlRowsRead = tolong(customDimensions.sqlRowsRead),
+    SqlExecutes = tolong(customDimensions.sqlExecutes)
+| summarize
+    Count = count(),
+    AvgMs = round(avg(ExecutionTime), 0),
+    P95Ms = round(percentile(ExecutionTime, 95), 0),
+    MaxMs = round(max(ExecutionTime), 0),
+    AvgSqlRows = round(avg(toreal(SqlRowsRead)), 0),
+    AvgSqlExecs = round(avg(toreal(SqlExecutes)), 0),
+    LastSeen = max(timestamp)
+    by ObjectType, ObjectName, MethodName, ExtensionName
+| extend
+    Severity = case(
+        P95Ms > 30000, "🔴 VERY SLOW",
+        P95Ms > 10000, "🟠 SLOW",
+        P95Ms > 5000,  "🟡 MODERATE",
+        "⚪ OK"
+    ),
+    TotalTimeMs = Count * AvgMs
+| project Severity, ObjectType, ObjectName, MethodName, ExtensionName, Count, AvgMs, P95Ms, MaxMs, AvgSqlRows, AvgSqlExecs, TotalTimeMs, LastSeen
+| order by TotalTimeMs desc
+| take 30
+
+
+// ------------------------------------------------------------
+// 4. PERFORMANCE TIMELINE
+// Slow events over time - spot degradation patterns
+// Visualization: stackedcolumn
+// ------------------------------------------------------------
+allTraces
+| where eventId in ('RT0005', 'RT0018')
+| extend EventType = iff(eventId == 'RT0005', 'Slow SQL', 'Slow AL')
+| summarize Count = count() by bin(timestamp, 1h), EventType
+| order by timestamp asc
+
+
+// ------------------------------------------------------------
+// 5. SLOW SQL DETAIL - Latest (with full context)
+// For investigating specific slow queries
+// Visualization: table
+// ------------------------------------------------------------
+allTraces
+| where eventId == 'RT0005'
+| extend
+    ExecutionTime = totimespan(customDimensions.executionTime) / 1ms,
+    ObjectName = tostring(customDimensions.alObjectName),
+    ObjectId = tostring(customDimensions.alObjectId),
+    SqlStatement = tostring(customDimensions.sqlStatement),
+    ExtensionName = tostring(customDimensions.extensionName),
+    Company = tostring(customDimensions.companyName),
+    StackTrace = tostring(customDimensions.alStackTrace),
+    UserId = user_Id
+| extend
+    SqlOp = case(
+        SqlStatement startswith "UPDATE", "UPDATE",
+        SqlStatement startswith "DELETE", "DELETE",
+        SqlStatement has "INSERT INTO", "INSERT",
+        SqlStatement startswith "SELECT", "SELECT",
+        "OTHER"
+    )
+| extend TableName = extract("CURRENTCOMPANY[$](.+?)[$]", 1, SqlStatement)
+| project
+    timestamp,
+    ["Time (ms)"] = round(ExecutionTime, 0),
+    Company,
+    ObjectName,
+    ExtensionName,
+    SqlOp,
+    TableName,
+    SqlStatement = substring(SqlStatement, 0, 500),
+    StackTrace,
+    UserId
+| order by timestamp desc
+| take 100
+
+
+// ------------------------------------------------------------
+// 6. SLOW AL DETAIL - Latest (with SQL stats)
+// For investigating specific slow methods
+// Visualization: table
+// ------------------------------------------------------------
+allTraces
+| where eventId == 'RT0018'
+| extend
+    ExecutionTime = totimespan(customDimensions.executionTime) / 1ms,
+    ObjectName = tostring(customDimensions.alObjectName),
+    ObjectType = tostring(customDimensions.alObjectType),
+    MethodName = tostring(customDimensions.alMethodName),
+    ExtensionName = tostring(customDimensions.extensionName),
+    Company = tostring(customDimensions.companyName),
+    StackTrace = tostring(customDimensions.alStackTrace),
+    SqlRowsRead = tolong(customDimensions.sqlRowsRead),
+    SqlExecutes = tolong(customDimensions.sqlExecutes),
+    UserId = user_Id
+| project
+    timestamp,
+    ["Time (ms)"] = round(ExecutionTime, 0),
+    Company,
+    ObjectType,
+    ObjectName,
+    MethodName,
+    ExtensionName,
+    SqlRowsRead,
+    SqlExecutes,
+    StackTrace,
+    UserId
+| order by timestamp desc
+| take 100
+
+
+// ------------------------------------------------------------
+// 7. WEB SERVICE PERFORMANCE (Top endpoints)
+// RT0008: Incoming web service calls - which are slowest
+// Visualization: table
+// ------------------------------------------------------------
+allTraces
+| where eventId == 'RT0008'
+| extend
+    Endpoint = tostring(customDimensions.endpoint),
+    Category = tostring(customDimensions.category),
+    ExecutionTime = totimespan(customDimensions.serverExecutionTime) / 1ms,
+    HttpStatusCode = tostring(customDimensions.httpStatusCode),
+    ObjectName = tostring(customDimensions.alObjectName)
+| summarize
+    Calls = count(),
+    AvgMs = round(avg(ExecutionTime), 0),
+    P95Ms = round(percentile(ExecutionTime, 95), 0),
+    MaxMs = round(max(ExecutionTime), 0),
+    Errors = countif(toint(HttpStatusCode) >= 400)
+    by Endpoint, Category, ObjectName
+| extend
+    ErrorRate = round(100.0 * Errors / Calls, 1),
+    Severity = case(
+        P95Ms > 10000 or ErrorRate > 10, "🔴",
+        P95Ms > 5000 or ErrorRate > 5,  "🟠",
+        P95Ms > 2000,                    "🟡",
+        "🟢"
+    )
+| project Severity, Endpoint, Category, ObjectName, Calls, AvgMs, P95Ms, MaxMs, Errors, ErrorRate
+| order by Calls desc
+| take 30
+
+
+// ------------------------------------------------------------
+// 8. PERFORMANCE HOTSPOT MAP
+// Which extensions/objects cause the most performance events
+// Visualization: bar
+// ------------------------------------------------------------
+allTraces
+| where eventId in ('RT0005', 'RT0018')
+| extend
+    ExtensionName = tostring(customDimensions.extensionName),
+    ExecutionTime = totimespan(customDimensions.executionTime) / 1ms
+| summarize
+    SlowEvents = count(),
+    TotalTimeMs = sum(ExecutionTime),
+    AvgMs = round(avg(ExecutionTime), 0)
+    by ExtensionName
+| where isnotempty(ExtensionName)
+| project ExtensionName, SlowEvents, ["Total Time (s)"] = round(TotalTimeMs / 1000, 1), AvgMs
+| order by SlowEvents desc
+| take 15

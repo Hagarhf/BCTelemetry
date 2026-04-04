@@ -1,0 +1,187 @@
+// ============================================================
+// LIVE MONITORING PAGE
+// Real-time health monitoring for BC environments
+// ============================================================
+// Tiles: Alert Status, Events per Minute, Error Rate %,
+//        Errors (Villur), Deadlocks & Sessions, Events by Type
+// ============================================================
+
+
+// ------------------------------------------------------------
+// 1. ALERT STATUS
+// Quick health indicator - checks last 10 minutes
+// Visualization: table (single row)
+// ------------------------------------------------------------
+traces
+| where timestamp > ago(10m)
+| summarize
+    Events = count(),
+    Errors = countif(severityLevel >= 3),
+    Deadlocks = countif(
+        tostring(customDimensions.eventId) == "RT0028"      // SQL deadlock
+        or message contains "deadlock"
+    ),
+    LockTimeouts = countif(
+        tostring(customDimensions.eventId) == "RT0012"      // Database lock timed out
+    ),
+    SessionErrors = countif(
+        tostring(customDimensions.eventId) == "RT0029"      // StopSession invoked
+        or message contains "SessionTerminated"
+    ),
+    AuthFailures = countif(
+        tostring(customDimensions.eventId) in ("RT0001", "RT0002")  // Auth failures
+    )
+| extend
+    AlertLevel = case(
+        Deadlocks > 3,       "🔴 CRITICAL",
+        SessionErrors > 10,  "🔴 CRITICAL",
+        LockTimeouts > 5,    "🟠 WARNING",
+        Errors > 20,         "🟠 WARNING",
+        AuthFailures > 10,   "🟠 WARNING",
+        Events > 3000,       "🟡 HIGH LOAD",
+        "🟢 OK"
+    )
+| project AlertLevel, Events, Errors, Deadlocks, LockTimeouts, SessionErrors, AuthFailures
+
+
+// ------------------------------------------------------------
+// 2. EVENTS PER MINUTE
+// Traffic volume over the last hour
+// Visualization: timechart (line)
+// ------------------------------------------------------------
+traces
+| where timestamp > ago(1h)
+| summarize Events = count() by bin(timestamp, 1m)
+
+
+// ------------------------------------------------------------
+// 3. ERROR RATE %
+// Error percentage over time (5-min buckets)
+// Visualization: timechart (line)
+// ------------------------------------------------------------
+traces
+| where timestamp > ago(1h)
+| summarize
+    Total = count(),
+    Errors = countif(severityLevel >= 3)
+    by bin(timestamp, 5m)
+| extend ErrorRate = round(100.0 * Errors / Total, 2)
+| project timestamp, ErrorRate
+
+
+// ------------------------------------------------------------
+// 4. VILLUR (ERRORS) - Last 20
+// Recent errors with event context
+// Visualization: table
+// ------------------------------------------------------------
+traces
+| where timestamp > ago(30m)
+| where severityLevel >= 3
+| extend
+    EventId = tostring(customDimensions.eventId),
+    EventArea = tostring(customDimensions.eventArea)
+| lookup kind=leftouter (
+    datatable(EventId: string, SignalDescription: string) [
+        "RT0001", "Auth Failed (Pre Open)",
+        "RT0002", "Auth Failed (Open Company)",
+        "RT0005", "Slow SQL Query",
+        "RT0006", "Report Rendering Failed",
+        "RT0010", "Extension Update Failed",
+        "RT0012", "Lock Timeout",
+        "RT0028", "Deadlock",
+        "RT0030", "Error Dialog",
+        "RT0031", "Permission Error"
+    ]
+) on EventId
+| project
+    Time = timestamp,
+    EventId,
+    Type = coalesce(SignalDescription, EventArea, "Unknown"),
+    Object = tostring(customDimensions.alObjectName),
+    Villa = substring(message, 0, 200)
+| order by Time desc
+| take 20
+
+
+// ------------------------------------------------------------
+// 5. DEADLOCKS & LOCK ISSUES (with root cause)
+// Shows what is conflicting and why
+// Visualization: table
+// ------------------------------------------------------------
+traces
+| where timestamp > ago(1h)
+| where tostring(customDimensions.eventId) in ("RT0028", "RT0012", "RT0029")
+| extend
+    EventId = tostring(customDimensions.eventId),
+    ObjectName = tostring(customDimensions.alObjectName),
+    sqlStatement = tostring(customDimensions.sqlStatement),
+    stackTrace = tostring(customDimensions.alStackTrace),
+    ExtensionName = tostring(customDimensions.extensionName),
+    Company = tostring(customDimensions.companyName)
+| extend
+    SqlOp = case(
+        sqlStatement startswith "UPDATE", "UPDATE",
+        sqlStatement startswith "DELETE", "DELETE",
+        sqlStatement has "INSERT INTO", "INSERT",
+        sqlStatement startswith "SELECT", "SELECT",
+        ""
+    )
+| parse kind=regex sqlStatement with * "\\$" TableName "\\$" *
+| extend splitStack = split(stackTrace, "\n")
+| extend
+    LockingObject = extract("\"(.+?)\"", 1, tostring(splitStack[0])),
+    SourceProcess = extract("\"(.+?)\"", 1, tostring(splitStack[array_length(splitStack) - 1]))
+| project
+    Time = timestamp,
+    Tegund = case(
+        EventId == "RT0028", "🔴 DEADLOCK",
+        EventId == "RT0012", "🟠 LOCK TIMEOUT",
+        "🟡 SESSION"
+    ),
+    Company,
+    ObjectName,
+    ExtensionName,
+    SqlOp,
+    TableName,
+    ["Locking Object"] = LockingObject,
+    ["Source Process"] = SourceProcess
+| order by Time desc
+
+
+// ------------------------------------------------------------
+// 6. EVENTS BY TYPE (Top 10)
+// Most frequent event types in last hour
+// Visualization: barchart
+// ------------------------------------------------------------
+let SignalLookup = datatable(EventId: string, Description: string) [
+    "RT0001", "Auth Failed (Pre Open)",
+    "RT0002", "Auth Failed (Open)",
+    "RT0003", "Auth Success (Pre Open)",
+    "RT0004", "Auth Success (Open)",
+    "RT0005", "Slow SQL",
+    "RT0006", "Report Generation",
+    "RT0007", "Report Cancelled",
+    "RT0008", "Web Service (In)",
+    "RT0010", "Extension Update Failed",
+    "RT0012", "Lock Timeout",
+    "RT0018", "Slow AL Method",
+    "RT0019", "Web Service (Out)",
+    "RT0020", "Web Key Auth OK",
+    "RT0021", "Web Key Auth Failed",
+    "RT0028", "Deadlock",
+    "RT0029", "Session Stopped",
+    "RT0030", "Error Dialog",
+    "CL0001", "Page Opened",
+    "AL0000E24", "Job Queue Enqueued",
+    "AL0000E25", "Job Queue Started",
+    "AL0000E26", "Job Queue Finished"
+];
+traces
+| where timestamp > ago(1h)
+| extend EventId = tostring(customDimensions.eventId)
+| summarize Count = count() by EventId
+| lookup kind=leftouter SignalLookup on EventId
+| extend Label = strcat(EventId, " - ", coalesce(Description, "?"))
+| order by Count desc
+| take 15
+| project Label, Count
