@@ -363,7 +363,7 @@
       "id": "db42d8cc-fc8f-4d9d-a468-f42b7d9c5b15",
       "title": "Last 1000 Missing Indexes",
       "visualType": "table",
-      "pageId": "9c16317e-23f7-4e29-8a61-dfae292ea6d0",
+      "pageId": "2fb6a33c-fae5-458a-b7bd-0cd23fa0f21c",
       "layout": {
         "x": 0,
         "y": 10,
@@ -390,7 +390,7 @@
       "id": "902f4361-9100-49e1-b7f0-a503960e3ff3",
       "title": "Missing Indexes (By missing index)",
       "visualType": "table",
-      "pageId": "9c16317e-23f7-4e29-8a61-dfae292ea6d0",
+      "pageId": "2fb6a33c-fae5-458a-b7bd-0cd23fa0f21c",
       "layout": {
         "x": 0,
         "y": 2,
@@ -417,7 +417,7 @@
       "id": "370c3e16-a1a1-46c0-9a70-931ece74d3ac",
       "title": "Missing Indexes per Customer",
       "visualType": "table",
-      "pageId": "9c16317e-23f7-4e29-8a61-dfae292ea6d0",
+      "pageId": "2fb6a33c-fae5-458a-b7bd-0cd23fa0f21c",
       "layout": {
         "x": 18,
         "y": 2,
@@ -444,7 +444,7 @@
       "id": "a3abee56-9597-4fa6-9076-f91c8577cc18",
       "title": "Missing indexes over time",
       "visualType": "stackedcolumn",
-      "pageId": "9c16317e-23f7-4e29-8a61-dfae292ea6d0",
+      "pageId": "2fb6a33c-fae5-458a-b7bd-0cd23fa0f21c",
       "layout": {
         "x": 0,
         "y": 18,
@@ -494,7 +494,7 @@
       "id": "a3f0dce1-796d-4af3-8d3b-ea8f967d69ec",
       "title": ".",
       "visualType": "markdownCard",
-      "pageId": "9c16317e-23f7-4e29-8a61-dfae292ea6d0",
+      "pageId": "2fb6a33c-fae5-458a-b7bd-0cd23fa0f21c",
       "layout": {
         "x": 0,
         "y": 0,
@@ -779,7 +779,7 @@
       "id": "7d036709-66c6-4a5f-977b-5c2984d9c050",
       "title": "API Calls by Customer (RT0008)",
       "visualType": "table",
-      "pageId": "8fb4147d-b1b9-4d4b-b062-6fcb44fd87ed",
+      "pageId": "84bff5fa-3f9c-4d38-9f1d-83a4adeb2066",
       "layout": {
         "x": 0,
         "y": 0,
@@ -806,7 +806,7 @@
       "id": "c5718320-ed81-4242-8837-c2baa39149db",
       "title": "By Day (RT0008)",
       "visualType": "column",
-      "pageId": "8fb4147d-b1b9-4d4b-b062-6fcb44fd87ed",
+      "pageId": "84bff5fa-3f9c-4d38-9f1d-83a4adeb2066",
       "layout": {
         "x": 13,
         "y": 0,
@@ -910,7 +910,7 @@
       "id": "827edbab-5dad-4efe-8f09-f4dcb58d82bc",
       "title": "Per Object (Incl. Queryfilter)",
       "visualType": "table",
-      "pageId": "8fb4147d-b1b9-4d4b-b062-6fcb44fd87ed",
+      "pageId": "84bff5fa-3f9c-4d38-9f1d-83a4adeb2066",
       "layout": {
         "x": 0,
         "y": 6,
@@ -1066,7 +1066,7 @@
       "id": "94b63d5e-c7e9-4b93-b424-da05e32d56c9",
       "title": "API Calls per hour, count per endpoint",
       "visualType": "stackedcolumn",
-      "pageId": "8fb4147d-b1b9-4d4b-b062-6fcb44fd87ed",
+      "pageId": "84bff5fa-3f9c-4d38-9f1d-83a4adeb2066",
       "layout": {
         "x": 0,
         "y": 18,
@@ -1119,7 +1119,7 @@
       "id": "c6f03b3d-9a8f-4c1a-85c4-31fcad5ed112",
       "title": "Latest 1000 calls",
       "visualType": "table",
-      "pageId": "8fb4147d-b1b9-4d4b-b062-6fcb44fd87ed",
+      "pageId": "84bff5fa-3f9c-4d38-9f1d-83a4adeb2066",
       "layout": {
         "x": 0,
         "y": 12,
@@ -1411,7 +1411,7 @@
       "id": "a346d734-4956-493f-b85a-5477d1af662f",
       "title": "Count by Customer",
       "visualType": "pie",
-      "pageId": "8fb4147d-b1b9-4d4b-b062-6fcb44fd87ed",
+      "pageId": "84bff5fa-3f9c-4d38-9f1d-83a4adeb2066",
       "layout": {
         "x": 0,
         "y": 34,
@@ -1451,7 +1451,7 @@
       "id": "679a5717-27a4-461a-a616-c27e29b8ca02",
       "title": "Count by endpoint",
       "visualType": "pie",
-      "pageId": "8fb4147d-b1b9-4d4b-b062-6fcb44fd87ed",
+      "pageId": "84bff5fa-3f9c-4d38-9f1d-83a4adeb2066",
       "layout": {
         "x": 10,
         "y": 34,
@@ -1491,7 +1491,7 @@
       "id": "aca890ab-3b07-4a1c-b977-86febf469eac",
       "title": "Edit In Excel",
       "visualType": "table",
-      "pageId": "8fb4147d-b1b9-4d4b-b062-6fcb44fd87ed",
+      "pageId": "84bff5fa-3f9c-4d38-9f1d-83a4adeb2066",
       "layout": {
         "x": 0,
         "y": 42,
@@ -1545,7 +1545,7 @@
       "id": "c035ab58-013f-47d5-b275-9352338414d3",
       "title": "API Calls per hour, avgTotalTime per endpoint",
       "visualType": "stackedcolumn",
-      "pageId": "8fb4147d-b1b9-4d4b-b062-6fcb44fd87ed",
+      "pageId": "84bff5fa-3f9c-4d38-9f1d-83a4adeb2066",
       "layout": {
         "x": 0,
         "y": 26,
@@ -2551,10 +2551,10 @@
       "id": "09985ca7-04b7-4a39-bba2-1f3af0a455ac",
       "title": "Last 1000",
       "visualType": "table",
-      "pageId": "6651f51d-54d7-49a6-beb6-9e76c6b5333d",
+      "pageId": "84bff5fa-3f9c-4d38-9f1d-83a4adeb2066",
       "layout": {
         "x": 0,
-        "y": 0,
+        "y": 66,
         "width": 24,
         "height": 7
       },
@@ -2578,10 +2578,10 @@
       "id": "2f11189c-9518-4e8c-a83e-63bc88ed156f",
       "title": "AvgTime by endpoint",
       "visualType": "table",
-      "pageId": "6651f51d-54d7-49a6-beb6-9e76c6b5333d",
+      "pageId": "84bff5fa-3f9c-4d38-9f1d-83a4adeb2066",
       "layout": {
         "x": 0,
-        "y": 7,
+        "y": 73,
         "width": 13,
         "height": 9
       },
@@ -2605,10 +2605,10 @@
       "id": "12192436-7ce9-41f4-8274-a352c772010b",
       "title": "Count by extension",
       "visualType": "pie",
-      "pageId": "6651f51d-54d7-49a6-beb6-9e76c6b5333d",
+      "pageId": "84bff5fa-3f9c-4d38-9f1d-83a4adeb2066",
       "layout": {
         "x": 12,
-        "y": 25,
+        "y": 91,
         "width": 12,
         "height": 9
       },
@@ -2646,10 +2646,10 @@
       "id": "1331fdfb-c840-4924-8b48-0d4023881602",
       "title": "AvgTime by extension",
       "visualType": "pie",
-      "pageId": "6651f51d-54d7-49a6-beb6-9e76c6b5333d",
+      "pageId": "84bff5fa-3f9c-4d38-9f1d-83a4adeb2066",
       "layout": {
         "x": 0,
-        "y": 25,
+        "y": 91,
         "width": 12,
         "height": 9
       },
@@ -2689,10 +2689,10 @@
       "id": "cbb51353-10ed-48cb-98bf-e3e7167f396f",
       "title": "AvgTime by customer (Top 15)",
       "visualType": "bar",
-      "pageId": "6651f51d-54d7-49a6-beb6-9e76c6b5333d",
+      "pageId": "84bff5fa-3f9c-4d38-9f1d-83a4adeb2066",
       "layout": {
         "x": 0,
-        "y": 16,
+        "y": 82,
         "width": 12,
         "height": 9
       },
@@ -2742,10 +2742,10 @@
       "id": "6be49066-e56c-494a-83c0-6410b425aa9b",
       "title": "Count by customer (Top 15)",
       "visualType": "bar",
-      "pageId": "6651f51d-54d7-49a6-beb6-9e76c6b5333d",
+      "pageId": "84bff5fa-3f9c-4d38-9f1d-83a4adeb2066",
       "layout": {
         "x": 12,
-        "y": 16,
+        "y": 82,
         "width": 12,
         "height": 9
       },
@@ -2903,10 +2903,10 @@
       "id": "6a9f353a-fd7a-45f5-aa49-d2f803b71fca",
       "title": ".",
       "visualType": "markdownCard",
-      "pageId": "19755718-2f7e-4b97-8120-0e9c2adc9216",
+      "pageId": "2fb6a33c-fae5-458a-b7bd-0cd23fa0f21c",
       "layout": {
         "x": 0,
-        "y": 0,
+        "y": 26,
         "width": 23,
         "height": 3
       },
@@ -2917,10 +2917,10 @@
       "id": "92817d21-d73b-4af0-bbe2-b904c6ff3742",
       "title": "Current Orphans per customer",
       "visualType": "table",
-      "pageId": "19755718-2f7e-4b97-8120-0e9c2adc9216",
+      "pageId": "2fb6a33c-fae5-458a-b7bd-0cd23fa0f21c",
       "layout": {
         "x": 0,
-        "y": 3,
+        "y": 29,
         "width": 23,
         "height": 8
       },
@@ -2944,10 +2944,10 @@
       "id": "d5198070-1a8b-42fc-9491-2728ad28b521",
       "title": "Orphan problems",
       "visualType": "column",
-      "pageId": "19755718-2f7e-4b97-8120-0e9c2adc9216",
+      "pageId": "2fb6a33c-fae5-458a-b7bd-0cd23fa0f21c",
       "layout": {
         "x": 0,
-        "y": 11,
+        "y": 37,
         "width": 23,
         "height": 7
       },
@@ -2998,10 +2998,10 @@
       "id": "dcb669c1-6247-4281-a85f-617ac22693e3",
       "title": "Media Orphan Info (Last)",
       "visualType": "table",
-      "pageId": "19755718-2f7e-4b97-8120-0e9c2adc9216",
+      "pageId": "2fb6a33c-fae5-458a-b7bd-0cd23fa0f21c",
       "layout": {
         "x": 0,
-        "y": 18,
+        "y": 44,
         "width": 23,
         "height": 8
       },
@@ -3025,10 +3025,10 @@
       "id": "d1483055-4c7a-4174-80a2-fdd58194a429",
       "title": ".",
       "visualType": "markdownCard",
-      "pageId": "7b7f2b6b-e03e-40f6-bddf-70404b6529a8",
+      "pageId": "2fb6a33c-fae5-458a-b7bd-0cd23fa0f21c",
       "layout": {
         "x": 0,
-        "y": 0,
+        "y": 108,
         "width": 24,
         "height": 3
       },
@@ -3039,10 +3039,10 @@
       "id": "9560c62d-886e-43f4-9da1-75cedd9744e9",
       "title": "Overview Retention Policies",
       "visualType": "table",
-      "pageId": "7b7f2b6b-e03e-40f6-bddf-70404b6529a8",
+      "pageId": "2fb6a33c-fae5-458a-b7bd-0cd23fa0f21c",
       "layout": {
         "x": 0,
-        "y": 3,
+        "y": 111,
         "width": 24,
         "height": 8
       },
@@ -3066,10 +3066,10 @@
       "id": "6a0921b8-be93-4359-b73e-0681f813ebc8",
       "title": ".",
       "visualType": "markdownCard",
-      "pageId": "92a3dce1-1ae3-468d-a470-e98907971cf7",
+      "pageId": "2fb6a33c-fae5-458a-b7bd-0cd23fa0f21c",
       "layout": {
         "x": 0,
-        "y": 8,
+        "y": 61,
         "width": 24,
         "height": 3
       },
@@ -3080,10 +3080,10 @@
       "id": "6d66c2ca-5f8c-4cc4-901d-7198a8b21f56",
       "title": "Apps MaxVersion per company (Data last 10d)",
       "visualType": "table",
-      "pageId": "92a3dce1-1ae3-468d-a470-e98907971cf7",
+      "pageId": "2fb6a33c-fae5-458a-b7bd-0cd23fa0f21c",
       "layout": {
         "x": 12,
-        "y": 11,
+        "y": 64,
         "width": 12,
         "height": 9
       },
@@ -3107,10 +3107,10 @@
       "id": "e0bde961-d8e6-4cce-bc73-81faddfe2bc1",
       "title": "Max version per App",
       "visualType": "table",
-      "pageId": "92a3dce1-1ae3-468d-a470-e98907971cf7",
+      "pageId": "2fb6a33c-fae5-458a-b7bd-0cd23fa0f21c",
       "layout": {
         "x": 0,
-        "y": 11,
+        "y": 64,
         "width": 12,
         "height": 9
       },
@@ -3134,10 +3134,10 @@
       "id": "5d0ff463-6089-465a-bb06-7142a5162c1f",
       "title": "Apps to be Upgraded",
       "visualType": "table",
-      "pageId": "92a3dce1-1ae3-468d-a470-e98907971cf7",
+      "pageId": "2fb6a33c-fae5-458a-b7bd-0cd23fa0f21c",
       "layout": {
         "x": 6,
-        "y": 20,
+        "y": 73,
         "width": 18,
         "height": 10
       },
@@ -3161,10 +3161,10 @@
       "id": "6081ec5b-b0e8-4a9b-9bae-ee3c5a258c71",
       "title": "Customers to be Upgraded",
       "visualType": "table",
-      "pageId": "92a3dce1-1ae3-468d-a470-e98907971cf7",
+      "pageId": "2fb6a33c-fae5-458a-b7bd-0cd23fa0f21c",
       "layout": {
         "x": 0,
-        "y": 20,
+        "y": 73,
         "width": 6,
         "height": 10
       },
@@ -3188,10 +3188,10 @@
       "id": "d5158161-df96-4208-9a3d-2296f9a85781",
       "title": "Companies with NO App Info",
       "visualType": "table",
-      "pageId": "92a3dce1-1ae3-468d-a470-e98907971cf7",
+      "pageId": "2fb6a33c-fae5-458a-b7bd-0cd23fa0f21c",
       "layout": {
         "x": 9,
-        "y": 30,
+        "y": 83,
         "width": 9,
         "height": 7
       },
@@ -3215,10 +3215,10 @@
       "id": "349ec305-8d1e-4d04-bffb-1e3612d38f35",
       "title": "Tenants with NO App Info",
       "visualType": "table",
-      "pageId": "92a3dce1-1ae3-468d-a470-e98907971cf7",
+      "pageId": "2fb6a33c-fae5-458a-b7bd-0cd23fa0f21c",
       "layout": {
         "x": 0,
-        "y": 30,
+        "y": 83,
         "width": 9,
         "height": 7
       },
@@ -3242,10 +3242,10 @@
       "id": "81d32561-593d-4e6e-9430-4a03f9b103be",
       "title": "Overview Retention Policies",
       "visualType": "table",
-      "pageId": "7b7f2b6b-e03e-40f6-bddf-70404b6529a8",
+      "pageId": "2fb6a33c-fae5-458a-b7bd-0cd23fa0f21c",
       "layout": {
         "x": 0,
-        "y": 11,
+        "y": 119,
         "width": 11,
         "height": 8
       },
@@ -3269,10 +3269,10 @@
       "id": "906fb382-8112-4361-863f-ff7c93267bf3",
       "title": ".",
       "visualType": "markdownCard",
-      "pageId": "a04d1460-27a0-4cc7-affa-eb12ced39cf2",
+      "pageId": "2fb6a33c-fae5-458a-b7bd-0cd23fa0f21c",
       "layout": {
         "x": 0,
-        "y": 0,
+        "y": 136,
         "width": 23,
         "height": 3
       },
@@ -3283,10 +3283,10 @@
       "id": "9eb381be-9bb4-46e0-974b-f2d4acec5592",
       "title": "Overview Features",
       "visualType": "table",
-      "pageId": "a04d1460-27a0-4cc7-affa-eb12ced39cf2",
+      "pageId": "2fb6a33c-fae5-458a-b7bd-0cd23fa0f21c",
       "layout": {
         "x": 0,
-        "y": 3,
+        "y": 139,
         "width": 24,
         "height": 14
       },
@@ -3432,7 +3432,7 @@
       "id": "bde74edb-912d-42e8-838c-4501bd698d6b",
       "title": "AvgExecutionTime per hour, per endpoint",
       "visualType": "stackedcolumn",
-      "pageId": "8fb4147d-b1b9-4d4b-b062-6fcb44fd87ed",
+      "pageId": "84bff5fa-3f9c-4d38-9f1d-83a4adeb2066",
       "layout": {
         "x": 0,
         "y": 49,
@@ -3513,10 +3513,10 @@
       "id": "0d1035f9-820f-4c52-8b7c-d754a9ca7952",
       "title": "Raw data - Last entries",
       "visualType": "table",
-      "pageId": "92a3dce1-1ae3-468d-a470-e98907971cf7",
+      "pageId": "2fb6a33c-fae5-458a-b7bd-0cd23fa0f21c",
       "layout": {
         "x": 0,
-        "y": 37,
+        "y": 90,
         "width": 24,
         "height": 17
       },
@@ -3648,10 +3648,10 @@
       "id": "b4a0c751-871e-45cb-8355-cb689f511224",
       "title": "Scheduled Environment Updates",
       "visualType": "table",
-      "pageId": "92a3dce1-1ae3-468d-a470-e98907971cf7",
+      "pageId": "2fb6a33c-fae5-458a-b7bd-0cd23fa0f21c",
       "layout": {
         "x": 0,
-        "y": 2,
+        "y": 55,
         "width": 24,
         "height": 7
       },
@@ -3675,10 +3675,10 @@
       "id": "ae182a37-76b8-46be-b07a-27f1dfaddb59",
       "title": "Outgoing API's per endpoint per hour",
       "visualType": "column",
-      "pageId": "6651f51d-54d7-49a6-beb6-9e76c6b5333d",
+      "pageId": "84bff5fa-3f9c-4d38-9f1d-83a4adeb2066",
       "layout": {
         "x": 0,
-        "y": 34,
+        "y": 100,
         "width": 24,
         "height": 7
       },
@@ -3779,10 +3779,10 @@
       "id": "e86b93a8-d4c2-4fe6-a810-940ac54bb1e3",
       "title": "Overview Retention Policies per customer",
       "visualType": "table",
-      "pageId": "7b7f2b6b-e03e-40f6-bddf-70404b6529a8",
+      "pageId": "2fb6a33c-fae5-458a-b7bd-0cd23fa0f21c",
       "layout": {
         "x": 0,
-        "y": 19,
+        "y": 127,
         "width": 23,
         "height": 8
       },
@@ -3806,7 +3806,7 @@
       "id": "e4549d99-fe20-465b-b5bc-4c13ab4c3524",
       "title": "AvgExecutionTime per hour, per endpoint",
       "visualType": "column",
-      "pageId": "8fb4147d-b1b9-4d4b-b062-6fcb44fd87ed",
+      "pageId": "84bff5fa-3f9c-4d38-9f1d-83a4adeb2066",
       "layout": {
         "x": 0,
         "y": 57,
@@ -4013,7 +4013,7 @@
       "id": "f1e2d3c4-b5a6-4789-8012-3456789abcde",
       "title": "Unused/Low Usage Objects (All)",
       "visualType": "table",
-      "pageId": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+      "pageId": "34f06e56-ac23-4633-926a-2803352a179a",
       "layout": {
         "x": 0,
         "y": 0,
@@ -4040,7 +4040,7 @@
       "id": "a2b3c4d5-e6f7-4890-1234-567890abcdef",
       "title": "Critical Low Usage (< 5 uses in 30 days)",
       "visualType": "table",
-      "pageId": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+      "pageId": "34f06e56-ac23-4633-926a-2803352a179a",
       "layout": {
         "x": 0,
         "y": 10,
@@ -4067,7 +4067,7 @@
       "id": "b3c4d5e6-f7a8-4901-2345-67890abcdef1",
       "title": "Extension Health Summary",
       "visualType": "table",
-      "pageId": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+      "pageId": "34f06e56-ac23-4633-926a-2803352a179a",
       "layout": {
         "x": 0,
         "y": 18,
@@ -4094,10 +4094,10 @@
       "id": "a5b6c7d8-e9f0-4123-4567-890123abcdef",
       "title": "Hagar Extensions Activity Overview",
       "visualType": "table",
-      "pageId": "f4a5b6c7-d8e9-4012-3456-789012abcdef",
+      "pageId": "34f06e56-ac23-4633-926a-2803352a179a",
       "layout": {
         "x": 0,
-        "y": 0,
+        "y": 25,
         "width": 24,
         "height": 8
       },
@@ -4121,10 +4121,10 @@
       "id": "b6c7d8e9-f0a1-4234-5678-901234abcde1",
       "title": "Azure Service Bus Queue Performance (HAG ASB Queue)",
       "visualType": "table",
-      "pageId": "f4a5b6c7-d8e9-4012-3456-789012abcdef",
+      "pageId": "34f06e56-ac23-4633-926a-2803352a179a",
       "layout": {
         "x": 0,
-        "y": 8,
+        "y": 33,
         "width": 12,
         "height": 8
       },
@@ -4148,10 +4148,10 @@
       "id": "c7d8e9f0-a1b2-4345-6789-012345abcde3",
       "title": "Export Processing & Slow Operations",
       "visualType": "table",
-      "pageId": "f4a5b6c7-d8e9-4012-3456-789012abcdef",
+      "pageId": "34f06e56-ac23-4633-926a-2803352a179a",
       "layout": {
         "x": 12,
-        "y": 8,
+        "y": 33,
         "width": 12,
         "height": 8
       },
@@ -4175,10 +4175,10 @@
       "id": "d8e9f0a1-b2c3-4456-7890-123456abcde5",
       "title": "Hagar Extensions Errors & Warnings",
       "visualType": "table",
-      "pageId": "f4a5b6c7-d8e9-4012-3456-789012abcdef",
+      "pageId": "34f06e56-ac23-4633-926a-2803352a179a",
       "layout": {
         "x": 0,
-        "y": 16,
+        "y": 41,
         "width": 24,
         "height": 6
       },
@@ -4202,10 +4202,10 @@
       "id": "e9f0a1b2-c3d4-4567-8901-234567bcdef7",
       "title": "HAG Web Service API (Page 80107)",
       "visualType": "table",
-      "pageId": "f4a5b6c7-d8e9-4012-3456-789012abcdef",
+      "pageId": "34f06e56-ac23-4633-926a-2803352a179a",
       "layout": {
         "x": 0,
-        "y": 22,
+        "y": 47,
         "width": 24,
         "height": 8
       },
@@ -5238,14 +5238,6 @@
       "id": "aa000001-1111-4000-8000-000000000001"
     },
     {
-      "name": "Base Tables",
-      "id": "767419b8-bb1b-4f95-9790-6e9f47cae7a1"
-    },
-    {
-      "name": "Analyze Usages",
-      "id": "e0ea770f-baf5-47a6-88b1-1cb0ec5dce59"
-    },
-    {
       "name": "Apps",
       "id": "a0f75fcf-eb7d-4d83-a807-2527c0f75471"
     },
@@ -5266,60 +5258,16 @@
       "id": "cc000003-3333-4000-8000-000000000003"
     },
     {
-      "name": "Perf: API (Incoming)",
-      "id": "8fb4147d-b1b9-4d4b-b062-6fcb44fd87ed"
+      "name": "Perf: APIs",
+      "id": "84bff5fa-3f9c-4d38-9f1d-83a4adeb2066"
     },
     {
-      "name": "Perf: API (Outgoing)",
-      "id": "6651f51d-54d7-49a6-beb6-9e76c6b5333d"
+      "name": "Extensions",
+      "id": "34f06e56-ac23-4633-926a-2803352a179a"
     },
     {
-      "name": "Perf: ALAnalysis",
-      "id": "2546cc61-63e2-4e89-8157-d2977e6ddde6"
-    },
-    {
-      "name": "CT: Custom Events",
-      "id": "f56f5822-56bf-4758-a589-1e398df2aeee"
-    },
-    {
-      "name": "CT: Tests",
-      "id": "fbdd4db5-d977-4a56-997e-4043d8c0645f"
-    },
-    {
-      "name": "CT: Performance",
-      "id": "e057b00e-7fd8-476e-a00c-3421e7656af8"
-    },
-    {
-      "name": "Daily - Missing Indexes",
-      "id": "9c16317e-23f7-4e29-8a61-dfae292ea6d0"
-    },
-    {
-      "id": "19755718-2f7e-4b97-8120-0e9c2adc9216",
-      "name": "Daily - Media Orphans"
-    },
-    {
-      "id": "92a3dce1-1ae3-468d-a470-e98907971cf7",
-      "name": "Daily - Apps"
-    },
-    {
-      "name": "Daily - Retention Policy",
-      "id": "7b7f2b6b-e03e-40f6-bddf-70404b6529a8"
-    },
-    {
-      "id": "a04d1460-27a0-4cc7-affa-eb12ced39cf2",
-      "name": "Daily - Features"
-    },
-    {
-      "name": "BCPT",
-      "id": "c57aad53-d31f-4c8c-a0b7-39424d755d88"
-    },
-    {
-      "name": "Custom: Unused Objects",
-      "id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890"
-    },
-    {
-      "name": "Hagar Extensions",
-      "id": "f4a5b6c7-d8e9-4012-3456-789012abcdef"
+      "name": "Daily Maintenance",
+      "id": "2fb6a33c-fae5-458a-b7bd-0cd23fa0f21c"
     }
   ],
   "queries": [
@@ -6595,154 +6543,6 @@
       "usedVariables": [
         "allTraces"
       ]
-    },
-    {
-      "id": "b19a2b7f-6d08-4f7f-b3ed-ce290cb93d82",
-      "dataSource": {
-        "kind": "inline",
-        "dataSourceId": "05ae5610-5603-45ac-9458-616539c1c150"
-      },
-      "text": "let SignalDefinitions = externaldata(eventId :string, eventArea:string, eventDescription:string)\n        [h@'https://raw.githubusercontent.com/Hagarhf/BCTelemetry/main/Azure%20Data%20Explorer/ExternalData/Signals.json']\n            with(format='multijson')\n    | where eventId has_any (_eventId); //Filter as soon as possible\nlet TempAllTraces = \ntraces\n    | union pageViews                                      //union\n    | where timestamp between (_startTime .. _endTime)     //take the parameters by default\n    | where customDimensions has_any (_eventId)\n    | where message contains _MessageFilter\n    | where customDimensions has _customDimensionsContains\n    | extend eventId = tostring(customDimensions.eventId)  //extend fields that you would extend anyway\n        , aadTenantId = tostring(customDimensions.aadTenantId)\n        , cloud_RoleInstance = tostring(cloud_RoleInstance)\n        , extensionName = tostring(customDimensions.extensionName)\n        , executionTime = customDimensions.executionTime\n        , serverExecutionTime = customDimensions.serverExecutionTime\n        , totalTime = customDimensions.totalTime\n        , durations = customMeasurements.durations\n        , alJobQueueExecutionTimeInMs = customDimensions.alJobQueueExecutionTimeInMs\n        , extensionPublisher = tostring(customDimensions.extensionPublisher)\n        , componentVersion = tostring(customDimensions.componentVersion)\n        , companyName = tostring(customDimensions.companyName)\n        // , companyName = strcat(tostring(hash(tostring(customDimensions.companyName))),'(obfuscated)')\n        , callerAppVersion = tostring(customDimensions.alCallerAppVersion)\n        , callerPublisher = tostring(customDimensions.alCallerPublisher)\n        , callerAppName = tostring(customDimensions.alCallerAppName)\n        , clientType = tostring(customDimensions.clientType)\n        , extensionVersion = tostring(customDimensions.extensionVersion)\n        , environmentName = tostring(customDimensions.environmentName)\n        , environmentType = tostring(customDimensions.environmentType)\n    | extend IsSaas  = iff(isempty(environmentName) or environmentName in ('common','null','default','undefined'),false,true)\n    | where IsSaas in (_IsSaaS)\n    // Hybrid tenant/instance filtering - use aadTenantId for SaaS, companyName for On-Premise\n    | extend instanceId = iff(IsSaas, aadTenantId, companyName)\n    | where instanceId has_any (_entraTenantId) or companyName has_any (_entraTenantId)\n    | where environmentName in (_environmentName)\n    | where companyName contains _CompanyFilter\n    | where extensionName has_any (_extensionName)\n    | where extensionPublisher has_any (_extensionPublisher)\n    | where eventId has_any (_eventId)                       //Filter as soon as possible\n    | where componentVersion startswith _componentVersionFilter\n//New field: elapsedTimeInMS\n    | extend elapsedTimeInMS = \n                iif(isnotempty(executionTime), toreal(totimespan(executionTime))/10000\n                , iif(isnotempty(serverExecutionTime), toreal(totimespan(serverExecutionTime))/10000\n                    , iif(isnotempty(totalTime), toreal(totimespan(totalTime))/10000\n                        , iif(isnotempty(durations), durations\n                            , iif(isnotempty( alJobQueueExecutionTimeInMs), alJobQueueExecutionTimeInMs\n                , dynamic(null))))));\n//Create unified instance mapping for both SaaS (entraTenantId) and On-Premise (roleInstance)\nlet UnifiedInstanceMapping = \n    union \n    (entraTenantIdDescriptions | extend instanceId = entraTenantId, instanceDescription = tenantDescription, deploymentType = \"SaaS\"),\n    (onPremiseInstances | extend instanceId = roleInstance, instanceDescription = instanceDescription, deploymentType = \"On-Premise\");\n//Join traces with unified instance mapping\nlet TempAllTraces2 = \nTempAllTraces\n| extend instanceId = iff(IsSaas, aadTenantId, companyName)\n| join kind=leftouter UnifiedInstanceMapping on instanceId\n| extend tenantDescription = iff(isempty(instanceDescription), instanceId, instanceDescription);\n//Join next 2 (small table on the left)\nSignalDefinitions\n| join kind=rightouter TempAllTraces2 on $left.eventId == $right.eventId\n| extend tenantDescription = iif(isempty( tenantDescription),tostring(instanceId),tenantDescription)\n| where tenantDescription has_any (_TenantDescription)\n| where eventId has_any (_eventId) //Just in case\n| extend entraTenantId = tostring(instanceId)\n| extend message = iif(isnotempty( message), message, eventDescription)\n| extend eventId = iif(isempty(eventId), eventId1, eventId)\n| extend eventDescription = iif(isempty( eventDescription),message, eventDescription )",
-      "usedVariables": [
-        "_CompanyFilter",
-        "_IsSaaS",
-        "_MessageFilter",
-        "_TenantDescription",
-        "_componentVersionFilter",
-        "_customDimensionsContains",
-        "_endTime",
-        "_entraTenantId",
-        "_environmentName",
-        "_eventId",
-        "_extensionName",
-        "_extensionPublisher",
-        "_startTime",
-        "entraTenantIdDescriptions",
-        "onPremiseInstances",
-        "serviceInstances"
-      ]
-    },
-    {
-      "id": "ba39f166-a4d3-48ea-bad0-db65876a054f",
-      "dataSource": {
-        "kind": "inline",
-        "dataSourceId": "05ae5610-5603-45ac-9458-616539c1c150"
-      },
-      "text": "datatable(entraTenantId :string, tenantDescription:string)\r\n[\r\n        \"common\",\"Stórkaup Production On-Premise\"\r\n]",
-      "usedVariables": []
-    },
-    {
-      "id": "cf48c267-b5e4-49fb-be61-ec76987b164e",
-      "dataSource": {
-        "kind": "inline",
-        "dataSourceId": "05ae5610-5603-45ac-9458-616539c1c150"
-      },
-      "text": "datatable(roleInstance :string, instanceDescription:string)\r\n[\r\n]",
-      "usedVariables": []
-    },
-    {
-      "id": "df59d378-c6f5-5afb-cf72-fd87a98c275f",
-      "dataSource": {
-        "kind": "inline",
-        "dataSourceId": "05ae5610-5603-45ac-9458-616539c1c150"
-      },
-      "text": "datatable(serviceInstance :string, servicePurpose:string, serviceDescription:string)\r\n[\r\n]",
-      "usedVariables": []
-    },
-    {
-      "dataSource": {
-        "kind": "inline",
-        "dataSourceId": "05ae5610-5603-45ac-9458-616539c1c150"
-      },
-      "text": "externaldata(eventId :string, eventArea:string, eventDescription:string)\n        [h@'https://raw.githubusercontent.com/Hagarhf/BCTelemetry/main/Azure%20Data%20Explorer/ExternalData/Signals.json']\n            with(format='multijson')\n| where eventDescription contains _MessageFilter\n| summarize by eventArea;",
-      "id": "f5fbe50d-0893-4b88-9d18-0a9a40874da0",
-      "usedVariables": [
-        "_MessageFilter"
-      ]
-    },
-    {
-      "dataSource": {
-        "kind": "inline",
-        "dataSourceId": "05ae5610-5603-45ac-9458-616539c1c150"
-      },
-      "text": "traces\n| where customDimensions.extensionPublisher <> 'Microsoft'\n| where isnotempty(customDimensions.extensionName)\n| extend extensionName = tostring(customDimensions.extensionName)\n| summarize by extensionName",
-      "id": "2fdf22eb-61c7-4964-bc7e-49c7eb81c9c8",
-      "usedVariables": []
-    },
-    {
-      "dataSource": {
-        "kind": "inline",
-        "dataSourceId": "05ae5610-5603-45ac-9458-616539c1c150"
-      },
-      "text": "traces\n| where isnotempty(customDimensions.extensionPublisher)\n| extend extensionPublisher = tostring(customDimensions.extensionPublisher)\n| summarize by extensionPublisher",
-      "id": "79f1960d-e4a0-4ed3-8aca-fc0ec2aa2399",
-      "usedVariables": []
-    },
-    {
-      "dataSource": {
-        "kind": "inline",
-        "dataSourceId": "05ae5610-5603-45ac-9458-616539c1c150"
-      },
-      "text": "traces\n| where timestamp between (_startTime .. _endTime)\n| where isnotempty(customDimensions.aadTenantId)\n| extend entraTenantId = tostring(customDimensions.aadTenantId)\n| summarize by entraTenantId\n| project entraTenantId",
-      "id": "1af6d35a-92af-4520-a929-26af2d29ea09",
-      "usedVariables": [
-        "_endTime",
-        "_startTime"
-      ]
-    },
-    {
-      "dataSource": {
-        "kind": "inline",
-        "dataSourceId": "05ae5610-5603-45ac-9458-616539c1c150"
-      },
-      "text": "entraTenantIdDescriptions",
-      "id": "18cf1613-ca57-4d94-9d30-c2ffcafe5245",
-      "usedVariables": [
-        "entraTenantIdDescriptions"
-      ]
-    },
-    {
-      "dataSource": {
-        "kind": "inline",
-        "dataSourceId": "05ae5610-5603-45ac-9458-616539c1c150"
-      },
-      "text": "traces\n| where timestamp between (_startTime .. _endTime)\n| extend aadTenantId = tostring(customDimensions.aadTenantId)\n| extend environmentName = tostring(customDimensions.environmentName)\n| summarize by environmentName;",
-      "id": "a4426a6f-dfd5-43a4-b8fb-68c8cbb6da83",
-      "usedVariables": [
-        "_endTime",
-        "_startTime"
-      ]
-    },
-    {
-      "dataSource": {
-        "kind": "inline",
-        "dataSourceId": "05ae5610-5603-45ac-9458-616539c1c150"
-      },
-      "text": "traces\n| where timestamp between (_startTime .. _endTime)\n| where isnotempty(customDimensions.eventId)\n| extend submsg = iif(substring(message, 0, 4) == \"Task\", \"Task Executed\", \n                    iif(customDimensions.eventId == \"AL0000JRG\", \"Job Queue Error\",\n                        iff(indexof(message, \":\") <= 0, message, substring(message, 0, indexof(message, \":\")))))\n| extend eventId = customDimensions.eventId\n    , status = iif(submsg has \"called\" \n                    or submsg has \"executed\"\n                        or submsg has 'executed'\n                            or submsg has 'succeeded'\n                                or submsg has 'rendered'\n                                    or submsg has 'successfully'\n                                        or submsg has 'taken', \"success\",\n                    iif(submsg has \"error\"\n                            or submsg has 'fail'\n                                or submsg has 'failed'\n                                    or submsg has 'deadlock'\n                                        or submsg has 'timed out',\"error\",\n                        iif(message has 'exceeded', 'too slow',\n                            \"unknown\")))\n| where submsg contains _MessageFilter\n| extend eventDescription = strcat(\"(\",eventId,\") \",submsg)\n| summarize count = count() by tostring(eventId), tostring(eventDescription)\n| order by ['count'] desc\n",
-      "id": "5793a15e-c4ad-4db1-9bca-0a3d11ea48cd",
-      "usedVariables": [
-        "_MessageFilter",
-        "_endTime",
-        "_startTime"
-      ]
-    },
-    {
-      "dataSource": {
-        "kind": "inline",
-        "dataSourceId": "05ae5610-5603-45ac-9458-616539c1c150"
-      },
-      "text": "traces\n| where customDimensions has 'AL0000DGF'\n| where customDimensions.eventId == 'AL0000DGF'\n| where customDimensions.alOperation == 'Scenario'\n| extend CodeunitName = tostring(customDimensions.alCodeunitName)\n| summarize by CodeunitName\n",
-      "id": "4c19c0ce-09a4-47c7-8c4d-a348af93b96a",
-      "usedVariables": []
-    },
-    {
-      "dataSource": {
-        "kind": "inline",
-        "dataSourceId": "05ae5610-5603-45ac-9458-616539c1c150"
-      },
-      "text": "traces\n| where customDimensions has 'AL0000DGF'\n| where customDimensions.eventId == 'AL0000DGF'\n| extend tag = iif(customDimensions.alTag contains_cs \"PTE\", \"PTE\", \n                iif(customDimensions.alTag contains \"Focus\", \"CustSpecific\"\n                    , tostring(customDimensions.alTag)))\n| summarize by tag",
-      "id": "131192bf-b588-4e2a-95f1-851f8c5b2686",
-      "usedVariables": []
     },
     {
       "dataSource": {
