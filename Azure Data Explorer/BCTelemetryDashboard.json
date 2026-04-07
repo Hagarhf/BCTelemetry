@@ -360,151 +360,6 @@
       }
     },
     {
-      "id": "db42d8cc-fc8f-4d9d-a468-f42b7d9c5b15",
-      "title": "Last 1000 Missing Indexes",
-      "visualType": "table",
-      "pageId": "2fb6a33c-fae5-458a-b7bd-0cd23fa0f21c",
-      "layout": {
-        "x": 0,
-        "y": 10,
-        "width": 19,
-        "height": 8
-      },
-      "queryRef": {
-        "kind": "query",
-        "queryId": "4de49ef9-7d2c-4d77-8648-d2f3be6dc56e"
-      },
-      "visualOptions": {
-        "table__enableRenderLinks": true,
-        "colorRulesDisabled": true,
-        "colorStyle": "light",
-        "crossFilterDisabled": false,
-        "drillthroughDisabled": false,
-        "crossFilter": [],
-        "drillthrough": [],
-        "table__renderLinks": [],
-        "colorRules": []
-      }
-    },
-    {
-      "id": "902f4361-9100-49e1-b7f0-a503960e3ff3",
-      "title": "Missing Indexes (By missing index)",
-      "visualType": "table",
-      "pageId": "2fb6a33c-fae5-458a-b7bd-0cd23fa0f21c",
-      "layout": {
-        "x": 0,
-        "y": 2,
-        "width": 18,
-        "height": 8
-      },
-      "queryRef": {
-        "kind": "query",
-        "queryId": "1a6861e8-a2cd-4a71-b923-1d608f3cd46e"
-      },
-      "visualOptions": {
-        "table__enableRenderLinks": true,
-        "colorRulesDisabled": true,
-        "colorStyle": "light",
-        "crossFilterDisabled": false,
-        "drillthroughDisabled": false,
-        "crossFilter": [],
-        "drillthrough": [],
-        "table__renderLinks": [],
-        "colorRules": []
-      }
-    },
-    {
-      "id": "370c3e16-a1a1-46c0-9a70-931ece74d3ac",
-      "title": "Missing Indexes per Customer",
-      "visualType": "table",
-      "pageId": "2fb6a33c-fae5-458a-b7bd-0cd23fa0f21c",
-      "layout": {
-        "x": 18,
-        "y": 2,
-        "width": 6,
-        "height": 8
-      },
-      "queryRef": {
-        "kind": "query",
-        "queryId": "600efe89-e821-43e6-8bb0-ad262a5d3b65"
-      },
-      "visualOptions": {
-        "table__enableRenderLinks": true,
-        "colorRulesDisabled": true,
-        "colorStyle": "light",
-        "crossFilterDisabled": false,
-        "drillthroughDisabled": false,
-        "crossFilter": [],
-        "drillthrough": [],
-        "table__renderLinks": [],
-        "colorRules": []
-      }
-    },
-    {
-      "id": "a3abee56-9597-4fa6-9076-f91c8577cc18",
-      "title": "Missing indexes over time",
-      "visualType": "stackedcolumn",
-      "pageId": "2fb6a33c-fae5-458a-b7bd-0cd23fa0f21c",
-      "layout": {
-        "x": 0,
-        "y": 18,
-        "width": 19,
-        "height": 7
-      },
-      "queryRef": {
-        "kind": "query",
-        "queryId": "3cf21d55-fb49-4aa1-a6c0-8568daf7cad5"
-      },
-      "visualOptions": {
-        "multipleYAxes": {
-          "base": {
-            "id": "-1",
-            "label": "",
-            "columns": [],
-            "yAxisMaximumValue": null,
-            "yAxisMinimumValue": null,
-            "yAxisScale": "linear",
-            "horizontalLines": []
-          },
-          "additional": [],
-          "showMultiplePanels": false
-        },
-        "hideLegend": false,
-        "xColumnTitle": "",
-        "xColumn": null,
-        "yColumns": null,
-        "seriesColumns": null,
-        "xAxisScale": "linear",
-        "verticalLine": "",
-        "crossFilterDisabled": false,
-        "drillthroughDisabled": false,
-        "crossFilter": [],
-        "drillthrough": [],
-        "selectedDataOnLoad": {
-          "all": true,
-          "limit": 10
-        },
-        "dataPointsTooltip": {
-          "all": false,
-          "limit": 1
-        }
-      }
-    },
-    {
-      "id": "a3f0dce1-796d-4af3-8d3b-ea8f967d69ec",
-      "title": ".",
-      "visualType": "markdownCard",
-      "pageId": "2fb6a33c-fae5-458a-b7bd-0cd23fa0f21c",
-      "layout": {
-        "x": 0,
-        "y": 0,
-        "width": 24,
-        "height": 2
-      },
-      "markdownText": "# Missing Indexes\n",
-      "visualOptions": {}
-    },
-    {
       "id": "8b18a687-a7ff-4d33-bffc-0d2ab9c25025",
       "title": "1.",
       "visualType": "markdownCard",
@@ -2900,413 +2755,6 @@
       }
     },
     {
-      "id": "6a9f353a-fd7a-45f5-aa49-d2f803b71fca",
-      "title": ".",
-      "visualType": "markdownCard",
-      "pageId": "2fb6a33c-fae5-458a-b7bd-0cd23fa0f21c",
-      "layout": {
-        "x": 0,
-        "y": 26,
-        "width": 23,
-        "height": 3
-      },
-      "markdownText": "# Media Orphans Info\n",
-      "visualOptions": {}
-    },
-    {
-      "id": "92817d21-d73b-4af0-bbe2-b904c6ff3742",
-      "title": "Current Orphans per customer",
-      "visualType": "table",
-      "pageId": "2fb6a33c-fae5-458a-b7bd-0cd23fa0f21c",
-      "layout": {
-        "x": 0,
-        "y": 29,
-        "width": 23,
-        "height": 8
-      },
-      "queryRef": {
-        "kind": "query",
-        "queryId": "47aab107-a91a-4afa-bb28-4f80c2a6ca37"
-      },
-      "visualOptions": {
-        "table__enableRenderLinks": true,
-        "colorRulesDisabled": true,
-        "colorStyle": "light",
-        "crossFilterDisabled": false,
-        "drillthroughDisabled": false,
-        "crossFilter": [],
-        "drillthrough": [],
-        "table__renderLinks": [],
-        "colorRules": []
-      }
-    },
-    {
-      "id": "d5198070-1a8b-42fc-9491-2728ad28b521",
-      "title": "Orphan problems",
-      "visualType": "column",
-      "pageId": "2fb6a33c-fae5-458a-b7bd-0cd23fa0f21c",
-      "layout": {
-        "x": 0,
-        "y": 37,
-        "width": 23,
-        "height": 7
-      },
-      "queryRef": {
-        "kind": "query",
-        "queryId": "d7c9ee94-2105-422c-a132-680d2d03ca5e"
-      },
-      "visualOptions": {
-        "multipleYAxes": {
-          "base": {
-            "id": "-1",
-            "label": "",
-            "columns": [],
-            "yAxisMaximumValue": null,
-            "yAxisMinimumValue": null,
-            "yAxisScale": "linear",
-            "horizontalLines": []
-          },
-          "additional": [],
-          "showMultiplePanels": false
-        },
-        "hideLegend": true,
-        "xColumnTitle": "",
-        "xColumn": null,
-        "yColumns": null,
-        "seriesColumns": [
-          "tenantDescription",
-          "message"
-        ],
-        "xAxisScale": "linear",
-        "verticalLine": "",
-        "crossFilterDisabled": false,
-        "drillthroughDisabled": false,
-        "legendLocation": "bottom",
-        "crossFilter": [],
-        "drillthrough": [],
-        "selectedDataOnLoad": {
-          "all": true,
-          "limit": 10
-        },
-        "dataPointsTooltip": {
-          "all": false,
-          "limit": 1
-        }
-      }
-    },
-    {
-      "id": "dcb669c1-6247-4281-a85f-617ac22693e3",
-      "title": "Media Orphan Info (Last)",
-      "visualType": "table",
-      "pageId": "2fb6a33c-fae5-458a-b7bd-0cd23fa0f21c",
-      "layout": {
-        "x": 0,
-        "y": 44,
-        "width": 23,
-        "height": 8
-      },
-      "queryRef": {
-        "kind": "query",
-        "queryId": "ae0c55e3-b8ba-4828-8f92-735a469c4783"
-      },
-      "visualOptions": {
-        "table__enableRenderLinks": true,
-        "colorRulesDisabled": true,
-        "colorStyle": "light",
-        "crossFilterDisabled": false,
-        "drillthroughDisabled": false,
-        "crossFilter": [],
-        "drillthrough": [],
-        "table__renderLinks": [],
-        "colorRules": []
-      }
-    },
-    {
-      "id": "d1483055-4c7a-4174-80a2-fdd58194a429",
-      "title": ".",
-      "visualType": "markdownCard",
-      "pageId": "2fb6a33c-fae5-458a-b7bd-0cd23fa0f21c",
-      "layout": {
-        "x": 0,
-        "y": 108,
-        "width": 24,
-        "height": 3
-      },
-      "markdownText": "# Retention Policies\n\n",
-      "visualOptions": {}
-    },
-    {
-      "id": "9560c62d-886e-43f4-9da1-75cedd9744e9",
-      "title": "Overview Retention Policies",
-      "visualType": "table",
-      "pageId": "2fb6a33c-fae5-458a-b7bd-0cd23fa0f21c",
-      "layout": {
-        "x": 0,
-        "y": 111,
-        "width": 24,
-        "height": 8
-      },
-      "queryRef": {
-        "kind": "query",
-        "queryId": "6edf2a9a-0436-4169-b825-5630c8f819fd"
-      },
-      "visualOptions": {
-        "table__enableRenderLinks": true,
-        "colorRulesDisabled": true,
-        "colorStyle": "light",
-        "crossFilterDisabled": false,
-        "drillthroughDisabled": false,
-        "crossFilter": [],
-        "drillthrough": [],
-        "table__renderLinks": [],
-        "colorRules": []
-      }
-    },
-    {
-      "id": "6a0921b8-be93-4359-b73e-0681f813ebc8",
-      "title": ".",
-      "visualType": "markdownCard",
-      "pageId": "2fb6a33c-fae5-458a-b7bd-0cd23fa0f21c",
-      "layout": {
-        "x": 0,
-        "y": 61,
-        "width": 24,
-        "height": 3
-      },
-      "markdownText": "# Installed Apps Overview\n\n",
-      "visualOptions": {}
-    },
-    {
-      "id": "6d66c2ca-5f8c-4cc4-901d-7198a8b21f56",
-      "title": "Apps MaxVersion per company (Data last 10d)",
-      "visualType": "table",
-      "pageId": "2fb6a33c-fae5-458a-b7bd-0cd23fa0f21c",
-      "layout": {
-        "x": 12,
-        "y": 64,
-        "width": 12,
-        "height": 9
-      },
-      "queryRef": {
-        "kind": "query",
-        "queryId": "92d795de-d0d3-4e33-b884-2bb1292b9609"
-      },
-      "visualOptions": {
-        "table__enableRenderLinks": true,
-        "colorRulesDisabled": true,
-        "colorStyle": "light",
-        "crossFilterDisabled": false,
-        "drillthroughDisabled": false,
-        "crossFilter": [],
-        "drillthrough": [],
-        "table__renderLinks": [],
-        "colorRules": []
-      }
-    },
-    {
-      "id": "e0bde961-d8e6-4cce-bc73-81faddfe2bc1",
-      "title": "Max version per App",
-      "visualType": "table",
-      "pageId": "2fb6a33c-fae5-458a-b7bd-0cd23fa0f21c",
-      "layout": {
-        "x": 0,
-        "y": 64,
-        "width": 12,
-        "height": 9
-      },
-      "queryRef": {
-        "kind": "query",
-        "queryId": "156dccee-adfc-4517-b239-fdf1c22964e2"
-      },
-      "visualOptions": {
-        "table__enableRenderLinks": true,
-        "colorRulesDisabled": true,
-        "colorStyle": "light",
-        "crossFilterDisabled": false,
-        "drillthroughDisabled": false,
-        "crossFilter": [],
-        "drillthrough": [],
-        "table__renderLinks": [],
-        "colorRules": []
-      }
-    },
-    {
-      "id": "5d0ff463-6089-465a-bb06-7142a5162c1f",
-      "title": "Apps to be Upgraded",
-      "visualType": "table",
-      "pageId": "2fb6a33c-fae5-458a-b7bd-0cd23fa0f21c",
-      "layout": {
-        "x": 6,
-        "y": 73,
-        "width": 18,
-        "height": 10
-      },
-      "queryRef": {
-        "kind": "query",
-        "queryId": "e1d2b7c2-213c-44fc-8db9-659267a34a73"
-      },
-      "visualOptions": {
-        "table__enableRenderLinks": true,
-        "colorRulesDisabled": true,
-        "colorStyle": "light",
-        "crossFilterDisabled": false,
-        "drillthroughDisabled": false,
-        "crossFilter": [],
-        "drillthrough": [],
-        "table__renderLinks": [],
-        "colorRules": []
-      }
-    },
-    {
-      "id": "6081ec5b-b0e8-4a9b-9bae-ee3c5a258c71",
-      "title": "Customers to be Upgraded",
-      "visualType": "table",
-      "pageId": "2fb6a33c-fae5-458a-b7bd-0cd23fa0f21c",
-      "layout": {
-        "x": 0,
-        "y": 73,
-        "width": 6,
-        "height": 10
-      },
-      "queryRef": {
-        "kind": "query",
-        "queryId": "409d4287-a850-4837-a336-7549d34569bb"
-      },
-      "visualOptions": {
-        "table__enableRenderLinks": true,
-        "colorRulesDisabled": true,
-        "colorStyle": "light",
-        "crossFilterDisabled": false,
-        "drillthroughDisabled": false,
-        "crossFilter": [],
-        "drillthrough": [],
-        "table__renderLinks": [],
-        "colorRules": []
-      }
-    },
-    {
-      "id": "d5158161-df96-4208-9a3d-2296f9a85781",
-      "title": "Companies with NO App Info",
-      "visualType": "table",
-      "pageId": "2fb6a33c-fae5-458a-b7bd-0cd23fa0f21c",
-      "layout": {
-        "x": 9,
-        "y": 83,
-        "width": 9,
-        "height": 7
-      },
-      "queryRef": {
-        "kind": "query",
-        "queryId": "c5a6167f-4a6d-4563-bb73-31fb1e13d401"
-      },
-      "visualOptions": {
-        "table__enableRenderLinks": true,
-        "colorRulesDisabled": true,
-        "colorStyle": "light",
-        "crossFilterDisabled": false,
-        "drillthroughDisabled": false,
-        "crossFilter": [],
-        "drillthrough": [],
-        "table__renderLinks": [],
-        "colorRules": []
-      }
-    },
-    {
-      "id": "349ec305-8d1e-4d04-bffb-1e3612d38f35",
-      "title": "Tenants with NO App Info",
-      "visualType": "table",
-      "pageId": "2fb6a33c-fae5-458a-b7bd-0cd23fa0f21c",
-      "layout": {
-        "x": 0,
-        "y": 83,
-        "width": 9,
-        "height": 7
-      },
-      "queryRef": {
-        "kind": "query",
-        "queryId": "ccbe9f52-76c1-4d5f-b704-0b28da2e56b6"
-      },
-      "visualOptions": {
-        "table__enableRenderLinks": true,
-        "colorRulesDisabled": true,
-        "colorStyle": "light",
-        "crossFilterDisabled": false,
-        "drillthroughDisabled": false,
-        "crossFilter": [],
-        "drillthrough": [],
-        "table__renderLinks": [],
-        "colorRules": []
-      }
-    },
-    {
-      "id": "81d32561-593d-4e6e-9430-4a03f9b103be",
-      "title": "Overview Retention Policies",
-      "visualType": "table",
-      "pageId": "2fb6a33c-fae5-458a-b7bd-0cd23fa0f21c",
-      "layout": {
-        "x": 0,
-        "y": 119,
-        "width": 11,
-        "height": 8
-      },
-      "queryRef": {
-        "kind": "query",
-        "queryId": "f936020b-21fc-4347-b261-bffd0b89445a"
-      },
-      "visualOptions": {
-        "table__enableRenderLinks": true,
-        "colorRulesDisabled": true,
-        "colorStyle": "light",
-        "crossFilterDisabled": false,
-        "drillthroughDisabled": false,
-        "crossFilter": [],
-        "drillthrough": [],
-        "table__renderLinks": [],
-        "colorRules": []
-      }
-    },
-    {
-      "id": "906fb382-8112-4361-863f-ff7c93267bf3",
-      "title": ".",
-      "visualType": "markdownCard",
-      "pageId": "2fb6a33c-fae5-458a-b7bd-0cd23fa0f21c",
-      "layout": {
-        "x": 0,
-        "y": 136,
-        "width": 23,
-        "height": 3
-      },
-      "markdownText": "# Features\n\n",
-      "visualOptions": {}
-    },
-    {
-      "id": "9eb381be-9bb4-46e0-974b-f2d4acec5592",
-      "title": "Overview Features",
-      "visualType": "table",
-      "pageId": "2fb6a33c-fae5-458a-b7bd-0cd23fa0f21c",
-      "layout": {
-        "x": 0,
-        "y": 139,
-        "width": 24,
-        "height": 14
-      },
-      "queryRef": {
-        "kind": "query",
-        "queryId": "5a0b60c0-d61a-446b-90aa-b3079133be0e"
-      },
-      "visualOptions": {
-        "table__enableRenderLinks": true,
-        "colorRulesDisabled": true,
-        "colorStyle": "light",
-        "crossFilterDisabled": false,
-        "drillthroughDisabled": false,
-        "crossFilter": [],
-        "drillthrough": [],
-        "table__renderLinks": [],
-        "colorRules": []
-      }
-    },
-    {
       "id": "c109baa5-a18a-46be-a058-534836fd54de",
       "title": ".",
       "visualType": "markdownCard",
@@ -3319,114 +2767,6 @@
       },
       "markdownText": "# AppSource\n\n[Link to docs](https://learn.microsoft.com/en-us/dynamics365/business-central/dev-itpro/administration/telemetry-appsource-submission-validation-trace)\n",
       "visualOptions": {}
-    },
-    {
-      "id": "2fad97eb-0d4b-4ed7-b94d-13268b7367cb",
-      "title": "Last 1000 AppSource Submissions",
-      "visualType": "table",
-      "pageId": "a0f75fcf-eb7d-4d83-a807-2527c0f75471",
-      "layout": {
-        "x": 0,
-        "y": 45,
-        "width": 24,
-        "height": 8
-      },
-      "queryRef": {
-        "kind": "query",
-        "queryId": "3a68fe02-c46f-4f3e-8874-8e0ac0bd31fc"
-      },
-      "visualOptions": {
-        "table__enableRenderLinks": true,
-        "colorRulesDisabled": true,
-        "colorStyle": "light",
-        "crossFilterDisabled": false,
-        "drillthroughDisabled": false,
-        "crossFilter": [],
-        "drillthrough": [],
-        "table__renderLinks": [],
-        "colorRules": []
-      }
-    },
-    {
-      "id": "6c5301e0-5165-4b25-85c7-63de34669ac1",
-      "title": "AppSource Validation Failures (overview)",
-      "visualType": "table",
-      "pageId": "a0f75fcf-eb7d-4d83-a807-2527c0f75471",
-      "layout": {
-        "x": 9,
-        "y": 37,
-        "width": 15,
-        "height": 8
-      },
-      "queryRef": {
-        "kind": "query",
-        "queryId": "a58ea2b4-7587-43e8-b641-9a2e4ae52537"
-      },
-      "visualOptions": {
-        "table__enableRenderLinks": true,
-        "colorRulesDisabled": true,
-        "colorStyle": "light",
-        "crossFilterDisabled": false,
-        "drillthroughDisabled": false,
-        "crossFilter": [],
-        "drillthrough": [],
-        "table__renderLinks": [],
-        "colorRules": []
-      }
-    },
-    {
-      "id": "d9824c9a-7113-4762-b16e-cc85205fc1bc",
-      "title": "AppSource Validation error details",
-      "visualType": "table",
-      "pageId": "a0f75fcf-eb7d-4d83-a807-2527c0f75471",
-      "layout": {
-        "x": 0,
-        "y": 53,
-        "width": 24,
-        "height": 8
-      },
-      "queryRef": {
-        "kind": "query",
-        "queryId": "ebf4f780-c6e8-40c0-92a9-eb60e342c5b5"
-      },
-      "visualOptions": {
-        "table__enableRenderLinks": true,
-        "colorRulesDisabled": true,
-        "colorStyle": "light",
-        "crossFilterDisabled": false,
-        "drillthroughDisabled": false,
-        "crossFilter": [],
-        "drillthrough": [],
-        "table__renderLinks": [],
-        "colorRules": []
-      }
-    },
-    {
-      "id": "0ff073e5-4cdf-4b8e-b45b-259bfc6c2466",
-      "title": "Last 1000 AppSource Submissions",
-      "visualType": "table",
-      "pageId": "a0f75fcf-eb7d-4d83-a807-2527c0f75471",
-      "layout": {
-        "x": 0,
-        "y": 37,
-        "width": 9,
-        "height": 8
-      },
-      "queryRef": {
-        "kind": "query",
-        "queryId": "7c4ebec2-e163-48b3-968d-31f065e36747"
-      },
-      "visualOptions": {
-        "table__enableRenderLinks": true,
-        "colorRulesDisabled": true,
-        "colorStyle": "light",
-        "crossFilterDisabled": false,
-        "drillthroughDisabled": false,
-        "crossFilter": [],
-        "drillthrough": [],
-        "table__renderLinks": [],
-        "colorRules": []
-      }
     },
     {
       "id": "bde74edb-912d-42e8-838c-4501bd698d6b",
@@ -3496,33 +2836,6 @@
       "queryRef": {
         "kind": "query",
         "queryId": "1e0bb7a9-5441-4e88-8365-913d8027e73d"
-      },
-      "visualOptions": {
-        "table__enableRenderLinks": true,
-        "colorRulesDisabled": true,
-        "colorStyle": "light",
-        "crossFilterDisabled": false,
-        "drillthroughDisabled": false,
-        "crossFilter": [],
-        "drillthrough": [],
-        "table__renderLinks": [],
-        "colorRules": []
-      }
-    },
-    {
-      "id": "0d1035f9-820f-4c52-8b7c-d754a9ca7952",
-      "title": "Raw data - Last entries",
-      "visualType": "table",
-      "pageId": "2fb6a33c-fae5-458a-b7bd-0cd23fa0f21c",
-      "layout": {
-        "x": 0,
-        "y": 90,
-        "width": 24,
-        "height": 17
-      },
-      "queryRef": {
-        "kind": "query",
-        "queryId": "bbc5099c-b14d-4e54-aaa3-f9b679d9603e"
       },
       "visualOptions": {
         "table__enableRenderLinks": true,
@@ -3645,33 +2958,6 @@
       }
     },
     {
-      "id": "b4a0c751-871e-45cb-8355-cb689f511224",
-      "title": "Scheduled Environment Updates",
-      "visualType": "table",
-      "pageId": "2fb6a33c-fae5-458a-b7bd-0cd23fa0f21c",
-      "layout": {
-        "x": 0,
-        "y": 55,
-        "width": 24,
-        "height": 7
-      },
-      "queryRef": {
-        "kind": "query",
-        "queryId": "2abb5755-ccc2-46b0-b322-fa0fdc04ecfb"
-      },
-      "visualOptions": {
-        "table__enableRenderLinks": true,
-        "colorRulesDisabled": true,
-        "colorStyle": "light",
-        "crossFilterDisabled": false,
-        "drillthroughDisabled": false,
-        "crossFilter": [],
-        "drillthrough": [],
-        "table__renderLinks": [],
-        "colorRules": []
-      }
-    },
-    {
       "id": "ae182a37-76b8-46be-b07a-27f1dfaddb59",
       "title": "Outgoing API's per endpoint per hour",
       "visualType": "column",
@@ -3773,33 +3059,6 @@
           "all": false,
           "limit": 1
         }
-      }
-    },
-    {
-      "id": "e86b93a8-d4c2-4fe6-a810-940ac54bb1e3",
-      "title": "Overview Retention Policies per customer",
-      "visualType": "table",
-      "pageId": "2fb6a33c-fae5-458a-b7bd-0cd23fa0f21c",
-      "layout": {
-        "x": 0,
-        "y": 127,
-        "width": 23,
-        "height": 8
-      },
-      "queryRef": {
-        "kind": "query",
-        "queryId": "08e7cacf-71ac-4927-ac9c-438d55bfd12a"
-      },
-      "visualOptions": {
-        "table__enableRenderLinks": true,
-        "colorRulesDisabled": true,
-        "colorStyle": "light",
-        "crossFilterDisabled": false,
-        "drillthroughDisabled": false,
-        "crossFilter": [],
-        "drillthrough": [],
-        "table__renderLinks": [],
-        "colorRules": []
       }
     },
     {
@@ -4761,6 +4020,114 @@
         "legendLocation": "bottom",
         "yAxisMinimumValue": 0
       }
+    },
+    {
+      "id": "e8897463-2c87-478d-b994-955ce793714a",
+      "title": "Missing Indexes (Recommendations)",
+      "visualType": "table",
+      "pageId": "2fb6a33c-fae5-458a-b7bd-0cd23fa0f21c",
+      "layout": {
+        "x": 0,
+        "y": 0,
+        "width": 24,
+        "height": 8
+      },
+      "queryRef": {
+        "kind": "query",
+        "queryId": "460efeeb-6e5b-4745-8524-cb47a5ebd917"
+      },
+      "visualOptions": {
+        "table__enableRenderLinks": true,
+        "colorRulesDisabled": true,
+        "colorStyle": "light",
+        "crossFilterDisabled": false,
+        "drillthroughDisabled": false,
+        "crossFilter": [],
+        "drillthrough": [],
+        "table__renderLinks": [],
+        "colorRules": []
+      }
+    },
+    {
+      "id": "c45b9fca-26b9-46b1-9139-f84a9206fdb4",
+      "title": "App Install/Update History",
+      "visualType": "table",
+      "pageId": "2fb6a33c-fae5-458a-b7bd-0cd23fa0f21c",
+      "layout": {
+        "x": 0,
+        "y": 8,
+        "width": 24,
+        "height": 8
+      },
+      "queryRef": {
+        "kind": "query",
+        "queryId": "98bdca9e-3be6-480c-81d9-117d23778c3d"
+      },
+      "visualOptions": {
+        "table__enableRenderLinks": true,
+        "colorRulesDisabled": true,
+        "colorStyle": "light",
+        "crossFilterDisabled": false,
+        "drillthroughDisabled": false,
+        "crossFilter": [],
+        "drillthrough": [],
+        "table__renderLinks": [],
+        "colorRules": []
+      }
+    },
+    {
+      "id": "9ecd5f0f-4026-418c-8cfe-7a53b82f965d",
+      "title": "Retention Policy Activity",
+      "visualType": "table",
+      "pageId": "2fb6a33c-fae5-458a-b7bd-0cd23fa0f21c",
+      "layout": {
+        "x": 0,
+        "y": 16,
+        "width": 24,
+        "height": 6
+      },
+      "queryRef": {
+        "kind": "query",
+        "queryId": "2a68a5b8-2636-49b5-9143-1e3821574ada"
+      },
+      "visualOptions": {
+        "table__enableRenderLinks": true,
+        "colorRulesDisabled": true,
+        "colorStyle": "light",
+        "crossFilterDisabled": false,
+        "drillthroughDisabled": false,
+        "crossFilter": [],
+        "drillthrough": [],
+        "table__renderLinks": [],
+        "colorRules": []
+      }
+    },
+    {
+      "id": "42dc8da5-b53c-4557-9c77-518bcaa59420",
+      "title": "Feature Telemetry",
+      "visualType": "table",
+      "pageId": "2fb6a33c-fae5-458a-b7bd-0cd23fa0f21c",
+      "layout": {
+        "x": 0,
+        "y": 22,
+        "width": 24,
+        "height": 6
+      },
+      "queryRef": {
+        "kind": "query",
+        "queryId": "492f2199-eafe-4f2e-a39d-cce6502e3257"
+      },
+      "visualOptions": {
+        "table__enableRenderLinks": true,
+        "colorRulesDisabled": true,
+        "colorStyle": "light",
+        "crossFilterDisabled": false,
+        "drillthroughDisabled": false,
+        "crossFilter": [],
+        "drillthrough": [],
+        "table__renderLinks": [],
+        "colorRules": []
+      }
     }
   ],
   "baseQueries": [
@@ -5409,53 +4776,6 @@
         "kind": "inline",
         "dataSourceId": "05ae5610-5603-45ac-9458-616539c1c150"
       },
-      "text": "allTraces\n| where eventId == \"ALIFCTLM0001\"\n| where not (customDimensions has_any (\"[Image]\", \"[Picture]\")) //No indexes with columns for pictures/blobs\n| extend TableName = tostring(customDimensions.alTableName)\n    , EqualityColumns = tostring(customDimensions.alEqualityColumns)\n    , InequalityColumns = tostring(customDimensions.alInequalityColumns)\n    , IncludeColumns = tostring(customDimensions.alIncludeColumns)\n| where TableName contains _tableFilter\n| project timestamp, tenantDescription, TableName,EqualityColumns,InequalityColumns,IncludeColumns\n| order by timestamp desc\n| take 1000\n",
-      "id": "4de49ef9-7d2c-4d77-8648-d2f3be6dc56e",
-      "usedVariables": [
-        "_tableFilter",
-        "allTraces"
-      ]
-    },
-    {
-      "dataSource": {
-        "kind": "inline",
-        "dataSourceId": "05ae5610-5603-45ac-9458-616539c1c150"
-      },
-      "text": "//Missing indexes Per Index\nlet MissingIndexesBase=\nallTraces\n| where customDimensions.eventId == \"ALIFCTLM0001\"\n| where not (customDimensions has_any (\"[Image]\", \"[Picture]\",\"[Data]\")) //No indexes with columns for pictures/blobs\n| extend TableName = tostring(customDimensions.alTableName)\n    , EqualityColumns = tostring(customDimensions.alEqualityColumns)\n    , InequalityColumns = tostring(customDimensions.alInequalityColumns)\n    , IncludeColumns = tostring(customDimensions.alIncludeColumns)\n| where TableName contains _tableFilter;\nlet MissingIndexesPerTenantDescription =\nMissingIndexesBase\n| summarize by bin(timestamp, 1d), aadTenantId, TableName,EqualityColumns,InequalityColumns,IncludeColumns, companyName\n| summarize NumberOfCompanies=count() by bin(timestamp, 1d),TableName,EqualityColumns,InequalityColumns,IncludeColumns\n| order by NumberOfCompanies\n| project timestamp, TableName,EqualityColumns,InequalityColumns,IncludeColumns, NumberOfCompanies;\nlet MissingIndexesPerDay =\nMissingIndexesBase\n| summarize by bin(timestamp, 1d), aadTenantId, TableName,EqualityColumns,InequalityColumns,IncludeColumns\n| summarize Occurences=count() by bin(timestamp, 1d),TableName,EqualityColumns,InequalityColumns,IncludeColumns\n| order by Occurences\n| project timestamp, TableName,EqualityColumns,InequalityColumns,IncludeColumns, Occurences;\nMissingIndexesPerDay\n| join kind=leftouter MissingIndexesPerTenantDescription on $left.timestamp == $right.timestamp, $left.TableName == $right.TableName, $left.EqualityColumns == $right.EqualityColumns, $left.InequalityColumns == $right.InequalityColumns, $left.IncludeColumns == $right.IncludeColumns\n| summarize sum(Occurences), avg(NumberOfCompanies) by TableName,EqualityColumns,InequalityColumns,IncludeColumns\n| project TableName,EqualityColumns,InequalityColumns,IncludeColumns, round(avg_NumberOfCompanies,1), sum_Occurences, Priority=round(avg_NumberOfCompanies*sum_Occurences,0)\n| order by Priority desc \n",
-      "id": "1a6861e8-a2cd-4a71-b923-1d608f3cd46e",
-      "usedVariables": [
-        "_tableFilter",
-        "allTraces"
-      ]
-    },
-    {
-      "dataSource": {
-        "kind": "inline",
-        "dataSourceId": "05ae5610-5603-45ac-9458-616539c1c150"
-      },
-      "text": "allTraces\n| where timestamp between (_endTime - 1d .. _endTime)\n| where not (customDimensions has_any (\"[Image]\", \"[Picture]\",\"[Data]\")) //No indexes with columns for pictures/blobs\n| where customDimensions contains \"ALIFCTLM0001\"\n| extend TableName = tostring(customDimensions.alTableName)\n    , EqualityColumns = tostring(customDimensions.alEqualityColumns)\n    , InequalityColumns = tostring(customDimensions.alInequalityColumns)\n    , IncludeColumns = tostring(customDimensions.alIncludeColumns)\n| summarize by tenantDescription, TableName,EqualityColumns,InequalityColumns,IncludeColumns\n| summarize count_ = count() by tenantDescription\n| order by count_ desc \n",
-      "id": "600efe89-e821-43e6-8bb0-ad262a5d3b65",
-      "usedVariables": [
-        "_endTime",
-        "allTraces"
-      ]
-    },
-    {
-      "dataSource": {
-        "kind": "inline",
-        "dataSourceId": "05ae5610-5603-45ac-9458-616539c1c150"
-      },
-      "text": "//Missing indexes over time\nallTraces\n| where customDimensions.eventId == \"ALIFCTLM0001\"\n| where not (customDimensions has_any (\"[Image]\", \"[Picture]\",\"[Data]\")) //No indexes with columns for pictures/blobs\n| extend TableName = tostring(customDimensions.alTableName)\n    , EqualityColumns = tostring(customDimensions.alEqualityColumns)\n    , InequalityColumns = tostring(customDimensions.alInequalityColumns)\n    , IncludeColumns = tostring(customDimensions.alIncludeColumns)\n| summarize by bin(timestamp, 1d), tenantDescription, TableName,EqualityColumns,InequalityColumns,IncludeColumns //group all per day/tenant\n| summarize count_ = count() by bin(timestamp, 1d), tenantDescription                                            //count all per day/tenant\n| order by count_ desc ",
-      "id": "3cf21d55-fb49-4aa1-a6c0-8568daf7cad5",
-      "usedVariables": [
-        "allTraces"
-      ]
-    },
-    {
-      "dataSource": {
-        "kind": "inline",
-        "dataSourceId": "05ae5610-5603-45ac-9458-616539c1c150"
-      },
       "text": "//Many Joins - base query\nallTraces\n| where isnotempty(customDimensions.sqlStatement)  // I need to analyze SQL Statement\n| where isnotempty(customDimensions.alStackTrace)  // Actionable\n| where customDimensions.extensionPublisher <> 'Microsoft'\n| extend numberOfJoins = countof(tostring(customDimensions.sqlStatement), \"JOIN\") //numberOfJoins\n| where not(customDimensions.alObjectType in (\"Page\")) \n| where customDimensions.sqlStatement startswith \"SELECT\" \n| parse kind=regex tostring(customDimensions.sqlStatement) with selectPart: string \"FROM\" rest: string\n| extend numberOfColumnsSelected = countof(selectPart, \",\") + 1 //NumberOfColumns\n    , eventId = tostring(customDimensions.eventId)\n    , userId = user_Id\n    , ObjectType = tostring(customDimensions.alObjectType)\n    , ObjectId = tostring(customDimensions.alObjectId)\n    , ObjectName = tostring(customDimensions.alObjectName)\n    , sqlStatement = tostring(customDimensions.sqlStatement)\n    , clientType = tostring(customDimensions.clientType)\n    , StackTrace = tostring(customDimensions.alStackTrace)\n    , executionTime = customDimensions.executionTime\n    , executionTimeInMS = toreal(totimespan(customDimensions.executionTime))/10000\n    , extensionId = customDimensions.extensionId\n    , extensionName = customDimensions.extensionName\n    , extensionPublisher = customDimensions.extensionPublisher\n    , componentVersion = customDimensions.componentVersion\n| extend extensionIdsFromJOIN = tostring( extract_all(\"JOIN \\\"SQLDATABASE\\\"\\\\.dbo\\\\.\\\"CURRENTCOMPANY\\\\$.+?\\\\$(\\\\S+?)\\\"\", sqlStatement))\n| extend tablename = tostring( extract_all(\"FROM \\\"SQLDATABASE\\\"\\\\.dbo\\\\.\\\"CURRENTCOMPANY(\\\\$.+?)\\\\$\\\\S+?\\\"\", sqlStatement)[0])\n| project aadTenantId, tenantDescription, companyName, componentVersion, extensionPublisher, extensionName, numberOfColumnsSelected, numberOfJoins, executionTimeInMS, ObjectType, ObjectId, ObjectName, StackTrace, eventId, message, clientType, tablename, sqlStatement, extensionIdsFromJOIN\n| order by numberOfColumnsSelected, numberOfJoins desc\n| take 1000\n",
       "id": "6d6a812f-0956-4a64-a235-8dd24298387e",
       "usedVariables": [
@@ -5555,7 +4875,7 @@
         "kind": "inline",
         "dataSourceId": "05ae5610-5603-45ac-9458-616539c1c150"
       },
-      "text": "allTraces\n| where eventId == 'RT0008'\n| extend endpoint = tostring(customDimensions.endpoint)\n    , eventId = tostring(customDimensions.eventId)\n| summarize count(), avgTime = toint(avg(elapsedTimeInMS)), totalTime = toint(sum(elapsedTimeInMS)) by tenantDescription, companyName\n| order by totalTime desc \n",
+      "text": "allTraces\n| extend totalTimeMs = totimespan(customDimensions.totalTime) / 1ms\n| where eventId == 'RT0008'\n| extend endpoint = tostring(customDimensions.endpoint)\n    , eventId = tostring(customDimensions.eventId)\n| summarize count(), avgTime = toint(avg(totalTimeMs)), totalTime = toint(sum(totalTimeMs)) by tenantDescription, companyName\n| order by totalTime desc \n",
       "id": "edba34e4-103f-41ac-a20d-79ddb726db11",
       "usedVariables": [
         "allTraces"
@@ -5638,7 +4958,7 @@
         "kind": "inline",
         "dataSourceId": "05ae5610-5603-45ac-9458-616539c1c150"
       },
-      "text": "allTraces\n| where eventId == 'RT0008'\n| extend endpoint = tostring(customDimensions.endpoint)\n, ObjectName = tostring(customDimensions.alObjectName)\n, serverExecutionTimeInMS = toreal(totimespan(customDimensions.serverExecutionTime))/10000 //the datatype for executionTime is timespan \n, totalTimeInMS = toreal(totimespan(customDimensions.totalTime))/10000 //the datatype for executionTime is timespan \n| where ObjectName contains _sourceObjectFilter\n| summarize count() by bin(timestamp, 1h), endpoint, tenantDescription //put endpoint and customer in the graph\n",
+      "text": "allTraces\n| where eventId == 'RT0008'\n| extend endpoint = tostring(customDimensions.endpoint)\n, ObjectName = tostring(customDimensions.alObjectName)\n, serverExecutionTimeInMS = toreal(totimespan(customDimensions.serverExecutionTime))/10000 //the datatype for executionTime is timespan \n, totalTimeInMS = toreal(totimespan(customDimensions.totalTime))/10000 //the datatype for executionTime is timespan \n| where ObjectName contains _sourceObjectFilter\n| summarize count() by bin(timestamp, 1h), endpoint, tenantDescription //put endpoint and customer in the graph\n\n| take 10000",
       "id": "c1e124dd-1af6-467a-abd6-ea3ffaedc760",
       "usedVariables": [
         "_sourceObjectFilter",
@@ -5750,7 +5070,7 @@
         "kind": "inline",
         "dataSourceId": "05ae5610-5603-45ac-9458-616539c1c150"
       },
-      "text": "//Thanks for the idea, Stefano Demiliani!\n\nallTraces\n| where eventId == 'RT0008'\n     and customDimensions.category == 'ODataV4'\n| where customDimensions contains \"DynamicsOfficeApp\"\n| extend httpHeadersTmp =  tostring( customDimensions.httpHeaders)\n| extend httpHeadersJSON = parse_json(httpHeadersTmp)\n| where httpHeadersJSON.['ms-dyn-useragent'] contains \"DynamicsOfficeApp\"\n| extend httpStatusCode = customDimensions.httpStatusCode\n    , environmentName = customDimensions.environmentName\n    , environmentType = customDimensions.environmentType\n    , alObjectId = customDimensions.alObjectId\n    , alObjectName = customDimensions.alObjectName\n    , endpoint = customDimensions.endpoint\n| project timestamp,  tenantDescription, alObjectId, alObjectName, totalTime, httpStatusCode, environmentName, environmentType, endpoint, message,  customDimensions\n| order by timestamp desc \n",
+      "text": "//Thanks for the idea, Stefano Demiliani!\n\nallTraces\n| extend totalTimeMs = totimespan(customDimensions.totalTimeMs) / 1ms\n| where eventId == 'RT0008'\n     and customDimensions.category == 'ODataV4'\n| where customDimensions contains \"DynamicsOfficeApp\"\n| extend httpHeadersTmp =  tostring( customDimensions.httpHeaders)\n| extend httpHeadersJSON = parse_json(httpHeadersTmp)\n| where httpHeadersJSON.['ms-dyn-useragent'] contains \"DynamicsOfficeApp\"\n| extend httpStatusCode = customDimensions.httpStatusCode\n    , environmentName = customDimensions.environmentName\n    , environmentType = customDimensions.environmentType\n    , alObjectId = customDimensions.alObjectId\n    , alObjectName = customDimensions.alObjectName\n    , endpoint = customDimensions.endpoint\n| project timestamp,  tenantDescription, alObjectId, alObjectName, totalTimeMs, httpStatusCode, environmentName, environmentType, endpoint, message,  customDimensions\n| order by timestamp desc \n",
       "id": "35cd8ec8-33c4-4c21-9da8-5e2c697b0095",
       "usedVariables": [
         "allTraces"
@@ -5772,7 +5092,7 @@
         "kind": "inline",
         "dataSourceId": "05ae5610-5603-45ac-9458-616539c1c150"
       },
-      "text": "allTraces\n| where eventId == 'RT0008'\n| extend endpoint = tostring(customDimensions.endpoint)\n, ObjectName = tostring(customDimensions.alObjectName)\n, serverExecutionTimeInMS = toreal(totimespan(customDimensions.serverExecutionTime))/10000 //the datatype for executionTime is timespan \n, totalTimeInMS = toreal(totimespan(customDimensions.totalTime))/10000 //the datatype for executionTime is timespan \n| where ObjectName contains _sourceObjectFilter\n| summarize avgTotalTime = avg(totalTimeInMS) by bin(timestamp, 1h), endpoint, tenantDescription //put endpoint and customer in the graph\n",
+      "text": "allTraces\n| where eventId == 'RT0008'\n| extend endpoint = tostring(customDimensions.endpoint)\n, ObjectName = tostring(customDimensions.alObjectName)\n, serverExecutionTimeInMS = toreal(totimespan(customDimensions.serverExecutionTime))/10000 //the datatype for executionTime is timespan \n, totalTimeInMS = toreal(totimespan(customDimensions.totalTime))/10000 //the datatype for executionTime is timespan \n| where ObjectName contains _sourceObjectFilter\n| summarize avgTotalTime = avg(totalTimeInMS) by bin(timestamp, 1h), endpoint, tenantDescription //put endpoint and customer in the graph\n\n| take 10000",
       "id": "59b040d0-366a-442b-b022-4515411d3791",
       "usedVariables": [
         "_sourceObjectFilter",
@@ -6051,7 +5371,7 @@
         "kind": "inline",
         "dataSourceId": "05ae5610-5603-45ac-9458-616539c1c150"
       },
-      "text": "allTraces\n| where eventId == \"RT0019\"\n| extend authenticationMethod = tostring(customDimensions.alAuthenticationMethod)\n, httpTimeout = tostring(customDimensions.alHttpTimeout)\n,  endpoint = tostring(customDimensions.endpoint)\n, objectName = tostring(customDimensions.alObjectName)\n| project timestamp,tenantDescription, companyName, extensionName, extensionVersion, extensionPublisher,  endpoint, objectName, toint(elapsedTimeInMS), authenticationMethod, httpTimeout, customDimensions\n| order by timestamp desc\n| take 1000\n",
+      "text": "allTraces\n| extend totalTimeMs = totimespan(customDimensions.totalTime) / 1ms\n| where eventId == \"RT0019\"\n| extend authenticationMethod = tostring(customDimensions.alAuthenticationMethod)\n, httpTimeout = tostring(customDimensions.alHttpTimeout)\n,  endpoint = tostring(customDimensions.endpoint)\n, objectName = tostring(customDimensions.alObjectName)\n| project timestamp,tenantDescription, companyName, extensionName, extensionVersion, extensionPublisher,  endpoint, objectName, toint(totalTimeMs), authenticationMethod, httpTimeout, customDimensions\n| order by timestamp desc\n| take 1000\n",
       "id": "d857e211-942a-48a9-a052-43aef3fad405",
       "usedVariables": [
         "allTraces"
@@ -6062,7 +5382,7 @@
         "kind": "inline",
         "dataSourceId": "05ae5610-5603-45ac-9458-616539c1c150"
       },
-      "text": "allTraces\n| where eventId == \"RT0019\"\n| extend authenticationMethod = tostring(customDimensions.alAuthenticationMethod)\n, httpTimeout = tostring(customDimensions.alHttpTimeout)\n,  endpoint = tostring(customDimensions.endpoint)\n, objectName = tostring(customDimensions.alObjectName)\n// | project timestamp,tenantDescription, companyName, extensionName, extensionVersion, extensionPublisher,  endpoint, objectName, toint(elapsedTimeInMS), authenticationMethod, httpTimeout, customDimensions\n| summarize count(), toint(avg(elapsedTimeInMS)) by tenantDescription, extensionName, endpoint\n",
+      "text": "allTraces\n| extend totalTimeMs = totimespan(customDimensions.totalTime) / 1ms\n| where eventId == \"RT0019\"\n| extend authenticationMethod = tostring(customDimensions.alAuthenticationMethod)\n, httpTimeout = tostring(customDimensions.alHttpTimeout)\n,  endpoint = tostring(customDimensions.endpoint)\n, objectName = tostring(customDimensions.alObjectName)\n// | project timestamp,tenantDescription, companyName, extensionName, extensionVersion, extensionPublisher,  endpoint, objectName, toint(totalTimeMs), authenticationMethod, httpTimeout, customDimensions\n| summarize count(), toint(avg(totalTimeMs)) by tenantDescription, extensionName, endpoint\n",
       "id": "02117133-7e01-4a58-acc6-c75a81367208",
       "usedVariables": [
         "allTraces"
@@ -6073,7 +5393,7 @@
         "kind": "inline",
         "dataSourceId": "05ae5610-5603-45ac-9458-616539c1c150"
       },
-      "text": "allTraces\n| where eventId == \"RT0019\"\n| extend authenticationMethod = tostring(customDimensions.alAuthenticationMethod)\n, httpTimeout = tostring(customDimensions.alHttpTimeout)\n,  endpoint = tostring(customDimensions.endpoint)\n, objectName = tostring(customDimensions.alObjectName)\n// | project timestamp,tenantDescription, companyName, extensionName, extensionVersion, extensionPublisher,  endpoint, objectName, toint(elapsedTimeInMS), authenticationMethod, httpTimeout, customDimensions\n| summarize count(), toint(avg(elapsedTimeInMS)) by extensionName\n",
+      "text": "allTraces\n| extend totalTimeMs = totimespan(customDimensions.totalTime) / 1ms\n| where eventId == \"RT0019\"\n| extend authenticationMethod = tostring(customDimensions.alAuthenticationMethod)\n, httpTimeout = tostring(customDimensions.alHttpTimeout)\n,  endpoint = tostring(customDimensions.endpoint)\n, objectName = tostring(customDimensions.alObjectName)\n// | project timestamp,tenantDescription, companyName, extensionName, extensionVersion, extensionPublisher,  endpoint, objectName, toint(totalTimeMs), authenticationMethod, httpTimeout, customDimensions\n| summarize count(), toint(avg(totalTimeMs)) by extensionName\n",
       "id": "9b3dc971-a821-4ebc-bab4-ef5aca1dbc17",
       "usedVariables": [
         "allTraces"
@@ -6084,7 +5404,7 @@
         "kind": "inline",
         "dataSourceId": "05ae5610-5603-45ac-9458-616539c1c150"
       },
-      "text": "allTraces\n| where eventId == \"RT0019\"\n| extend authenticationMethod = tostring(customDimensions.alAuthenticationMethod)\n, httpTimeout = tostring(customDimensions.alHttpTimeout)\n,  endpoint = tostring(customDimensions.endpoint)\n, objectName = tostring(customDimensions.alObjectName)\n// | project timestamp,tenantDescription, companyName, extensionName, extensionVersion, extensionPublisher,  endpoint, objectName, toint(elapsedTimeInMS), authenticationMethod, httpTimeout, customDimensions\n| summarize count(), toint(avg(elapsedTimeInMS)) by extensionName\n",
+      "text": "allTraces\n| extend totalTimeMs = totimespan(customDimensions.totalTime) / 1ms\n| where eventId == \"RT0019\"\n| extend authenticationMethod = tostring(customDimensions.alAuthenticationMethod)\n, httpTimeout = tostring(customDimensions.alHttpTimeout)\n,  endpoint = tostring(customDimensions.endpoint)\n, objectName = tostring(customDimensions.alObjectName)\n// | project timestamp,tenantDescription, companyName, extensionName, extensionVersion, extensionPublisher,  endpoint, objectName, toint(totalTimeMs), authenticationMethod, httpTimeout, customDimensions\n| summarize count(), toint(avg(totalTimeMs)) by extensionName\n",
       "id": "241a37dc-18da-493a-bf21-20cd0feb11df",
       "usedVariables": [
         "allTraces"
@@ -6095,7 +5415,7 @@
         "kind": "inline",
         "dataSourceId": "05ae5610-5603-45ac-9458-616539c1c150"
       },
-      "text": "allTraces\n| where eventId == \"RT0019\"\n| extend authenticationMethod = tostring(customDimensions.alAuthenticationMethod)\n, httpTimeout = tostring(customDimensions.alHttpTimeout)\n,  endpoint = tostring(customDimensions.endpoint)\n, objectName = tostring(customDimensions.alObjectName)\n// | project timestamp,tenantDescription, companyName, extensionName, extensionVersion, extensionPublisher,  endpoint, objectName, toint(elapsedTimeInMS), authenticationMethod, httpTimeout, customDimensions\n| summarize count(), toint(avg(elapsedTimeInMS)) by companyName = strcat(tenantDescription, \".\", companyName)\n| order by avg_elapsedTimeInMS desc \n| take 15\n",
+      "text": "allTraces\n| extend totalTimeMs = totimespan(customDimensions.totalTime) / 1ms\n| where eventId == \"RT0019\"\n| extend authenticationMethod = tostring(customDimensions.alAuthenticationMethod)\n, httpTimeout = tostring(customDimensions.alHttpTimeout)\n,  endpoint = tostring(customDimensions.endpoint)\n, objectName = tostring(customDimensions.alObjectName)\n// | project timestamp,tenantDescription, companyName, extensionName, extensionVersion, extensionPublisher,  endpoint, objectName, toint(totalTimeMs), authenticationMethod, httpTimeout, customDimensions\n| summarize count(), toint(avg(totalTimeMs)) by companyName = strcat(tenantDescription, \".\", companyName)\n| order by avg_totalTimeMs desc \n| take 15\n",
       "id": "2ecf90e4-fda9-430e-8e98-4d9c43a41f62",
       "usedVariables": [
         "allTraces"
@@ -6106,7 +5426,7 @@
         "kind": "inline",
         "dataSourceId": "05ae5610-5603-45ac-9458-616539c1c150"
       },
-      "text": "allTraces\n| where eventId == \"RT0019\"\n| extend authenticationMethod = tostring(customDimensions.alAuthenticationMethod)\n, httpTimeout = tostring(customDimensions.alHttpTimeout)\n,  endpoint = tostring(customDimensions.endpoint)\n, objectName = tostring(customDimensions.alObjectName)\n// | project timestamp,tenantDescription, companyName, extensionName, extensionVersion, extensionPublisher,  endpoint, objectName, toint(elapsedTimeInMS), authenticationMethod, httpTimeout, customDimensions\n| summarize count(), toint(avg(elapsedTimeInMS)) by companyName = strcat(tenantDescription, \".\", companyName)\n| order by count_ desc \n| take 15\n",
+      "text": "allTraces\n| extend totalTimeMs = totimespan(customDimensions.totalTime) / 1ms\n| where eventId == \"RT0019\"\n| extend authenticationMethod = tostring(customDimensions.alAuthenticationMethod)\n, httpTimeout = tostring(customDimensions.alHttpTimeout)\n,  endpoint = tostring(customDimensions.endpoint)\n, objectName = tostring(customDimensions.alObjectName)\n// | project timestamp,tenantDescription, companyName, extensionName, extensionVersion, extensionPublisher,  endpoint, objectName, toint(totalTimeMs), authenticationMethod, httpTimeout, customDimensions\n| summarize count(), toint(avg(totalTimeMs)) by companyName = strcat(tenantDescription, \".\", companyName)\n| order by count_ desc \n| take 15\n",
       "id": "e66504a7-fa3e-4b22-ac91-ee67d4f90f84",
       "usedVariables": [
         "allTraces"
@@ -6150,225 +5470,7 @@
         "kind": "inline",
         "dataSourceId": "05ae5610-5603-45ac-9458-616539c1c150"
       },
-      "text": "//Orphans Problems!\n\nallTraces\n| where timestamp between (_endTime - 1d .. _endTime)\n| where environmentName !contains \"QA\"\n| where environmentName !contains \"TRAINING\"\n| where tostring(customDimensions.eventId) in (\"ALIFCTLM0003\", \"ALIFCTLM0005\")\n| extend NoOfOrphans = toint(customDimensions.alNoOfOrphans)\n| summarize NoOfOrphans = toint(avg(NoOfOrphans)) by bin(timestamp, 1d), tenantDescription ,  companyName, message, environmentName\n| project NoOfOrphans, tenantDescription, message, companyName,environmentName\n| order by NoOfOrphans desc \n",
-      "id": "47aab107-a91a-4afa-bb28-4f80c2a6ca37",
-      "usedVariables": [
-        "_endTime",
-        "allTraces"
-      ]
-    },
-    {
-      "dataSource": {
-        "kind": "inline",
-        "dataSourceId": "05ae5610-5603-45ac-9458-616539c1c150"
-      },
-      "text": "//Orphans Problems!\n\nallTraces\n| where tostring(customDimensions.eventId) in (\"ALIFCTLM0003\", \"ALIFCTLM0005\")\n| extend NoOfOrphans = toint(customDimensions.alNoOfOrphans)\n| project timestamp, tenantDescription, message, NoOfOrphans\n| summarize NoOfOrphans = toint(avg(NoOfOrphans)) by bin(timestamp, 1d), tenantDescription, message\n| order by timestamp desc\n",
-      "id": "d7c9ee94-2105-422c-a132-680d2d03ca5e",
-      "usedVariables": [
-        "allTraces"
-      ]
-    },
-    {
-      "dataSource": {
-        "kind": "inline",
-        "dataSourceId": "05ae5610-5603-45ac-9458-616539c1c150"
-      },
-      "text": "//Orphans\n\nallTraces\n| where tostring(customDimensions.eventId) in (\"ALIFCTLM0003\", \"ALIFCTLM0004\", \"ALIFCTLM0005\", \"ALIFCTLM0006\")\n| extend aadTenantId = tostring(customDimensions.aadTenantId)\n| project timestamp, tenantDescription, environmentName, companyName, message\n| order by timestamp desc\n",
-      "id": "ae0c55e3-b8ba-4828-8f92-735a469c4783",
-      "usedVariables": [
-        "allTraces"
-      ]
-    },
-    {
-      "dataSource": {
-        "kind": "inline",
-        "dataSourceId": "05ae5610-5603-45ac-9458-616539c1c150"
-      },
-      "text": "allTraces\n| where customDimensions.eventId contains \"ALIFCTLM0011\"\n| extend ApplyToAllRecords = customDimensions.alRetentionApplyToAllRecords\n| extend Manual = customDimensions.alRetentionManual\n| extend Enabled = customDimensions.alRetentionEnabled\n| extend DateFieldName = customDimensions.alRetentionDateFieldName\n| extend TableName = customDimensions.alRetentionTableName\n| extend TableId = customDimensions.alRetentionTableId\n| extend DateFieldNo = customDimensions.alRetentionDateFieldNo\n| project timestamp\n    , aadTenantId\n    , tenantDescription\n    , companyName\n    , TableId\n    , TableName\n    , Enabled\n    , Manual\n    , DateFieldNo\n    , DateFieldName\n    , ApplyToAllRecords",
-      "id": "6edf2a9a-0436-4169-b825-5630c8f819fd",
-      "usedVariables": [
-        "allTraces"
-      ]
-    },
-    {
-      "dataSource": {
-        "kind": "inline",
-        "dataSourceId": "05ae5610-5603-45ac-9458-616539c1c150"
-      },
-      "text": "traces\n| extend aadTenantId = tostring(customDimensions.aadTenantId)\n        , environmentName = tostring(customDimensions.environmentName)\n        , companyName = tostring(customDimensions.companyName)\n| extend IsSaas  = iff(isempty(environmentName) or environmentName in ('common','null','default','undefined'),false,true)\n| where IsSaas in (_IsSaaS)\n| where message contains _MessageFilter\n| where aadTenantId has_any (_entraTenantId)\n| where customDimensions has _customDimensionsContains\n| where environmentName in (_environmentName)\n| where companyName contains _CompanyFilter\n| join kind=leftouter entraTenantIdDescriptions on $left.aadTenantId == $right.entraTenantId\n| where tenantDescription has_any (_TenantDescription)\n| where timestamp >= ago(10d)\n| where customDimensions.eventId == \"ALIFCTLM0007\" //Daily Installed app report\n| extend \n    AppVersion = tostring(customDimensions.alAppVersion)\n    ,UserRole = tostring(customDimensions.alUserRole)\n    ,AppId = tostring(customDimensions.alAppId)\n    ,AppName = tostring(customDimensions.alAppName)\n    ,AppPublisher = tostring(customDimensions.alAppPublisher)\n| where AppName has_any (_extensionName)\n| where AppPublisher has_any (_extensionPublisher)\n| where AppPublisher startswith _componentVersionFilter\n| summarize max(AppVersion) by tenantDescription, aadTenantId, AppId, AppPublisher, AppName\n| project tenantDescription, aadTenantId, AppName, AppPublisher, max_AppVersion, AppId\n| order by tenantDescription, aadTenantId, AppPublisher, AppName asc \n    ",
-      "id": "92d795de-d0d3-4e33-b884-2bb1292b9609",
-      "usedVariables": [
-        "_CompanyFilter",
-        "_IsSaaS",
-        "_MessageFilter",
-        "_TenantDescription",
-        "_componentVersionFilter",
-        "_customDimensionsContains",
-        "_entraTenantId",
-        "_environmentName",
-        "_extensionName",
-        "_extensionPublisher",
-        "entraTenantIdDescriptions"
-      ]
-    },
-    {
-      "dataSource": {
-        "kind": "inline",
-        "dataSourceId": "05ae5610-5603-45ac-9458-616539c1c150"
-      },
-      "text": "let MaxVersionPerAppSaaS=\n    traces\n    | extend aadTenantId = tostring(customDimensions.aadTenantId)\n            , environmentName = tostring(customDimensions.environmentName)\n| extend IsSaas  = iff(isempty(environmentName) or environmentName in ('common','null','default','undefined'),false,true)\n, companyName = tostring(customDimensions.companyName)\n    | where IsSaas == true\n    | where message contains _MessageFilter\n    | where aadTenantId has_any (_entraTenantId)\n    | where customDimensions has _customDimensionsContains\n    | where environmentName in (_environmentName)\n    | where companyName contains _CompanyFilter\n    | join kind=leftouter entraTenantIdDescriptions on $left.aadTenantId == $right.entraTenantId\n    | where tenantDescription has_any (_TenantDescription)\n    | where timestamp >= ago(10d)\n    | where customDimensions.eventId == \"ALIFCTLM0007\" //Daily Installed app report\n    | extend \n        AppVersion = tostring(customDimensions.alAppVersion)\n        ,UserRole = tostring(customDimensions.alUserRole)\n        ,AppId = tostring(customDimensions.alAppId)\n        ,AppName = tostring(customDimensions.alAppName)\n        ,AppPublisher = tostring(customDimensions.alAppPublisher)\n    | where AppName has_any (_extensionName)\n    | where AppPublisher has_any (_extensionPublisher)\n    | where AppPublisher startswith _componentVersionFilter\n    | summarize max(AppVersion) by  AppId, AppPublisher, AppName\n    | project AppName, AppPublisher, MaxVersionSaaS = max_AppVersion, AppId;\nlet MaxVersionPerAppOnPrem=\n    traces\n    | extend aadTenantId = tostring(customDimensions.aadTenantId)\n            , environmentName = tostring(customDimensions.environmentName)\n| extend IsSaas  = iff(isempty(environmentName) or environmentName in ('common','null','default','undefined'),false,true)\n, companyName = tostring(customDimensions.companyName)\n    | where IsSaas == false\n    | where message contains _MessageFilter\n    | where aadTenantId has_any (_entraTenantId)\n    | where customDimensions has _customDimensionsContains\n    | where environmentName in (_environmentName)\n    | where companyName contains _CompanyFilter\n    | join kind=leftouter entraTenantIdDescriptions on $left.aadTenantId == $right.entraTenantId\n    | where tenantDescription has_any (_TenantDescription)\n    | where timestamp >= ago(10d)\n    | where customDimensions.eventId == \"ALIFCTLM0007\" //Daily Installed app report\n    | extend \n        AppVersion = tostring(customDimensions.alAppVersion)\n        ,UserRole = tostring(customDimensions.alUserRole)\n        ,AppId = tostring(customDimensions.alAppId)\n        ,AppName = tostring(customDimensions.alAppName)\n        ,AppPublisher = tostring(customDimensions.alAppPublisher)\n    | where AppName has_any (_extensionName)\n    | where AppPublisher has_any (_extensionPublisher)\n    | where AppPublisher startswith _componentVersionFilter\n    | summarize max(AppVersion) by  AppId, AppPublisher, AppName\n    | project AppName, AppPublisher, MaxVersionOnPrem = max_AppVersion, AppId;\nMaxVersionPerAppSaaS\n| join kind=fullouter MaxVersionPerAppOnPrem on $left.AppId == $right.AppId\n| project AppName, AppPublisher, MaxVersionSaaS, MaxVersionOnPrem, AppId;\n\n\n",
-      "id": "156dccee-adfc-4517-b239-fdf1c22964e2",
-      "usedVariables": [
-        "_CompanyFilter",
-        "_MessageFilter",
-        "_TenantDescription",
-        "_componentVersionFilter",
-        "_customDimensionsContains",
-        "_entraTenantId",
-        "_environmentName",
-        "_extensionName",
-        "_extensionPublisher",
-        "entraTenantIdDescriptions"
-      ]
-    },
-    {
-      "dataSource": {
-        "kind": "inline",
-        "dataSourceId": "05ae5610-5603-45ac-9458-616539c1c150"
-      },
-      "text": "let MaxVersionPerAppSaaS=\n    traces\n    | extend aadTenantId = tostring(customDimensions.aadTenantId)\n            , environmentName = tostring(customDimensions.environmentName)\n            , companyName = tostring(customDimensions.companyName)\n| extend IsSaas  = iff(isempty(environmentName) or environmentName in ('common','null','default','undefined'),false,true)\n    | where IsSaas == true\n    | where message contains _MessageFilter\n    | where aadTenantId has_any (_entraTenantId)\n    | where customDimensions has _customDimensionsContains\n    | where environmentName in (_environmentName)\n    | where companyName contains _CompanyFilter\n    | join kind=leftouter entraTenantIdDescriptions on $left.aadTenantId == $right.entraTenantId\n    | where tenantDescription has_any (_TenantDescription)\n    | where timestamp >= ago(10d)\n    | where customDimensions.eventId == \"ALIFCTLM0007\" //Daily Installed app report\n    | extend \n        AppVersion = tostring(customDimensions.alAppVersion)\n        ,UserRole = tostring(customDimensions.alUserRole)\n        ,AppId = tostring(customDimensions.alAppId)\n        ,AppName = tostring(customDimensions.alAppName)\n        ,AppPublisher = tostring(customDimensions.alAppPublisher)\n    | where AppName has_any (_extensionName)\n    | where AppPublisher has_any (_extensionPublisher)\n    | where AppPublisher startswith _componentVersionFilter\n    | summarize max(AppVersion) by  AppId, AppPublisher, AppName, IsSaas\n    | project AppName, AppPublisher, max_AppVersion, AppId, IsSaas;\nlet MaxVersionPerAppOnPrem=\n    traces\n    | extend aadTenantId = tostring(customDimensions.aadTenantId)\n            , environmentName = tostring(customDimensions.environmentName)\n            , companyName = tostring(customDimensions.companyName)\n| extend IsSaas  = iff(isempty(environmentName) or environmentName in ('common','null','default','undefined'),false,true)\n    | where IsSaas == false\n    | where message contains _MessageFilter\n    | where aadTenantId has_any (_entraTenantId)\n    | where customDimensions has _customDimensionsContains\n    | where environmentName in (_environmentName)\n    | where companyName contains _CompanyFilter\n    | join kind=leftouter entraTenantIdDescriptions on $left.aadTenantId == $right.entraTenantId\n    | where tenantDescription has_any (_TenantDescription)\n    | where timestamp >= ago(10d)\n    | where customDimensions.eventId == \"ALIFCTLM0007\" //Daily Installed app report\n    | extend \n        AppVersion = tostring(customDimensions.alAppVersion)\n        ,UserRole = tostring(customDimensions.alUserRole)\n        ,AppId = tostring(customDimensions.alAppId)\n        ,AppName = tostring(customDimensions.alAppName)\n        ,AppPublisher = tostring(customDimensions.alAppPublisher)\n    | where AppName has_any (_extensionName)\n    | where AppPublisher has_any (_extensionPublisher)\n    | where AppPublisher startswith _componentVersionFilter\n    | summarize max(AppVersion) by  AppId, AppPublisher, AppName, IsSaas\n    | project AppName, AppPublisher, max_AppVersion, AppId, IsSaas;\nlet AllAppsMaxVersion =\n    MaxVersionPerAppSaaS\n    | union MaxVersionPerAppOnPrem\n    | project AppName, AppPublisher, max_AppVersion, AppId, IsSaas;\ntraces\n| where timestamp >= ago(10d)\n| where customDimensions.eventId == \"ALIFCTLM0007\" //Daily Installed app report\n| extend \n    AppVersion = tostring(customDimensions.alAppVersion)\n    ,UserRole = tostring(customDimensions.alUserRole)\n    ,AppId = tostring(customDimensions.alAppId)\n    ,AppName = tostring(customDimensions.alAppName)\n    ,AppPublisher = tostring(customDimensions.alAppPublisher)\n    ,environmentName = tostring(customDimensions.environmentName)\n            , companyName = tostring(customDimensions.companyName)\n| extend IsSaas  = iff(isempty(environmentName) or environmentName in ('common','null','default','undefined'),false,true)\n| where IsSaas in (_IsSaaS)\n| join kind=leftouter AllAppsMaxVersion on $left.AppId == $right.AppId, $left.IsSaas == $right.IsSaas\n| where tostring(AppVersion) != tostring(max_AppVersion)\n| extend aadTenantId = tostring(customDimensions.aadTenantId)\n        , environmentName = tostring(customDimensions.environmentName)\n| where message contains _MessageFilter\n| where aadTenantId has_any (_entraTenantId)\n| where customDimensions has _customDimensionsContains\n| where environmentName in (_environmentName)\n| where companyName contains _CompanyFilter\n| join kind=leftouter entraTenantIdDescriptions on $left.aadTenantId == $right.entraTenantId\n| where tenantDescription has_any (_TenantDescription)\n| where AppName has_any (_extensionName)\n| where AppPublisher has_any (_extensionPublisher)\n| where AppPublisher startswith _componentVersionFilter\n| summarize AppVersion = max(AppVersion) by tenantDescription, AppId, AppPublisher, AppName, max_AppVersion, IsSaas\n| project tenantDescription, AppName, AppPublisher, AppVersion, max_AppVersion, AppId, IsSaas\n// | order by tenantDescription, AppPublisher, AppName asc \n    ",
-      "id": "e1d2b7c2-213c-44fc-8db9-659267a34a73",
-      "usedVariables": [
-        "_CompanyFilter",
-        "_IsSaaS",
-        "_MessageFilter",
-        "_TenantDescription",
-        "_componentVersionFilter",
-        "_customDimensionsContains",
-        "_entraTenantId",
-        "_environmentName",
-        "_extensionName",
-        "_extensionPublisher",
-        "entraTenantIdDescriptions"
-      ]
-    },
-    {
-      "dataSource": {
-        "kind": "inline",
-        "dataSourceId": "05ae5610-5603-45ac-9458-616539c1c150"
-      },
-      "text": "let AllAppsMaxVersion =\ntraces\n    | where customDimensions.eventId == \"ALIFCTLM0007\" //Daily Installed app report\n    | extend aadTenantId = tostring(customDimensions.aadTenantId)\n            , environmentName = tostring(customDimensions.environmentName)\n            , companyName = tostring(customDimensions.companyName)\n| extend IsSaas  = iff(isempty(environmentName) or environmentName in ('common','null','default','undefined'),false,true)\n    | where IsSaas in (_IsSaaS)\n    | where message contains _MessageFilter\n    | where aadTenantId has_any (_entraTenantId)\n    | where customDimensions has _customDimensionsContains\n    | where environmentName in (_environmentName)\n    | where companyName contains _CompanyFilter\n    | join kind=leftouter entraTenantIdDescriptions on $left.aadTenantId == $right.entraTenantId\n    | where timestamp >= ago(10d)\n    | extend \n        AppVersion = tostring(customDimensions.alAppVersion)\n        ,UserRole = tostring(customDimensions.alUserRole)\n        ,AppId = tostring(customDimensions.alAppId)\n        ,AppName = tostring(customDimensions.alAppName)\n        ,AppPublisher = tostring(customDimensions.alAppPublisher)\n    | where AppName has_any (_extensionName)\n    | where AppPublisher has_any (_extensionPublisher)\n    | where AppPublisher startswith _componentVersionFilter\n    | summarize max(AppVersion) by  AppId, AppPublisher, AppName\n    | project AppName, AppPublisher, max_AppVersion, AppId\n    | order by  AppPublisher, AppName asc\n;\ntraces\n| where timestamp >= ago(10d)\n| where customDimensions.eventId == \"ALIFCTLM0007\" //Daily Installed app report\n| extend \n    AppVersion = tostring(customDimensions.alAppVersion)\n    ,UserRole = tostring(customDimensions.alUserRole)\n    ,AppId = tostring(customDimensions.alAppId)\n    ,AppName = tostring(customDimensions.alAppName)\n    ,AppPublisher = tostring(customDimensions.alAppPublisher)\n| extend aadTenantId = tostring(customDimensions.aadTenantId)\n        , environmentName = tostring(customDimensions.environmentName)\n            , companyName = tostring(customDimensions.companyName)\n| extend IsSaas  = iff(isempty(environmentName) or environmentName in ('common','null','default','undefined'),false,true)\n| where IsSaas in (_IsSaaS)\n| join kind=leftouter AllAppsMaxVersion on $left.AppId == $right.AppId\n| where tostring(AppVersion) != tostring(max_AppVersion)\n| extend aadTenantId = tostring(customDimensions.aadTenantId)\n        , environmentName = tostring(customDimensions.environmentName)\n| where message contains _MessageFilter\n| where aadTenantId has_any (_entraTenantId)\n| where customDimensions has _customDimensionsContains\n| where environmentName in (_environmentName)\n| where companyName contains _CompanyFilter\n| join kind=leftouter entraTenantIdDescriptions on $left.aadTenantId == $right.entraTenantId\n| where tenantDescription has_any (_TenantDescription)\n| where AppName has_any (_extensionName)\n| where AppPublisher has_any (_extensionPublisher)\n| where AppPublisher startswith _componentVersionFilter\n| summarize AppVersion = max(AppVersion) by tenantDescription, AppId, AppPublisher, AppName, max_AppVersion, IsSaas\n| summarize count() by tenantDescription, IsSaas\n// | project tenantDescription, AppName, AppPublisher, AppVersion, max_AppVersion, AppId\n// | order by tenantDescription, AppPublisher, AppName asc \n    ",
-      "id": "409d4287-a850-4837-a336-7549d34569bb",
-      "usedVariables": [
-        "_CompanyFilter",
-        "_IsSaaS",
-        "_MessageFilter",
-        "_TenantDescription",
-        "_componentVersionFilter",
-        "_customDimensionsContains",
-        "_entraTenantId",
-        "_environmentName",
-        "_extensionName",
-        "_extensionPublisher",
-        "entraTenantIdDescriptions"
-      ]
-    },
-    {
-      "dataSource": {
-        "kind": "inline",
-        "dataSourceId": "05ae5610-5603-45ac-9458-616539c1c150"
-      },
-      "text": "let period = ago(10d);\nlet allCompanies = \n    traces\n        | where timestamp >= period\n        | extend \n            aadTenantId = tostring(customDimensions.aadTenantId),\n            componentVersion = tostring(customDimensions.componentVersion),\n            environmentName = tostring(customDimensions.environmentName)\n            , companyName = tostring(customDimensions.companyName)\n        | extend IsSaas  = iff(isempty(environmentName) or environmentName in ('common','null','default','undefined'),false,true)\n        | where IsSaas in (_IsSaaS)\n        | where isnotempty(companyName) and isnotempty(aadTenantId) and isnotempty( componentVersion)\n        | summarize by companyName, aadTenantId, componentVersion, IsSaas\n        | join kind=leftouter entraTenantIdDescriptions on $left.aadTenantId == $right.entraTenantId\n        | project tenantDescription, companyName, aadTenantId, IsSaas, componentVersion;\nlet allCompaniesWithAppInfo = \n    traces\n        | where timestamp >= period\n        | where customDimensions.eventId == \"ALIFCTLM0007\" //Daily Installed app report\n        | extend \n            aadTenantId = tostring(customDimensions.aadTenantId),\n            componentVersion = tostring(customDimensions.componentVersion),\n            environmentName = tostring(customDimensions.environmentName)\n            , companyName = tostring(customDimensions.companyName)\n        | extend IsSaas  = iff(isempty(environmentName) or environmentName in ('common','null','default','undefined'),false,true)\n        | where IsSaas in (_IsSaaS)\n        | where isnotempty(companyName) and isnotempty(aadTenantId)and isnotempty( componentVersion)\n        | summarize by companyName, aadTenantId, componentVersion, IsSaas\n        | extend HasAppInfo = true;\nallCompanies\n| join kind=fullouter allCompaniesWithAppInfo on $left.aadTenantId == $right.aadTenantId\n| where isempty(HasAppInfo)\n| summarize max(componentVersion) by tenantDescription, companyName, IsSaas\n| order by tenantDescription, companyName asc \n",
-      "id": "c5a6167f-4a6d-4563-bb73-31fb1e13d401",
-      "usedVariables": [
-        "_IsSaaS",
-        "entraTenantIdDescriptions"
-      ]
-    },
-    {
-      "dataSource": {
-        "kind": "inline",
-        "dataSourceId": "05ae5610-5603-45ac-9458-616539c1c150"
-      },
-      "text": "let period = ago(10d);\nlet allCompanies = \n    traces\n        | where timestamp >= period\n        | extend \n            aadTenantId = tostring(customDimensions.aadTenantId),\n            componentVersion = tostring(customDimensions.componentVersion),\n            environmentName = tostring(customDimensions.environmentName)\n            , companyName = tostring(customDimensions.companyName)\n        | extend IsSaas  = iff(isempty(environmentName) or environmentName in ('common','null','default','undefined'),false,true)\n        | where IsSaas in (_IsSaaS)\n        | where isnotempty(companyName) and isnotempty(aadTenantId) and isnotempty( componentVersion)\n        | summarize by companyName, aadTenantId, componentVersion, IsSaas\n        | join kind=leftouter entraTenantIdDescriptions on $left.aadTenantId == $right.entraTenantId\n        | project tenantDescription, companyName, aadTenantId, componentVersion, IsSaas;\nlet allCompaniesWithAppInfo = \n    traces\n        | where timestamp >= period\n        | where customDimensions.eventId == \"ALIFCTLM0007\" //Daily Installed app report\n        | extend \n            aadTenantId = tostring(customDimensions.aadTenantId),\n            componentVersion = tostring(customDimensions.componentVersion),\n            environmentName = tostring(customDimensions.environmentName)\n            , companyName = tostring(customDimensions.companyName)\n        | extend IsSaas  = iff(isempty(environmentName) or environmentName in ('common','null','default','undefined'),false,true)\n        | where IsSaas in (_IsSaaS)\n        | where isnotempty(companyName) and isnotempty(aadTenantId)and isnotempty( componentVersion)\n        | summarize by companyName, aadTenantId, componentVersion, IsSaas\n        | extend HasAppInfo = true;\nallCompanies\n| join kind=fullouter allCompaniesWithAppInfo on $left.aadTenantId == $right.aadTenantId\n| where isempty(HasAppInfo)\n| summarize max(componentVersion) by tenantDescription, IsSaas\n| order by tenantDescription asc \n",
-      "id": "ccbe9f52-76c1-4d5f-b704-0b28da2e56b6",
-      "usedVariables": [
-        "_IsSaaS",
-        "entraTenantIdDescriptions"
-      ]
-    },
-    {
-      "dataSource": {
-        "kind": "inline",
-        "dataSourceId": "05ae5610-5603-45ac-9458-616539c1c150"
-      },
-      "text": "allTraces\n| where customDimensions.eventId contains \"ALIFCTLM0011\"\n| extend ApplyToAllRecords = customDimensions.alRetentionApplyToAllRecords\n| extend Manual = customDimensions.alRetentionManual\n| extend Enabled = tobool(customDimensions.alRetentionEnabled)\n| extend DateFieldName = customDimensions.alRetentionDateFieldName\n| extend TableName = tostring(customDimensions.alRetentionTableName)\n| extend TableId = toint(customDimensions.alRetentionTableId)\n| extend DateFieldNo = customDimensions.alRetentionDateFieldNo\n| project timestamp\n    , aadTenantId\n    , tenantDescription\n    , companyName\n    , TableId\n    , TableName\n    , Enabled\n    , Manual\n    , DateFieldNo\n    , DateFieldName\n    , ApplyToAllRecords\n| summarize count() by TableId, TableName, Enabled",
-      "id": "f936020b-21fc-4347-b261-bffd0b89445a",
-      "usedVariables": [
-        "allTraces"
-      ]
-    },
-    {
-      "dataSource": {
-        "kind": "inline",
-        "dataSourceId": "05ae5610-5603-45ac-9458-616539c1c150"
-      },
-      "text": "allTraces\n| where customDimensions.eventId contains \"ALIFCTLM0010\"\n| extend FeatureCompanyStatus = customDimensions.alFeatureCompanyStatus\n| extend FeatureEnabled = customDimensions.alFeatureEnabled\n| extend FeatureID = customDimensions.alFeatureID\n| extend FeatureIsOneWay = customDimensions.alFeatureIsOneWay\n| extend FeatureMandatoryByVersion = customDimensions.alFeatureMandatoryByVersion\n| extend FeatureLearnMoreLink = customDimensions.alFeatureLearnMoreLink\n| extend FeatureDataUpdateRequired = customDimensions.alFeatureDataUpdateRequired\n| extend FeatureDescription = customDimensions.alFeatureDescription\n| extend FeatureMandatoryBy = customDimensions.alFeatureMandatoryBy\n| extend FeatureIsFullyEnabled = iif(FeatureCompanyStatus has_any (\"Uitgeschakeld\",\"Disabled\"),\"false\",\"true\")\n| project timestamp\n    , aadTenantId\n    , tenantDescription\n    , FeatureEnabled\n    , FeatureIsFullyEnabled\n    , FeatureID\n    , FeatureIsOneWay\n    , FeatureMandatoryByVersion\n    , FeatureLearnMoreLink\n    , FeatureDataUpdateRequired\n    , FeatureDescription\n    , FeatureMandatoryBy\n    , FeatureCompanyStatus\n\n\n\n\n\n\n\n",
-      "id": "5a0b60c0-d61a-446b-90aa-b3079133be0e",
-      "usedVariables": [
-        "allTraces"
-      ]
-    },
-    {
-      "dataSource": {
-        "kind": "inline",
-        "dataSourceId": "05ae5610-5603-45ac-9458-616539c1c150"
-      },
-      "text": "allTraces\n| where eventId in (\n    \"LC0028\",  //AppSource submission validation request started: {validationRequestId}\n    \"LC0038\",  //Diagnostic reported on AppSource submission validation request: {validationRequestId}\n    \"LC0030\",  //(Version, country-region) validation started: version {version}, country/region {countryRegion}\n    \"LC0032\",  //Extension validation started: version {version}, country/region {countryRegion} for extension {extensionName} version {extensionVersion} by {extensionPublisher} ({extensionId})\n    \"LC0034\",  //Validation diagnostic reported: version {version}, country/region {countryRegion} for extension {extensionName} version {extensionVersion} by {extensionPublisher} ({extensionId})\n    \"LC0033\",  //Extension validation completed successfully: version {version}, country/region {countryRegion} for extension {extensionName} version {extensionVersion} by {extensionPublisher} ({extensionId})\n    \"LC0037\",  //Extension validation completed with failures: version {version}, country-region {countryRegion} for extension {extensionName} version {extensionVersion} by {extensionPublisher} ({extensionId})\n    \"LC0031\",  //(Version, country-region) validation completed successfully: version {version}, country/region {countryRegion}\n    \"LC0036\",  //(Version, country-region) validation completed with failures: version {version}, country-region {countryRegion}\n    \"LC0029\",  //AppSource submission validation request completed successfully: {validationRequestId}\n    \"LC0035\")  //AppSource submission validation request completed with failures: {validationRequestId}\n| order by timestamp desc \n| take 1000\n| project\n    timestamp\n    , eventId\n    , status = iif(message has_any (\"successfully\", \"started\"),\"Success\",\"Fail\")\n    , message = substring(eventDescription, 0, indexof(eventDescription,\":\"))\n    , extensionName\n    , extensionPublisher\n    , extensionVersion\n    , customDimensions",
-      "id": "3a68fe02-c46f-4f3e-8874-8e0ac0bd31fc",
-      "usedVariables": [
-        "allTraces"
-      ]
-    },
-    {
-      "dataSource": {
-        "kind": "inline",
-        "dataSourceId": "05ae5610-5603-45ac-9458-616539c1c150"
-      },
-      "text": "allTraces\n| where eventId in (\n    \"LC0038\",  //Diagnostic reported on AppSource submission validation request: {validationRequestId}\n    \"LC0034\",  //Validation diagnostic reported: version {version}, country/region {countryRegion} for extension {extensionName} version {extensionVersion} by {extensionPublisher} ({extensionId})\n    \"LC0037\",  //Extension validation completed with failures: version {version}, country-region {countryRegion} for extension {extensionName} version {extensionVersion} by {extensionPublisher} ({extensionId})\n    \"LC0036\",  //(Version, country-region) validation completed with failures: version {version}, country-region {countryRegion}\n    \"LC0035\")  //AppSource submission validation request completed with failures: {validationRequestId}\n| order by timestamp desc \n| take 1000\n| project\n    timestamp\n    , eventId\n    , status = iif(message has_any (\"successfully\", \"started\"),\"Success\",\"Fail\")\n    , message = substring(eventDescription, 0, indexof(eventDescription,\":\"))\n    , extensionName\n    , extensionPublisher\n    , extensionVersion\n    , customDimensions",
-      "id": "a58ea2b4-7587-43e8-b641-9a2e4ae52537",
-      "usedVariables": [
-        "allTraces"
-      ]
-    },
-    {
-      "dataSource": {
-        "kind": "inline",
-        "dataSourceId": "05ae5610-5603-45ac-9458-616539c1c150"
-      },
-      "text": "allTraces\n| where eventId in (\n    \"LC0038\",  //Diagnostic reported on AppSource submission validation request: {validationRequestId}\n    \"LC0034\")  //Validation diagnostic reported: version {version}, country/region {countryRegion} for extension {extensionName} version {extensionVersion} by {extensionPublisher} ({extensionId})\n| order by timestamp desc \n| take 1000\n| project\n    timestamp\n    , eventId\n    , extensionName\n    , extensionPublisher\n    , extensionVersion\n    , diagnosticCode = tostring(customDimensions.diagnosticCode)\n    , countryRegion = tostring(customDimensions.countryRegion)\n    , version = tostring(customDimensions.version)\n    , diagnosticSourceLocation = tostring(customDimensions.diagnosticSourceLocation)\n    , diagnosticMessage = tostring(customDimensions.diagnosticMessage)\n    , customDimensions\n\n\n",
-      "id": "ebf4f780-c6e8-40c0-92a9-eb60e342c5b5",
-      "usedVariables": [
-        "allTraces"
-      ]
-    },
-    {
-      "dataSource": {
-        "kind": "inline",
-        "dataSourceId": "05ae5610-5603-45ac-9458-616539c1c150"
-      },
-      "text": "allTraces\n| where eventId in (\n    \"LC0028\",  //AppSource submission validation request started: {validationRequestId}\n    \"LC0038\",  //Diagnostic reported on AppSource submission validation request: {validationRequestId}\n    \"LC0030\",  //(Version, country-region) validation started: version {version}, country/region {countryRegion}\n    \"LC0032\",  //Extension validation started: version {version}, country/region {countryRegion} for extension {extensionName} version {extensionVersion} by {extensionPublisher} ({extensionId})\n    \"LC0034\",  //Validation diagnostic reported: version {version}, country/region {countryRegion} for extension {extensionName} version {extensionVersion} by {extensionPublisher} ({extensionId})\n    \"LC0033\",  //Extension validation completed successfully: version {version}, country/region {countryRegion} for extension {extensionName} version {extensionVersion} by {extensionPublisher} ({extensionId})\n    \"LC0037\",  //Extension validation completed with failures: version {version}, country-region {countryRegion} for extension {extensionName} version {extensionVersion} by {extensionPublisher} ({extensionId})\n    \"LC0031\",  //(Version, country-region) validation completed successfully: version {version}, country/region {countryRegion}\n    \"LC0036\",  //(Version, country-region) validation completed with failures: version {version}, country-region {countryRegion}\n    \"LC0029\",  //AppSource submission validation request completed successfully: {validationRequestId}\n    \"LC0035\")  //AppSource submission validation request completed with failures: {validationRequestId}\n| order by timestamp desc \n| take 1000\n| project\n    timestamp\n    , eventId\n    , status = iif(message has_any (\"successfully\", \"started\"),\"Success\",\"Fail\")\n    , message = substring(eventDescription, 0, indexof(eventDescription,\":\"))\n    , extensionName\n    , extensionPublisher\n    , extensionVersion\n    , customDimensions\n| summarize count() by eventId, message",
-      "id": "7c4ebec2-e163-48b3-968d-31f065e36747",
-      "usedVariables": [
-        "allTraces"
-      ]
-    },
-    {
-      "dataSource": {
-        "kind": "inline",
-        "dataSourceId": "05ae5610-5603-45ac-9458-616539c1c150"
-      },
-      "text": "allTraces\n| where eventId == 'RT0008'\n| extend endpoint = tostring(customDimensions.endpoint)\n, ObjectName = tostring(customDimensions.alObjectName)\n, serverExecutionTimeInMS = toreal(totimespan(customDimensions.serverExecutionTime))/10000 //the datatype for executionTime is timespan \n, totalTimeInMS = toreal(totimespan(customDimensions.totalTime))/10000 //the datatype for executionTime is timespan \n| where ObjectName contains _sourceObjectFilter\n| summarize avg(serverExecutionTimeInMS) by bin(timestamp, 1h), endpoint, tenantDescription //put endpoint and customer in the graph\n",
+      "text": "allTraces\n| where eventId == 'RT0008'\n| extend endpoint = tostring(customDimensions.endpoint)\n, ObjectName = tostring(customDimensions.alObjectName)\n, serverExecutionTimeInMS = toreal(totimespan(customDimensions.serverExecutionTime))/10000 //the datatype for executionTime is timespan \n, totalTimeInMS = toreal(totimespan(customDimensions.totalTime))/10000 //the datatype for executionTime is timespan \n| where ObjectName contains _sourceObjectFilter\n| summarize avg(serverExecutionTimeInMS) by bin(timestamp, 1h), endpoint, tenantDescription //put endpoint and customer in the graph\n\n| take 10000",
       "id": "b12fb281-9fac-4881-a19e-15af69700849",
       "usedVariables": [
         "_sourceObjectFilter",
@@ -6391,26 +5493,6 @@
         "kind": "inline",
         "dataSourceId": "05ae5610-5603-45ac-9458-616539c1c150"
       },
-      "text": "traces\n| extend aadTenantId = tostring(customDimensions.aadTenantId)\n        , environmentName = tostring(customDimensions.environmentName)\n            , companyName = tostring(customDimensions.companyName)\n| extend IsSaas  = iff(isempty(environmentName) or environmentName in ('common','null','default','undefined'),false,true)\n| where message contains _MessageFilter\n| where aadTenantId has_any (_entraTenantId)\n| where customDimensions has _customDimensionsContains\n| where environmentName in (_environmentName)\n| where companyName contains _CompanyFilter\n| join kind=leftouter entraTenantIdDescriptions on $left.aadTenantId == $right.entraTenantId\n| where tenantDescription has_any (_TenantDescription)\n| where timestamp >= ago(10d)\n| where customDimensions.eventId == \"ALIFCTLM0007\" //Daily Installed app report\n| extend \n    AppVersion = tostring(customDimensions.alAppVersion)\n    ,UserRole = tostring(customDimensions.alUserRole)\n    ,AppId = tostring(customDimensions.alAppId)\n    ,AppName = tostring(customDimensions.alAppName)\n    ,AppPublisher = tostring(customDimensions.alAppPublisher)\n| where AppName has_any (_extensionName)\n| where AppPublisher has_any (_extensionPublisher)\n| where AppPublisher startswith _componentVersionFilter\n| order by timestamp desc \n| project timestamp, tenantDescription, companyName, AppName, AppPublisher, AppVersion, customDimensions\n\n\n\n",
-      "id": "bbc5099c-b14d-4e54-aaa3-f9b679d9603e",
-      "usedVariables": [
-        "_CompanyFilter",
-        "_MessageFilter",
-        "_TenantDescription",
-        "_componentVersionFilter",
-        "_customDimensionsContains",
-        "_entraTenantId",
-        "_environmentName",
-        "_extensionName",
-        "_extensionPublisher",
-        "entraTenantIdDescriptions"
-      ]
-    },
-    {
-      "dataSource": {
-        "kind": "inline",
-        "dataSourceId": "05ae5610-5603-45ac-9458-616539c1c150"
-      },
       "text": "allTraces \n| where message contains \"Job queue entry\"\n| extend eventId = tostring(customDimensions.eventId)\n| extend shortMessage = iif(substring(message, 0, 4) == \"Task\", \"Task Executed\", \n                    iif(eventId == \"AL0000JRG\", \"Job Queue Error\",\n                        iff(indexof(message, \":\") <= 0, message, substring(message, 0, indexof(message, \":\")))))\n| extend status = case(\n    eventId == \"AL0000E25\", \"Started\",\n    eventId == \"AL0000E24\", \"Enqueued\",\n    eventId == \"AL0000E26\", \"Finished\",\n    eventId == \"AL0000KZV\", \"Canceled\",\n    eventId == \"AL0000HE7\", \"Failed\",\n    eventId == \"AL0000JRG\", \"Failed\",\n    \"Unknown\"\n)\n| summarize count() by eventId, status, shortMessage",
       "id": "8145cc87-908c-4657-af3f-5c8a738a951e",
       "usedVariables": [
@@ -6422,7 +5504,7 @@
         "kind": "inline",
         "dataSourceId": "05ae5610-5603-45ac-9458-616539c1c150"
       },
-      "text": "let allJobQueuesPreviousWeek = \ntraces //we don't want to have the default filters, therefore NO base query\n| where timestamp between (_endTime - 30d .. _endTime)\n| extend eventId = tostring(customDimensions.eventId)\n    , aadTenantId = tostring(customDimensions.aadTenantId)\n    , extensionName = tostring(customDimensions.extensionName)\n| where eventId has_any (_eventId)\n| join kind=leftouter entraTenantIdDescriptions on $left.aadTenantId == $right.entraTenantId\n| where tenantDescription has_any (_TenantDescription)\n| where customDimensions.eventId in ('AL0000E25', 'AL0000E24', 'AL0000I49')\n| summarize by jobQueueNamePreviously = tostring(customDimensions.alJobQueueObjectName)\n;\nlet allJobQueuesCurrentWeek = \nallTraces\n| summarize by jobQueueNameCurrent = tostring(customDimensions.alJobQueueObjectName)\n;\nallJobQueuesPreviousWeek\n| join kind=leftouter allJobQueuesCurrentWeek on $left.jobQueueNamePreviously  == $right.jobQueueNameCurrent\n| where isempty(jobQueueNameCurrent)\n| project NotRunningJobQueue = tostring(jobQueueNamePreviously)",
+      "text": "allTraces\n| where eventId == 'AL0000FNY'\n| extend JobQueueId = tostring(customDimensions.alJobQueueId)\n| extend ObjectName = tostring(customDimensions.alObjectName)\n| extend JobCompany = tostring(customDimensions.alJobQueueCompanyName)\n| project timestamp, JobQueueId, ObjectName, JobCompany, message\n| order by timestamp desc\n| take 50",
       "id": "87b7d2f8-dde0-41b2-83e7-c4ab117d232f",
       "usedVariables": [
         "_TenantDescription",
@@ -6437,7 +5519,7 @@
         "kind": "inline",
         "dataSourceId": "05ae5610-5603-45ac-9458-616539c1c150"
       },
-      "text": "allTraces \n| where eventId in ('AL0000E25', 'AL0000E26')\n| where tostring(customDimensions.alJobQueueIsRecurring) == \"Yes\"\n| extend jobTaskId = tostring(customDimensions.alJobQueueScheduledTaskId), \n    JobQueueObjectDescription = tostring(customDimensions.alJobQueueObjectDescription)\n| summarize startTime = minif(timestamp, customDimensions.eventId == \"AL0000E25\"), endTime = maxif(timestamp, customDimensions.eventId == \"AL0000E26\") by jobTaskId, JobQueueObjectDescription\n| extend processingTime = endTime - startTime\n| summarize avgProcessingTime = avg(processingTime) by JobQueueObjectDescription\n| order by avgProcessingTime desc \n| where isnotempty(JobQueueObjectDescription)",
+      "text": "allTraces\n| where eventId == 'AL0000E26'\n| extend ExecMs = tolong(customDimensions.alJobQueueExecutionTimeInMs)\n| extend ObjectName = tostring(customDimensions.alObjectName)\n| summarize AvgMs = round(avg(ExecMs), 0), P95Ms = round(percentile(ExecMs, 95), 0), MaxMs = max(ExecMs), Runs = count() by ObjectName\n| order by AvgMs desc\n| take 20",
       "id": "cf42eed6-133d-4402-96ba-c4be86292877",
       "usedVariables": [
         "allTraces"
@@ -6448,7 +5530,7 @@
         "kind": "inline",
         "dataSourceId": "05ae5610-5603-45ac-9458-616539c1c150"
       },
-      "text": "let job_queue_errors = \nallTraces\n| where customDimensions has_any ('AL0000HE7','AL0000FNY','AL0000JRG')\n| project timestamp\n, tenantDescription\n, ObjectName = customDimensions.alJobQueueObjectName\n, ObjectDescription = customDimensions.alJobQueueObjectDescription\n, TaskId = tostring( customDimensions.alJobQueueScheduledTaskId )\n, stackTrace = customDimensions.alJobQueueStacktrace\n;\nlet task_scheduler_errors = \nallTraces\n| where customDimensions.eventId == 'LC0045'\n| project TaskId = tostring( customDimensions.taskId )\n, failureReason = tostring(customDimensions.failureReason)\n;\njob_queue_errors\n| join kind=leftouter task_scheduler_errors on $left.TaskId == $right.TaskId\n| summarize count = count() by tostring(ObjectDescription), tostring(ObjectName), tostring(failureReason), tostring(stackTrace)\n| where isnotempty(ObjectDescription)\n| order by count desc \n",
+      "text": "allTraces\n| where eventId == 'AL0000E27'\n| extend ObjectName = tostring(customDimensions.alObjectName)\n| extend JobCompany = tostring(customDimensions.alJobQueueCompanyName)\n| extend FailureReason = message\n| project timestamp, ObjectName, JobCompany, FailureReason\n| order by timestamp desc\n| take 50",
       "id": "285cd3d0-0d8f-4bd2-9b17-d6277545cb54",
       "usedVariables": [
         "allTraces"
@@ -6459,18 +5541,7 @@
         "kind": "inline",
         "dataSourceId": "05ae5610-5603-45ac-9458-616539c1c150"
       },
-      "text": "let allLastOccurences = \nallTraces\n| where customDimensions contains 'LC0101'\n| summarize max(timestamp) by tenantDescription, environmentType, environmentName\n;\nallTraces\n| where customDimensions contains 'LC0101'\n| join kind=inner allLastOccurences \n\ton $left.timestamp == $right.max_timestamp, \n\t\t$left.tenantDescription == $right.tenantDescription, \n\t\t$left.environmentType == $right.environmentType, \n\t\t$left.environmentName == $right.environmentName\n| project \n    timestamp,\n\ttenantDescription,\n    environmentType = tostring(customDimensions.environmentType),\n\tenvironmentName = tostring(customDimensions.environmentName),\n\tenvironmentVersion = tostring(customDimensions.environmentVersion),\n\tcountryCode = tostring(customDimensions.countryCode),\n\tregisteredForUpdateOnOrAfterDateUtc = format_datetime(todatetime(customDimensions.registeredForUpdateOnOrAfterDateUtc),\"dd-MM-yyyy\"),\n\tsourceVersion = tostring(customDimensions.sourceVersion),\n\tdestinationVersion = tostring(customDimensions.destinationVersion),\n\tupdatePeriodStartDateUtc = format_datetime(todatetime(customDimensions.updatePeriodStartDateUtc),\"dd-MM-yyyy\"),\n\tupdatePeriodEndDateUtc = format_datetime(todatetime(customDimensions.updatePeriodEndDateUtc),\"dd-MM-yyyy\"),\n\tupdateWindowStartTimeUtc = customDimensions.updateWindowStartTimeUtc,\n\tupdateWindowEndTimeUtc = customDimensions.updateWindowEndTimeUtc,\n\tignoreUpdateWindow = tostring(customDimensions.ignoreUpdateWindow),\n\tupdateDateSelectedByPartner = tostring(customDimensions.updateDateSelectedByPartner),\n\tcanPartnerReschedule = tostring(customDimensions.canPartnerReschedule),\n\tcustomDimensions",
-      "id": "2abb5755-ccc2-46b0-b322-fa0fdc04ecfb",
-      "usedVariables": [
-        "allTraces"
-      ]
-    },
-    {
-      "dataSource": {
-        "kind": "inline",
-        "dataSourceId": "05ae5610-5603-45ac-9458-616539c1c150"
-      },
-      "text": "allTraces\n| where eventId == \"RT0019\"\n| extend authenticationMethod = tostring(customDimensions.alAuthenticationMethod)\n, httpTimeout = tostring(customDimensions.alHttpTimeout)\n,  endpoint = tostring(customDimensions.endpoint)\n, objectName = tostring(customDimensions.alObjectName)\n| project timestamp,tenantDescription, companyName, extensionName, extensionVersion, extensionPublisher,  endpoint, objectName, toint(elapsedTimeInMS), authenticationMethod, httpTimeout, customDimensions\n| summarize count() by bin(timestamp, 1h), endpoint\n| order by timestamp desc\n| take 1000\n",
+      "text": "allTraces\n| extend totalTimeMs = totimespan(customDimensions.totalTime) / 1ms\n| where eventId == \"RT0019\"\n| extend authenticationMethod = tostring(customDimensions.alAuthenticationMethod)\n, httpTimeout = tostring(customDimensions.alHttpTimeout)\n,  endpoint = tostring(customDimensions.endpoint)\n, objectName = tostring(customDimensions.alObjectName)\n| project timestamp,tenantDescription, companyName, extensionName, extensionVersion, extensionPublisher,  endpoint, objectName, toint(totalTimeMs), authenticationMethod, httpTimeout, customDimensions\n| summarize count() by bin(timestamp, 1h), endpoint\n| order by timestamp desc\n| take 1000\n",
       "id": "c286083d-559b-4e83-a6ec-99144997f030",
       "usedVariables": [
         "allTraces"
@@ -6485,17 +5556,6 @@
       "id": "29bc714e-918a-48fd-aed2-419402e575ad",
       "usedVariables": [
         "_MeasuredFunction",
-        "allTraces"
-      ]
-    },
-    {
-      "dataSource": {
-        "kind": "inline",
-        "dataSourceId": "05ae5610-5603-45ac-9458-616539c1c150"
-      },
-      "text": "allTraces\n| where customDimensions.eventId contains \"ALIFCTLM0011\"\n| extend ApplyToAllRecords = tostring(customDimensions.alRetentionApplyToAllRecords)\n| extend Manual = tostring(customDimensions.alRetentionManual)\n| extend Enabled = tostring(customDimensions.alRetentionEnabled)\n| extend DateFieldName = tostring(customDimensions.alRetentionDateFieldName)\n| extend TableName = tostring(customDimensions.alRetentionTableName)\n| extend TableId = tostring(customDimensions.alRetentionTableId)\n| extend DateFieldNo = tostring(customDimensions.alRetentionDateFieldNo)\n| project timestamp\n    , aadTenantId\n    , tenantDescription\n    , companyName\n    , TableId\n    , TableName\n    , Enabled\n    , Manual\n    , DateFieldNo\n    , DateFieldName\n    , ApplyToAllRecords\n| summarize by tenantDescription, companyName, TableName, Enabled, Manual, DateFieldName, ApplyToAllRecords\n| order by tenantDescription, companyName, TableName",
-      "id": "08e7cacf-71ac-4927-ac9c-438d55bfd12a",
-      "usedVariables": [
         "allTraces"
       ]
     },
@@ -6549,7 +5609,7 @@
         "kind": "inline",
         "dataSourceId": "05ae5610-5603-45ac-9458-616539c1c150"
       },
-      "text": "// Parse custom extension configuration\nlet ConfigString = _CustomExtensionsConfig;\nlet CustomExtensionsToMonitor =\n    ConfigString\n    | extend Parts = split(ConfigString, \",\")\n    | mv-expand Part = Parts to typeof(string)\n    | extend PublisherAndApps = split(Part, \":\")\n    | extend\n        Publisher = tostring(PublisherAndApps[0]),\n        Apps = tostring(PublisherAndApps[1])\n    | extend AppList = split(Apps, \"|\")\n    | mv-expand App = AppList to typeof(string)\n    | project Publisher, App = tostring(App), IncludeAll = (App == \"*\")\n    | distinct Publisher, App, IncludeAll;\nlet TimeRange = 30d;\ntraces\n| where timestamp > ago(TimeRange)\n| extend\n    extensionName = tostring(customDimensions.extensionName),\n    extensionPublisher = tostring(customDimensions.extensionPublisher),\n    alObjectType = tostring(customDimensions.alObjectType),\n    alObjectId = tostring(customDimensions.alObjectId),\n    alObjectName = tostring(customDimensions.alObjectName)\n| join kind=inner (\n    CustomExtensionsToMonitor\n) on $left.extensionPublisher == $right.Publisher\n| where IncludeAll == true or extensionName == App\n| where isnotempty(alObjectId) and alObjectId != \"-1\"\n| where isnotempty(alObjectType)\n| summarize\n    UsageCount = count(),\n    UniqueUsers = dcount(user_Id),\n    LastUsed = max(timestamp),\n    FirstUsed = min(timestamp)\n    by extensionName, extensionPublisher, alObjectType, alObjectId, alObjectName\n| extend\n    DaysSinceLastUse = datetime_diff('day', now(), LastUsed),\n    UsagePerDay = round(toreal(UsageCount) / 30.0, 2)\n| extend Status = case(\n    UsageCount < 5, \"🔴 Remove?\",\n    UsageCount < 10, \"⚠️ Review\",\n    UsageCount < 50, \"📊 Monitor\",\n    \"✅ Keep\"\n)\n| project\n    Status,\n    extensionName,\n    alObjectType,\n    alObjectId,\n    alObjectName,\n    UsageCount,\n    UsagePerDay,\n    DaysSinceLastUse,\n    UniqueUsers,\n    LastUsed\n| order by UsageCount asc, DaysSinceLastUse desc",
+      "text": "allTraces\n| where extensionPublisher !in ('Microsoft', 'LS Retail')\n| where isnotempty(extensionName)\n| extend ObjectType = tostring(customDimensions.alObjectType)\n| extend ObjectName = tostring(customDimensions.alObjectName)\n| where isnotempty(ObjectName)\n| summarize UsageCount = count(), LastUsed = max(timestamp), Users = dcount(user_Id) by extensionName, ObjectType, ObjectName\n| extend Status = case(UsageCount == 0, \"🔴 ZERO\", UsageCount < 5, \"🟠 VERY LOW\", UsageCount < 20, \"🟡 LOW\", \"🟢 ACTIVE\")\n| order by UsageCount asc\n| take 100",
       "id": "c1a2b3d4-e5f6-7890-1234-567890abcdef",
       "usedVariables": []
     },
@@ -6558,7 +5618,7 @@
         "kind": "inline",
         "dataSourceId": "05ae5610-5603-45ac-9458-616539c1c150"
       },
-      "text": "// Parse custom extension configuration\nlet ConfigString = _CustomExtensionsConfig;\nlet CustomExtensionsToMonitor =\n    ConfigString\n    | extend Parts = split(ConfigString, \",\")\n    | mv-expand Part = Parts to typeof(string)\n    | extend PublisherAndApps = split(Part, \":\")\n    | extend\n        Publisher = tostring(PublisherAndApps[0]),\n        Apps = tostring(PublisherAndApps[1])\n    | extend AppList = split(Apps, \"|\")\n    | mv-expand App = AppList to typeof(string)\n    | project Publisher, App = tostring(App), IncludeAll = (App == \"*\")\n    | distinct Publisher, App, IncludeAll;\nlet TimeRange = 30d;\ntraces\n| where timestamp > ago(TimeRange)\n| extend\n    extensionName = tostring(customDimensions.extensionName),\n    extensionPublisher = tostring(customDimensions.extensionPublisher),\n    alObjectType = tostring(customDimensions.alObjectType),\n    alObjectId = tostring(customDimensions.alObjectId),\n    alObjectName = tostring(customDimensions.alObjectName)\n| join kind=inner (\n    CustomExtensionsToMonitor\n) on $left.extensionPublisher == $right.Publisher\n| where IncludeAll == true or extensionName == App\n| where isnotempty(alObjectId) and alObjectId != \"-1\"\n| summarize\n    UsageCount = count(),\n    LastUsed = max(timestamp)\n    by extensionName, alObjectType, alObjectId, alObjectName\n| where UsageCount < 5\n| extend DaysSinceLastUse = datetime_diff('day', now(), LastUsed)\n| extend Recommendation = case(\n    UsageCount == 1 and DaysSinceLastUse > 60, \"🗑️ Strong removal candidate\",\n    UsageCount < 3 and DaysSinceLastUse > 30, \"🗑️ Consider removing\",\n    UsageCount < 5 and DaysSinceLastUse > 14, \"⚠️ Review with stakeholders\",\n    \"ℹ️ Monitor for another month\"\n)\n| project\n    extensionName,\n    alObjectType,\n    alObjectId,\n    alObjectName,\n    UsageCount,\n    DaysSinceLastUse,\n    LastUsed,\n    Recommendation\n| order by UsageCount asc, DaysSinceLastUse desc",
+      "text": "allTraces\n| where extensionPublisher !in ('Microsoft', 'LS Retail')\n| where isnotempty(extensionName)\n| extend ObjectName = tostring(customDimensions.alObjectName)\n| where isnotempty(ObjectName)\n| summarize UsageCount = count() by extensionName, ObjectName\n| where UsageCount < 5\n| order by UsageCount asc",
       "id": "d2e3f4a5-b6c7-4890-2345-678901bcdef0",
       "usedVariables": []
     },
@@ -6567,7 +5627,7 @@
         "kind": "inline",
         "dataSourceId": "05ae5610-5603-45ac-9458-616539c1c150"
       },
-      "text": "// Parse custom extension configuration\nlet ConfigString = _CustomExtensionsConfig;\nlet CustomExtensionsToMonitor =\n    ConfigString\n    | extend Parts = split(ConfigString, \",\")\n    | mv-expand Part = Parts to typeof(string)\n    | extend PublisherAndApps = split(Part, \":\")\n    | extend\n        Publisher = tostring(PublisherAndApps[0]),\n        Apps = tostring(PublisherAndApps[1])\n    | extend AppList = split(Apps, \"|\")\n    | mv-expand App = AppList to typeof(string)\n    | project Publisher, App = tostring(App), IncludeAll = (App == \"*\")\n    | distinct Publisher, App, IncludeAll;\nlet TimeRange = 30d;\ntraces\n| where timestamp > ago(TimeRange)\n| extend\n    extensionName = tostring(customDimensions.extensionName),\n    extensionPublisher = tostring(customDimensions.extensionPublisher),\n    alObjectType = tostring(customDimensions.alObjectType),\n    alObjectId = tostring(customDimensions.alObjectId),\n    alObjectName = tostring(customDimensions.alObjectName)\n| join kind=inner (\n    CustomExtensionsToMonitor\n) on $left.extensionPublisher == $right.Publisher\n| where IncludeAll == true or extensionName == App\n| where isnotempty(alObjectId) and alObjectId != \"-1\"\n| summarize\n    UniqueObjects = dcount(alObjectId),\n    TotalUsage = count()\n    by extensionName\n| extend AvgUsagePerObject = round(toreal(TotalUsage) / toreal(UniqueObjects), 1)\n| extend Health = case(\n    AvgUsagePerObject < 5, \"🔴 Very Low\",\n    AvgUsagePerObject < 20, \"⚠️ Low\",\n    AvgUsagePerObject < 100, \"📊 Moderate\",\n    \"✅ High\"\n)\n| project extensionName, UniqueObjects, TotalUsage, AvgUsagePerObject, Health\n| order by AvgUsagePerObject asc",
+      "text": "allTraces\n| where extensionPublisher !in ('Microsoft', 'LS Retail')\n| where isnotempty(extensionName)\n| extend ObjectName = tostring(customDimensions.alObjectName)\n| summarize TotalEvents = count(), UniqueObjects = dcount(ObjectName), Users = dcount(user_Id), Errors = countif(severityLevel >= 3) by extensionName\n| extend ErrorRate = round(100.0 * Errors / TotalEvents, 1)\n| order by TotalEvents desc",
       "id": "e3f4a5b6-c7d8-4901-3456-7890abcdef12",
       "usedVariables": []
     },
@@ -6621,7 +5681,7 @@
         "kind": "inline",
         "dataSourceId": "05ae5610-5603-45ac-9458-616539c1c150"
       },
-      "text": "traces\n| where timestamp > ago(10m)\n| summarize\n    Events = count(),\n    Errors = countif(severityLevel >= 3),\n    Deadlocks = countif(tostring(customDimensions.eventId) == \"RT0028\" or message contains \"deadlock\"),\n    LockTimeouts = countif(tostring(customDimensions.eventId) == \"RT0012\"),\n    SessionErrors = countif(tostring(customDimensions.eventId) == \"RT0029\" or message contains \"SessionTerminated\"),\n    AuthFailures = countif(tostring(customDimensions.eventId) in (\"RT0001\", \"RT0002\"))\n| extend AlertLevel = case(Deadlocks > 3, \"🔴 CRITICAL\", SessionErrors > 10, \"🔴 CRITICAL\", LockTimeouts > 5, \"🟠 WARNING\", Errors > 20, \"🟠 WARNING\", AuthFailures > 10, \"🟠 WARNING\", Events > 3000, \"🟡 HIGH LOAD\", \"🟢 OK\")\n| project AlertLevel, Events, Errors, Deadlocks, LockTimeouts, SessionErrors, AuthFailures",
+      "text": "traces\n| where timestamp > ago(30m)\n| summarize\n    Events = count(),\n    Errors = countif(severityLevel >= 3),\n    Deadlocks = countif(tostring(customDimensions.eventId) == \"RT0028\" or message contains \"deadlock\"),\n    LockTimeouts = countif(tostring(customDimensions.eventId) == \"RT0012\"),\n    SessionErrors = countif(tostring(customDimensions.eventId) == \"RT0029\" or message contains \"SessionTerminated\"),\n    AuthFailures = countif(tostring(customDimensions.eventId) in (\"RT0001\", \"RT0002\"))\n| extend AlertLevel = case(\n    Deadlocks > 3, \"🔴 CRITICAL\",\n    SessionErrors > 10, \"🔴 CRITICAL\",\n    LockTimeouts > 5, \"🟠 WARNING\",\n    Errors > 20, \"🟠 WARNING\",\n    AuthFailures > 10, \"🟠 WARNING\",\n    Events > 3000, \"🟡 HIGH LOAD\",\n    \"🟢 OK\"\n)\n| project AlertLevel, Events, Errors, Deadlocks, LockTimeouts, SessionErrors, AuthFailures",
       "id": "57372adb-5f80-4709-b895-defd661f93a3",
       "usedVariables": []
     },
@@ -6648,7 +5708,7 @@
         "kind": "inline",
         "dataSourceId": "05ae5610-5603-45ac-9458-616539c1c150"
       },
-      "text": "traces\n| where timestamp > ago(30m)\n| where severityLevel >= 3\n| extend EventId = tostring(customDimensions.eventId)\n| project Time = timestamp, EventId, Object = tostring(customDimensions.alObjectName), Extension = tostring(customDimensions.extensionName), Villa = substring(message, 0, 200)\n| order by Time desc\n| take 20",
+      "text": "let Signals = externaldata(eventId: string, eventArea: string, eventDescription: string)\n[h@'https://raw.githubusercontent.com/Hagarhf/BCTelemetry/main/Azure%20Data%20Explorer/ExternalData/Signals.json']\nwith (format='multijson');\ntraces\n| where timestamp > ago(30m)\n| where severityLevel >= 3\n| extend EventId = tostring(customDimensions.eventId)\n| lookup kind=leftouter Signals on $left.EventId == $right.eventId\n| project Time = timestamp, EventId, Area = eventArea, Description = eventDescription, Object = tostring(customDimensions.alObjectName), Extension = tostring(customDimensions.extensionName), Villa = substring(message, 0, 200)\n| order by Time desc\n| take 20",
       "id": "100ce1c4-c180-4e2e-8885-4ff1543a9c26",
       "usedVariables": []
     },
@@ -6666,7 +5726,7 @@
         "kind": "inline",
         "dataSourceId": "05ae5610-5603-45ac-9458-616539c1c150"
       },
-      "text": "traces\n| where timestamp > ago(1h)\n| extend EventId = tostring(customDimensions.eventId)\n| summarize Count = count() by EventId\n| order by Count desc\n| take 15",
+      "text": "let Signals = externaldata(eventId: string, eventArea: string, eventDescription: string)\n[h@'https://raw.githubusercontent.com/Hagarhf/BCTelemetry/main/Azure%20Data%20Explorer/ExternalData/Signals.json']\nwith (format='multijson');\ntraces\n| where timestamp > ago(1h)\n| extend EventId = tostring(customDimensions.eventId)\n| summarize Count = count() by EventId\n| lookup kind=leftouter Signals on $left.EventId == $right.eventId\n| extend Label = strcat(EventId, ' - ', coalesce(eventArea, '?'))\n| project Label, Count, eventDescription\n| order by Count desc\n| take 15",
       "id": "908ebde7-fa65-4e15-a2af-c51a351d76fb",
       "usedVariables": []
     },
@@ -6675,7 +5735,7 @@
         "kind": "inline",
         "dataSourceId": "05ae5610-5603-45ac-9458-616539c1c150"
       },
-      "text": "allTraces\n| where eventId in ('RT0005', 'RT0018')\n| extend ExecMs = totimespan(customDimensions.executionTime) / 1ms\n| summarize SlowSQL = countif(eventId == 'RT0005'), SlowAL = countif(eventId == 'RT0018'), AvgSqlTime = avgif(ExecMs, eventId == 'RT0005'), P95SqlTime = percentileif(ExecMs, 95, eventId == 'RT0005'), MaxSqlTime = maxif(ExecMs, eventId == 'RT0005'), AvgALTime = avgif(ExecMs, eventId == 'RT0018'), P95ALTime = percentileif(ExecMs, 95, eventId == 'RT0018')\n| extend Health = case(P95SqlTime > 10000, \"🔴 CRITICAL\", SlowSQL > 100 or SlowAL > 50, \"🟠 DEGRADED\", SlowSQL > 20 or SlowAL > 10, \"🟡 SOME ISSUES\", \"🟢 HEALTHY\")\n| project Health, SlowSQL, SlowAL, AvgSqlMs = round(AvgSqlTime, 0), P95SqlMs = round(P95SqlTime, 0), MaxSqlMs = round(MaxSqlTime, 0), AvgALMs = round(AvgALTime, 0), P95ALMs = round(P95ALTime, 0)",
+      "text": "allTraces\n| where eventId in ('RT0005', 'RT0018')\n| extend ExecMs = totimespan(customDimensions.executionTime) / 1ms\n| summarize\n    SlowSQL = countif(eventId == 'RT0005'),\n    SlowAL = countif(eventId == 'RT0018'),\n    AvgSqlMs = round(avgif(ExecMs, eventId == 'RT0005'), 0),\n    MaxSqlMs = round(maxif(ExecMs, eventId == 'RT0005'), 0),\n    AvgALMs = round(avgif(ExecMs, eventId == 'RT0018'), 0),\n    MaxALMs = round(maxif(ExecMs, eventId == 'RT0018'), 0)\n| extend\n    Health = case(\n        MaxSqlMs > 60000, \"🔴 CRITICAL\",\n        SlowSQL > 100 or SlowAL > 50, \"🟠 DEGRADED\",\n        SlowSQL > 20 or SlowAL > 10, \"🟡 SOME ISSUES\",\n        \"🟢 HEALTHY\"\n    )\n| project Health, SlowSQL, SlowAL, AvgSqlMs, MaxSqlMs, AvgALMs, MaxALMs",
       "id": "1ef3d3fb-193f-4241-a5fd-3d0abb4d7ca4",
       "usedVariables": [
         "allTraces"
@@ -6854,7 +5914,7 @@
         "kind": "inline",
         "dataSourceId": "05ae5610-5603-45ac-9458-616539c1c150"
       },
-      "text": "allTraces\n| distinct tostring(customDimensions.eventArea)\n| order by Column1 asc",
+      "text": "allTraces\n| where isnotempty(eventArea)\n| distinct eventArea\n| order by eventArea asc",
       "id": "f5fbe50d-0893-4b88-9d18-0a9a40874da0",
       "usedVariables": [
         "allTraces"
@@ -6865,7 +5925,7 @@
         "kind": "inline",
         "dataSourceId": "05ae5610-5603-45ac-9458-616539c1c150"
       },
-      "text": "allTraces\n| distinct tostring(customDimensions.extensionName)\n| where isnotempty(Column1)\n| order by Column1 asc",
+      "text": "allTraces\n| where isnotempty(extensionName)\n| distinct extensionName\n| order by extensionName asc",
       "id": "2fdf22eb-61c7-4964-bc7e-49c7eb81c9c8",
       "usedVariables": [
         "allTraces"
@@ -6876,7 +5936,7 @@
         "kind": "inline",
         "dataSourceId": "05ae5610-5603-45ac-9458-616539c1c150"
       },
-      "text": "allTraces\n| distinct tostring(customDimensions.extensionPublisher)\n| where isnotempty(Column1)\n| order by Column1 asc",
+      "text": "allTraces\n| where isnotempty(extensionPublisher)\n| distinct extensionPublisher\n| order by extensionPublisher asc",
       "id": "79f1960d-e4a0-4ed3-8aca-fc0ec2aa2399",
       "usedVariables": [
         "allTraces"
@@ -6887,7 +5947,7 @@
         "kind": "inline",
         "dataSourceId": "05ae5610-5603-45ac-9458-616539c1c150"
       },
-      "text": "allTraces\n| distinct aadTenantId\n| where isnotempty(aadTenantId)\n| order by aadTenantId asc",
+      "text": "allTraces\n| where isnotempty(aadTenantId)\n| distinct aadTenantId\n| order by aadTenantId asc",
       "id": "1af6d35a-92af-4520-a929-26af2d29ea09",
       "usedVariables": [
         "allTraces"
@@ -6898,7 +5958,7 @@
         "kind": "inline",
         "dataSourceId": "05ae5610-5603-45ac-9458-616539c1c150"
       },
-      "text": "allTraces\n| distinct tenantDescription\n| where isnotempty(tenantDescription)\n| order by tenantDescription asc",
+      "text": "allTraces\n| where isnotempty(tenantDescription)\n| distinct tenantDescription\n| order by tenantDescription asc",
       "id": "18cf1613-ca57-4d94-9d30-c2ffcafe5245",
       "usedVariables": [
         "allTraces"
@@ -6909,7 +5969,7 @@
         "kind": "inline",
         "dataSourceId": "05ae5610-5603-45ac-9458-616539c1c150"
       },
-      "text": "allTraces\n| distinct tostring(customDimensions.environmentName)\n| where isnotempty(Column1)\n| order by Column1 asc",
+      "text": "allTraces\n| where isnotempty(environmentName)\n| distinct environmentName\n| order by environmentName asc",
       "id": "a4426a6f-dfd5-43a4-b8fb-68c8cbb6da83",
       "usedVariables": [
         "allTraces"
@@ -6920,7 +5980,7 @@
         "kind": "inline",
         "dataSourceId": "05ae5610-5603-45ac-9458-616539c1c150"
       },
-      "text": "allTraces\n| distinct eventId\n| where isnotempty(eventId)\n| order by eventId asc",
+      "text": "allTraces\n| where isnotempty(eventId)\n| distinct eventId\n| order by eventId asc",
       "id": "5793a15e-c4ad-4db1-9bca-0a3d11ea48cd",
       "usedVariables": [
         "allTraces"
@@ -6931,7 +5991,7 @@
         "kind": "inline",
         "dataSourceId": "05ae5610-5603-45ac-9458-616539c1c150"
       },
-      "text": "allTraces\n| where tostring(customDimensions.alObjectType) == \"CodeUnit\"\n| distinct tostring(customDimensions.alObjectName)\n| where isnotempty(Column1)\n| order by Column1 asc",
+      "text": "allTraces\n| extend alObjectType = tostring(customDimensions.alObjectType)\n| where alObjectType == \"CodeUnit\"\n| extend alObjectName = tostring(customDimensions.alObjectName)\n| where isnotempty(alObjectName)\n| distinct alObjectName\n| order by alObjectName asc",
       "id": "4c19c0ce-09a4-47c7-8c4d-a348af93b96a",
       "usedVariables": [
         "allTraces"
@@ -6942,8 +6002,52 @@
         "kind": "inline",
         "dataSourceId": "05ae5610-5603-45ac-9458-616539c1c150"
       },
-      "text": "allTraces\n| where eventId startswith \"AL0000D\"\n| distinct tostring(customDimensions.bcptCode)\n| where isnotempty(Column1)\n| order by Column1 asc",
+      "text": "allTraces\n| where eventId startswith \"AL0000D\"\n| extend bcptCode = tostring(customDimensions.bcptCode)\n| where isnotempty(bcptCode)\n| distinct bcptCode\n| order by bcptCode asc",
       "id": "131192bf-b588-4e2a-95f1-851f8c5b2686",
+      "usedVariables": [
+        "allTraces"
+      ]
+    },
+    {
+      "dataSource": {
+        "kind": "inline",
+        "dataSourceId": "05ae5610-5603-45ac-9458-616539c1c150"
+      },
+      "text": "allTraces\n| where eventId == 'RT0005'\n| extend SqlStatement = tostring(customDimensions.sqlStatement)\n| extend ObjectName = tostring(customDimensions.alObjectName)\n| extend TableName = extract(\"CURRENTCOMPANY[$](.+?)[$]\", 1, SqlStatement)\n| where isnotempty(TableName)\n| summarize SlowQueries = count(), AvgMs = round(avg(totimespan(customDimensions.executionTime) / 1ms), 0) by ObjectName, TableName\n| where SlowQueries > 5\n| order by SlowQueries desc\n| take 30",
+      "id": "460efeeb-6e5b-4745-8524-cb47a5ebd917",
+      "usedVariables": [
+        "allTraces"
+      ]
+    },
+    {
+      "dataSource": {
+        "kind": "inline",
+        "dataSourceId": "05ae5610-5603-45ac-9458-616539c1c150"
+      },
+      "text": "allTraces\n| where eventArea == 'Extension Lifecycle'\n| extend status = iif(message contains \"fail\", \"FAIL\", \"Success\")\n| project timestamp, tenantDescription, eventDescription, status, extensionName, extensionPublisher\n| order by timestamp desc\n| take 50",
+      "id": "98bdca9e-3be6-480c-81d9-117d23778c3d",
+      "usedVariables": [
+        "allTraces"
+      ]
+    },
+    {
+      "dataSource": {
+        "kind": "inline",
+        "dataSourceId": "05ae5610-5603-45ac-9458-616539c1c150"
+      },
+      "text": "allTraces\n| where eventId in ('AL0000D3L', 'AL0000D6H', 'AL0000D6I', 'AL0000D6J')\n| project timestamp, eventDescription, message, companyName\n| order by timestamp desc\n| take 30",
+      "id": "2a68a5b8-2636-49b5-9143-1e3821574ada",
+      "usedVariables": [
+        "allTraces"
+      ]
+    },
+    {
+      "dataSource": {
+        "kind": "inline",
+        "dataSourceId": "05ae5610-5603-45ac-9458-616539c1c150"
+      },
+      "text": "allTraces\n| where eventId startswith 'AL' and eventArea == 'Feature Lifecycle'\n| project timestamp, eventDescription, message, extensionName\n| order by timestamp desc\n| take 30",
+      "id": "492f2199-eafe-4f2e-a39d-cce6502e3257",
       "usedVariables": [
         "allTraces"
       ]

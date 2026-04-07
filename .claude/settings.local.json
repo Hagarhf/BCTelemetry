@@ -47,7 +47,9 @@
       "Bash(node fix_base_queries.js)",
       "Bash(rm fix_base_queries.js update_dashboard.js)",
       "Bash(node fix_params.js)",
-      "Bash(rm fix_params.js)"
+      "Bash(rm fix_params.js)",
+      "Bash(node fix_dashboard.js)",
+      "Bash(rm:*)"
     ]
   }
 }
