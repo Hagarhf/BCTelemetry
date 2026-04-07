@@ -4226,10 +4226,10 @@
       }
     },
     {
-      "id": "31bef248-f885-4c4a-b140-985d3a2709df",
+      "id": "43f6727b-04ce-4088-8428-c862e8946057",
       "title": "Alert Status",
       "visualType": "table",
-      "pageId": "aa000001-1111-4000-8000-000000000001",
+      "pageId": "97783d8b-8b65-409a-ae91-667d46c5ae4a",
       "layout": {
         "x": 0,
         "y": 0,
@@ -4238,7 +4238,7 @@
       },
       "queryRef": {
         "kind": "query",
-        "queryId": "a0300818-a12f-4b4a-99ad-fb1f6d17a386"
+        "queryId": "57372adb-5f80-4709-b895-defd661f93a3"
       },
       "visualOptions": {
         "table__enableRenderLinks": true,
@@ -4253,10 +4253,10 @@
       }
     },
     {
-      "id": "7dbfea25-ae88-4bd3-ae1c-63915e5f90c3",
+      "id": "a508f4e8-96e3-4c0e-96fc-59b56c7e1102",
       "title": "Events per Minute",
       "visualType": "line",
-      "pageId": "aa000001-1111-4000-8000-000000000001",
+      "pageId": "97783d8b-8b65-409a-ae91-667d46c5ae4a",
       "layout": {
         "x": 0,
         "y": 4,
@@ -4265,7 +4265,7 @@
       },
       "queryRef": {
         "kind": "query",
-        "queryId": "1f3aab61-fe3d-49dc-9023-0719fecd906b"
+        "queryId": "0bb7a87d-c856-498c-8206-4c18bfd22677"
       },
       "visualOptions": {
         "table__enableRenderLinks": true,
@@ -4283,10 +4283,10 @@
       }
     },
     {
-      "id": "d2cfff83-9c8d-4f0a-9fac-4b95b2b6ce7c",
+      "id": "c59ec549-3fb9-4930-824d-89316a995cfb",
       "title": "Error Rate %",
       "visualType": "line",
-      "pageId": "aa000001-1111-4000-8000-000000000001",
+      "pageId": "97783d8b-8b65-409a-ae91-667d46c5ae4a",
       "layout": {
         "x": 12,
         "y": 4,
@@ -4295,7 +4295,7 @@
       },
       "queryRef": {
         "kind": "query",
-        "queryId": "555e9d39-da12-4097-99c5-71af68efa9a9"
+        "queryId": "f1f4fedb-73ce-4df5-8299-c668dd91a154"
       },
       "visualOptions": {
         "table__enableRenderLinks": true,
@@ -4313,10 +4313,10 @@
       }
     },
     {
-      "id": "c11f3917-5b77-4cff-be3a-4bb8310e585d",
+      "id": "fe1e5930-8771-45c0-a036-0459ae898055",
       "title": "Villur (Errors)",
       "visualType": "table",
-      "pageId": "aa000001-1111-4000-8000-000000000001",
+      "pageId": "97783d8b-8b65-409a-ae91-667d46c5ae4a",
       "layout": {
         "x": 0,
         "y": 10,
@@ -4325,7 +4325,7 @@
       },
       "queryRef": {
         "kind": "query",
-        "queryId": "5871d9f7-0aeb-4ece-bb63-5c29ac8628af"
+        "queryId": "100ce1c4-c180-4e2e-8885-4ff1543a9c26"
       },
       "visualOptions": {
         "table__enableRenderLinks": true,
@@ -4340,10 +4340,10 @@
       }
     },
     {
-      "id": "f465b65d-145a-4556-85d6-f8c5d444bb90",
+      "id": "cdd6df9a-2392-4547-bab1-005872424bdf",
       "title": "Deadlocks & Lock Issues",
       "visualType": "table",
-      "pageId": "aa000001-1111-4000-8000-000000000001",
+      "pageId": "97783d8b-8b65-409a-ae91-667d46c5ae4a",
       "layout": {
         "x": 0,
         "y": 17,
@@ -4352,7 +4352,7 @@
       },
       "queryRef": {
         "kind": "query",
-        "queryId": "06a0d142-8b9d-488b-b9db-4e6204957524"
+        "queryId": "325a6f3b-0648-4f62-a4fa-6d6032fa4500"
       },
       "visualOptions": {
         "table__enableRenderLinks": true,
@@ -4367,10 +4367,10 @@
       }
     },
     {
-      "id": "7de37ae1-98c9-47f4-ac58-8e7628645040",
+      "id": "1357049e-0179-41d4-a69c-50f76cde7ecf",
       "title": "Events by Type (Top 15)",
       "visualType": "bar",
-      "pageId": "aa000001-1111-4000-8000-000000000001",
+      "pageId": "97783d8b-8b65-409a-ae91-667d46c5ae4a",
       "layout": {
         "x": 0,
         "y": 24,
@@ -4379,7 +4379,7 @@
       },
       "queryRef": {
         "kind": "query",
-        "queryId": "31d69210-a85e-44d3-b29b-aba44cd741b4"
+        "queryId": "908ebde7-fa65-4e15-a2af-c51a351d76fb"
       },
       "visualOptions": {
         "table__enableRenderLinks": true,
@@ -4397,10 +4397,10 @@
       }
     },
     {
-      "id": "d53c2a4b-b5f0-48cd-81b7-05f91160bbf2",
+      "id": "467a305d-6a3d-4387-842d-493298fd15b0",
       "title": "Performance Health",
       "visualType": "table",
-      "pageId": "bb000002-2222-4000-8000-000000000002",
+      "pageId": "c722a126-4608-4a1d-9c32-d03a9cccd231",
       "layout": {
         "x": 0,
         "y": 0,
@@ -4409,7 +4409,7 @@
       },
       "queryRef": {
         "kind": "query",
-        "queryId": "79dc1410-42ad-49a3-84f3-415019731df1"
+        "queryId": "1ef3d3fb-193f-4241-a5fd-3d0abb4d7ca4"
       },
       "visualOptions": {
         "table__enableRenderLinks": true,
@@ -4424,10 +4424,10 @@
       }
     },
     {
-      "id": "cd7fa99c-7a3d-49e1-8a78-1980bfc877b6",
+      "id": "576b8917-ee8e-489e-b61e-71d5f1047712",
       "title": "Slowest SQL Queries (by total impact)",
       "visualType": "table",
-      "pageId": "bb000002-2222-4000-8000-000000000002",
+      "pageId": "c722a126-4608-4a1d-9c32-d03a9cccd231",
       "layout": {
         "x": 0,
         "y": 4,
@@ -4436,7 +4436,7 @@
       },
       "queryRef": {
         "kind": "query",
-        "queryId": "e1270a86-ab43-49e1-9ce5-d354d3e1ce60"
+        "queryId": "9f0aebe8-0f9b-438f-ac32-49dbfde49e37"
       },
       "visualOptions": {
         "table__enableRenderLinks": true,
@@ -4451,10 +4451,10 @@
       }
     },
     {
-      "id": "7fa3ae78-aff3-42e0-91f8-9deb979e1d07",
+      "id": "401fd9a1-2bf8-4d1f-9995-4e9d3e9a7570",
       "title": "Slowest AL Methods (by total impact)",
       "visualType": "table",
-      "pageId": "bb000002-2222-4000-8000-000000000002",
+      "pageId": "c722a126-4608-4a1d-9c32-d03a9cccd231",
       "layout": {
         "x": 0,
         "y": 12,
@@ -4463,7 +4463,7 @@
       },
       "queryRef": {
         "kind": "query",
-        "queryId": "5ed0244b-1620-4f65-a8ef-3406ee140bca"
+        "queryId": "3e9d9e34-db10-4b49-86f9-9d7114a86886"
       },
       "visualOptions": {
         "table__enableRenderLinks": true,
@@ -4478,10 +4478,10 @@
       }
     },
     {
-      "id": "7dd73152-f1f9-4120-ae8d-3d28bafeb015",
+      "id": "55492d0f-35a5-4580-bcc3-847790456251",
       "title": "Performance Timeline",
       "visualType": "stackedcolumn",
-      "pageId": "bb000002-2222-4000-8000-000000000002",
+      "pageId": "c722a126-4608-4a1d-9c32-d03a9cccd231",
       "layout": {
         "x": 0,
         "y": 20,
@@ -4490,7 +4490,7 @@
       },
       "queryRef": {
         "kind": "query",
-        "queryId": "70dbcfc5-b6e6-4b6a-aaca-7931de2befb6"
+        "queryId": "b5621f3c-0704-4999-ab32-f59f009e3c4a"
       },
       "visualOptions": {
         "table__enableRenderLinks": true,
@@ -4508,10 +4508,10 @@
       }
     },
     {
-      "id": "11e5cc58-2650-4c0e-bbf7-f147499c5a52",
+      "id": "04113c64-ef9a-4f30-8ad3-4650d23de271",
       "title": "Web Service Performance (Top endpoints)",
       "visualType": "table",
-      "pageId": "bb000002-2222-4000-8000-000000000002",
+      "pageId": "c722a126-4608-4a1d-9c32-d03a9cccd231",
       "layout": {
         "x": 0,
         "y": 26,
@@ -4520,7 +4520,7 @@
       },
       "queryRef": {
         "kind": "query",
-        "queryId": "6c394d2b-99f2-4118-a70b-5d24aac5c5f4"
+        "queryId": "f0eaea83-8627-4594-8ebd-882467c28bf0"
       },
       "visualOptions": {
         "table__enableRenderLinks": true,
@@ -4535,10 +4535,10 @@
       }
     },
     {
-      "id": "e68b9e33-0b39-4eeb-baa4-83094253adad",
+      "id": "5a0df309-5d27-4bc2-b56c-7e1ee80e40ba",
       "title": "Performance Hotspot by Extension",
       "visualType": "bar",
-      "pageId": "bb000002-2222-4000-8000-000000000002",
+      "pageId": "c722a126-4608-4a1d-9c32-d03a9cccd231",
       "layout": {
         "x": 0,
         "y": 34,
@@ -4547,7 +4547,7 @@
       },
       "queryRef": {
         "kind": "query",
-        "queryId": "d5e36093-e42e-44a7-a450-6ac401696ef3"
+        "queryId": "1300fa9f-e405-4ae7-8871-2cee03ca064a"
       },
       "visualOptions": {
         "table__enableRenderLinks": true,
@@ -4565,10 +4565,10 @@
       }
     },
     {
-      "id": "6061211e-9d72-4db9-b4c2-410f5c13eec3",
+      "id": "5eb091d7-ae60-4fd8-a622-5f3e8f88d1c2",
       "title": "Deadlock Root Cause Summary",
       "visualType": "table",
-      "pageId": "cc000003-3333-4000-8000-000000000003",
+      "pageId": "1f00e2ac-ce9a-422e-9880-9a7934242950",
       "layout": {
         "x": 0,
         "y": 0,
@@ -4577,7 +4577,7 @@
       },
       "queryRef": {
         "kind": "query",
-        "queryId": "42ba0b28-17be-4c85-bf4b-fe0efc808559"
+        "queryId": "946ccb25-06e5-469a-b3f9-5a76d6891b22"
       },
       "visualOptions": {
         "table__enableRenderLinks": true,
@@ -4592,10 +4592,10 @@
       }
     },
     {
-      "id": "e9a42ff1-cf11-4485-8d13-ea9b1ed1a38c",
+      "id": "365db20b-945a-4713-a16c-cc7d5959f22d",
       "title": "Deadlock Timeline",
       "visualType": "stackedcolumn",
-      "pageId": "cc000003-3333-4000-8000-000000000003",
+      "pageId": "1f00e2ac-ce9a-422e-9880-9a7934242950",
       "layout": {
         "x": 0,
         "y": 8,
@@ -4604,7 +4604,7 @@
       },
       "queryRef": {
         "kind": "query",
-        "queryId": "85fbfe60-1d85-48e8-aede-773d8f7fdc18"
+        "queryId": "8f214aa3-6cff-4a0e-8478-070903d512ba"
       },
       "visualOptions": {
         "table__enableRenderLinks": true,
@@ -4622,10 +4622,10 @@
       }
     },
     {
-      "id": "2582a7f2-37db-41d5-8db9-7e26449f5e8b",
+      "id": "6dcc6c30-915d-47b8-98a9-cc2af6f3ac97",
       "title": "Deadlock Heatmap (Hour of Day)",
       "visualType": "column",
-      "pageId": "cc000003-3333-4000-8000-000000000003",
+      "pageId": "1f00e2ac-ce9a-422e-9880-9a7934242950",
       "layout": {
         "x": 12,
         "y": 8,
@@ -4634,7 +4634,7 @@
       },
       "queryRef": {
         "kind": "query",
-        "queryId": "dc195767-b7e9-4004-9b60-56ee84894672"
+        "queryId": "ff541994-fce4-4aaf-848f-79fd4d1cf032"
       },
       "visualOptions": {
         "table__enableRenderLinks": true,
@@ -4652,10 +4652,10 @@
       }
     },
     {
-      "id": "e859c48a-6689-411e-9112-cc47775661c9",
+      "id": "cabc056d-3220-4b98-aa75-7703568e9544",
       "title": "Latest Deadlocks (Detailed)",
       "visualType": "table",
-      "pageId": "cc000003-3333-4000-8000-000000000003",
+      "pageId": "1f00e2ac-ce9a-422e-9880-9a7934242950",
       "layout": {
         "x": 0,
         "y": 14,
@@ -4664,7 +4664,7 @@
       },
       "queryRef": {
         "kind": "query",
-        "queryId": "a417377d-8361-444f-8c4f-01d7506429fe"
+        "queryId": "e9a36efb-db13-4145-b31e-8c7edeb9a8b6"
       },
       "visualOptions": {
         "table__enableRenderLinks": true,
@@ -4679,10 +4679,10 @@
       }
     },
     {
-      "id": "1302153f-1894-49ef-9561-bc22344c4015",
+      "id": "20375d74-3f32-46f3-83b0-dfd69a7d1579",
       "title": "Lock Timeout Root Cause",
       "visualType": "table",
-      "pageId": "cc000003-3333-4000-8000-000000000003",
+      "pageId": "1f00e2ac-ce9a-422e-9880-9a7934242950",
       "layout": {
         "x": 0,
         "y": 22,
@@ -4691,7 +4691,7 @@
       },
       "queryRef": {
         "kind": "query",
-        "queryId": "74fa1a30-7187-42f1-af31-88890d66bd29"
+        "queryId": "8220823e-ff41-4f5e-8b6b-4fcb05f1ffee"
       },
       "visualOptions": {
         "table__enableRenderLinks": true,
@@ -4706,10 +4706,10 @@
       }
     },
     {
-      "id": "e8da122a-acd7-45ab-bcd6-e2a059886dc9",
+      "id": "acff51a6-33d7-4259-a0d4-ec9be27b8fb4",
       "title": "Lock Snapshot - Who Holds the Lock?",
       "visualType": "table",
-      "pageId": "cc000003-3333-4000-8000-000000000003",
+      "pageId": "1f00e2ac-ce9a-422e-9880-9a7934242950",
       "layout": {
         "x": 0,
         "y": 29,
@@ -4718,7 +4718,7 @@
       },
       "queryRef": {
         "kind": "query",
-        "queryId": "ab22f402-f862-4925-b110-73e461bf4c64"
+        "queryId": "fe25d91b-c762-4e97-9602-ea024ef0800a"
       },
       "visualOptions": {
         "table__enableRenderLinks": true,
@@ -4733,10 +4733,10 @@
       }
     },
     {
-      "id": "092f27af-0947-41f8-881b-f1528d7804ef",
+      "id": "ed7d2cb5-8394-41f8-a64e-ffb7e059ce7f",
       "title": "Hot Tables (most lock contention)",
       "visualType": "bar",
-      "pageId": "cc000003-3333-4000-8000-000000000003",
+      "pageId": "1f00e2ac-ce9a-422e-9880-9a7934242950",
       "layout": {
         "x": 0,
         "y": 36,
@@ -4745,7 +4745,7 @@
       },
       "queryRef": {
         "kind": "query",
-        "queryId": "c4926d04-d8e8-4881-acba-afdf0363c287"
+        "queryId": "952fffad-766f-4e7f-9825-2d89c7d98e9b"
       },
       "visualOptions": {
         "table__enableRenderLinks": true,
@@ -5235,7 +5235,7 @@
   "pages": [
     {
       "name": "Live Monitoring",
-      "id": "aa000001-1111-4000-8000-000000000001"
+      "id": "97783d8b-8b65-409a-ae91-667d46c5ae4a"
     },
     {
       "name": "Apps",
@@ -5251,11 +5251,11 @@
     },
     {
       "name": "Performance",
-      "id": "bb000002-2222-4000-8000-000000000002"
+      "id": "c722a126-4608-4a1d-9c32-d03a9cccd231"
     },
     {
       "name": "Deadlocks & Locks",
-      "id": "cc000003-3333-4000-8000-000000000003"
+      "id": "1f00e2ac-ce9a-422e-9880-9a7934242950"
     },
     {
       "name": "Perf: APIs",
@@ -6621,8 +6621,8 @@
         "kind": "inline",
         "dataSourceId": "05ae5610-5603-45ac-9458-616539c1c150"
       },
-      "text": "traces\n| where timestamp > ago(10m)\n| summarize\n    Events = count(),\n    Errors = countif(severityLevel >= 3),\n    Deadlocks = countif(tostring(customDimensions.eventId) == \"RT0028\" or message contains \"deadlock\"),\n    LockTimeouts = countif(tostring(customDimensions.eventId) == \"RT0012\"),\n    SessionErrors = countif(tostring(customDimensions.eventId) == \"RT0029\" or message contains \"SessionTerminated\"),\n    AuthFailures = countif(tostring(customDimensions.eventId) in (\"RT0001\", \"RT0002\"))\n| extend\n    AlertLevel = case(\n        Deadlocks > 3, \"🔴 CRITICAL\",\n        SessionErrors > 10, \"🔴 CRITICAL\",\n        LockTimeouts > 5, \"🟠 WARNING\",\n        Errors > 20, \"🟠 WARNING\",\n        AuthFailures > 10, \"🟠 WARNING\",\n        Events > 3000, \"🟡 HIGH LOAD\",\n        \"🟢 OK\"\n    )\n| project AlertLevel, Events, Errors, Deadlocks, LockTimeouts, SessionErrors, AuthFailures",
-      "id": "a0300818-a12f-4b4a-99ad-fb1f6d17a386",
+      "text": "traces\n| where timestamp > ago(10m)\n| summarize\n    Events = count(),\n    Errors = countif(severityLevel >= 3),\n    Deadlocks = countif(tostring(customDimensions.eventId) == \"RT0028\" or message contains \"deadlock\"),\n    LockTimeouts = countif(tostring(customDimensions.eventId) == \"RT0012\"),\n    SessionErrors = countif(tostring(customDimensions.eventId) == \"RT0029\" or message contains \"SessionTerminated\"),\n    AuthFailures = countif(tostring(customDimensions.eventId) in (\"RT0001\", \"RT0002\"))\n| extend AlertLevel = case(Deadlocks > 3, \"🔴 CRITICAL\", SessionErrors > 10, \"🔴 CRITICAL\", LockTimeouts > 5, \"🟠 WARNING\", Errors > 20, \"🟠 WARNING\", AuthFailures > 10, \"🟠 WARNING\", Events > 3000, \"🟡 HIGH LOAD\", \"🟢 OK\")\n| project AlertLevel, Events, Errors, Deadlocks, LockTimeouts, SessionErrors, AuthFailures",
+      "id": "57372adb-5f80-4709-b895-defd661f93a3",
       "usedVariables": []
     },
     {
@@ -6631,7 +6631,7 @@
         "dataSourceId": "05ae5610-5603-45ac-9458-616539c1c150"
       },
       "text": "traces\n| where timestamp > ago(1h)\n| summarize Events = count() by bin(timestamp, 1m)",
-      "id": "1f3aab61-fe3d-49dc-9023-0719fecd906b",
+      "id": "0bb7a87d-c856-498c-8206-4c18bfd22677",
       "usedVariables": []
     },
     {
@@ -6640,7 +6640,7 @@
         "dataSourceId": "05ae5610-5603-45ac-9458-616539c1c150"
       },
       "text": "traces\n| where timestamp > ago(1h)\n| summarize Total = count(), Errors = countif(severityLevel >= 3) by bin(timestamp, 5m)\n| extend ErrorRate = round(100.0 * Errors / Total, 2)\n| project timestamp, ErrorRate",
-      "id": "555e9d39-da12-4097-99c5-71af68efa9a9",
+      "id": "f1f4fedb-73ce-4df5-8299-c668dd91a154",
       "usedVariables": []
     },
     {
@@ -6648,8 +6648,8 @@
         "kind": "inline",
         "dataSourceId": "05ae5610-5603-45ac-9458-616539c1c150"
       },
-      "text": "traces\n| where timestamp > ago(30m)\n| where severityLevel >= 3\n| extend EventId = tostring(customDimensions.eventId)\n| project\n    Time = timestamp,\n    EventId,\n    Object = tostring(customDimensions.alObjectName),\n    Extension = tostring(customDimensions.extensionName),\n    Villa = substring(message, 0, 200)\n| order by Time desc\n| take 20",
-      "id": "5871d9f7-0aeb-4ece-bb63-5c29ac8628af",
+      "text": "traces\n| where timestamp > ago(30m)\n| where severityLevel >= 3\n| extend EventId = tostring(customDimensions.eventId)\n| project Time = timestamp, EventId, Object = tostring(customDimensions.alObjectName), Extension = tostring(customDimensions.extensionName), Villa = substring(message, 0, 200)\n| order by Time desc\n| take 20",
+      "id": "100ce1c4-c180-4e2e-8885-4ff1543a9c26",
       "usedVariables": []
     },
     {
@@ -6657,8 +6657,8 @@
         "kind": "inline",
         "dataSourceId": "05ae5610-5603-45ac-9458-616539c1c150"
       },
-      "text": "traces\n| where timestamp > ago(1h)\n| where tostring(customDimensions.eventId) in (\"RT0028\", \"RT0012\", \"RT0029\")\n| extend\n    EventId = tostring(customDimensions.eventId),\n    ObjectName = tostring(customDimensions.alObjectName),\n    sqlStatement = tostring(customDimensions.sqlStatement),\n    stackTrace = tostring(customDimensions.alStackTrace),\n    ExtensionName = tostring(customDimensions.extensionName),\n    Company = tostring(customDimensions.companyName)\n| extend\n    SqlOp = case(\n        sqlStatement startswith \"UPDATE\", \"UPDATE\",\n        sqlStatement startswith \"DELETE\", \"DELETE\",\n        sqlStatement has \"INSERT INTO\", \"INSERT\",\n        sqlStatement startswith \"SELECT\", \"SELECT\",\n        \"\"\n    )\n| extend TableName = extract(\"CURRENTCOMPANY[$](.+?)[$]\", 1, sqlStatement)\n| extend splitStack = split(stackTrace, \"\\n\")\n| extend\n    LockingObject = extract(\"\\\"(.+?)\\\"\", 1, tostring(splitStack[0])),\n    SourceProcess = extract(\"\\\"(.+?)\\\"\", 1, tostring(splitStack[array_length(splitStack) - 1]))\n| project\n    Time = timestamp,\n    Tegund = case(\n        EventId == \"RT0028\", \"🔴 DEADLOCK\",\n        EventId == \"RT0012\", \"🟠 LOCK TIMEOUT\",\n        \"🟡 SESSION\"\n    ),\n    Company, ObjectName, ExtensionName, SqlOp, TableName,\n    LockingObject, SourceProcess\n| order by Time desc",
-      "id": "06a0d142-8b9d-488b-b9db-4e6204957524",
+      "text": "traces\n| where timestamp > ago(1h)\n| where tostring(customDimensions.eventId) in (\"RT0028\", \"RT0012\", \"RT0029\")\n| extend EventId = tostring(customDimensions.eventId), ObjectName = tostring(customDimensions.alObjectName), sqlStatement = tostring(customDimensions.sqlStatement), stackTrace = tostring(customDimensions.alStackTrace), ExtensionName = tostring(customDimensions.extensionName), Company = tostring(customDimensions.companyName)\n| extend SqlOp = case(sqlStatement startswith \"UPDATE\", \"UPDATE\", sqlStatement startswith \"DELETE\", \"DELETE\", sqlStatement has \"INSERT INTO\", \"INSERT\", sqlStatement startswith \"SELECT\", \"SELECT\", \"\")\n| extend TableName = extract(\"CURRENTCOMPANY[$](.+?)[$]\", 1, sqlStatement)\n| extend splitStack = split(stackTrace, \"\\n\")\n| extend LockingObject = extract(\"\\\"(.+?)\\\"\", 1, tostring(splitStack[0])), SourceProcess = extract(\"\\\"(.+?)\\\"\", 1, tostring(splitStack[array_length(splitStack) - 1]))\n| project Time = timestamp, Tegund = case(EventId == \"RT0028\", \"🔴 DEADLOCK\", EventId == \"RT0012\", \"🟠 LOCK TIMEOUT\", \"🟡 SESSION\"), Company, ObjectName, ExtensionName, SqlOp, TableName, LockingObject, SourceProcess\n| order by Time desc",
+      "id": "325a6f3b-0648-4f62-a4fa-6d6032fa4500",
       "usedVariables": []
     },
     {
@@ -6667,7 +6667,7 @@
         "dataSourceId": "05ae5610-5603-45ac-9458-616539c1c150"
       },
       "text": "traces\n| where timestamp > ago(1h)\n| extend EventId = tostring(customDimensions.eventId)\n| summarize Count = count() by EventId\n| order by Count desc\n| take 15",
-      "id": "31d69210-a85e-44d3-b29b-aba44cd741b4",
+      "id": "908ebde7-fa65-4e15-a2af-c51a351d76fb",
       "usedVariables": []
     },
     {
@@ -6675,8 +6675,8 @@
         "kind": "inline",
         "dataSourceId": "05ae5610-5603-45ac-9458-616539c1c150"
       },
-      "text": "allTraces\n| where eventId in ('RT0005', 'RT0018')\n| extend ExecMs = totimespan(customDimensions.executionTime) / 1ms\n| summarize\n    SlowSQL = countif(eventId == 'RT0005'),\n    SlowAL = countif(eventId == 'RT0018'),\n    AvgSqlTime = avgif(ExecMs, eventId == 'RT0005'),\n    P95SqlTime = percentileif(ExecMs, 95, eventId == 'RT0005'),\n    MaxSqlTime = maxif(ExecMs, eventId == 'RT0005'),\n    AvgALTime = avgif(ExecMs, eventId == 'RT0018'),\n    P95ALTime = percentileif(ExecMs, 95, eventId == 'RT0018')\n| extend\n    Health = case(\n        P95SqlTime > 10000, \"🔴 CRITICAL\",\n        SlowSQL > 100 or SlowAL > 50, \"🟠 DEGRADED\",\n        SlowSQL > 20 or SlowAL > 10, \"🟡 SOME ISSUES\",\n        \"🟢 HEALTHY\"\n    )\n| project Health, SlowSQL, SlowAL,\n    AvgSqlMs = round(AvgSqlTime, 0), P95SqlMs = round(P95SqlTime, 0), MaxSqlMs = round(MaxSqlTime, 0),\n    AvgALMs = round(AvgALTime, 0), P95ALMs = round(P95ALTime, 0)",
-      "id": "79dc1410-42ad-49a3-84f3-415019731df1",
+      "text": "allTraces\n| where eventId in ('RT0005', 'RT0018')\n| extend ExecMs = totimespan(customDimensions.executionTime) / 1ms\n| summarize SlowSQL = countif(eventId == 'RT0005'), SlowAL = countif(eventId == 'RT0018'), AvgSqlTime = avgif(ExecMs, eventId == 'RT0005'), P95SqlTime = percentileif(ExecMs, 95, eventId == 'RT0005'), MaxSqlTime = maxif(ExecMs, eventId == 'RT0005'), AvgALTime = avgif(ExecMs, eventId == 'RT0018'), P95ALTime = percentileif(ExecMs, 95, eventId == 'RT0018')\n| extend Health = case(P95SqlTime > 10000, \"🔴 CRITICAL\", SlowSQL > 100 or SlowAL > 50, \"🟠 DEGRADED\", SlowSQL > 20 or SlowAL > 10, \"🟡 SOME ISSUES\", \"🟢 HEALTHY\")\n| project Health, SlowSQL, SlowAL, AvgSqlMs = round(AvgSqlTime, 0), P95SqlMs = round(P95SqlTime, 0), MaxSqlMs = round(MaxSqlTime, 0), AvgALMs = round(AvgALTime, 0), P95ALMs = round(P95ALTime, 0)",
+      "id": "1ef3d3fb-193f-4241-a5fd-3d0abb4d7ca4",
       "usedVariables": [
         "allTraces"
       ]
@@ -6686,8 +6686,8 @@
         "kind": "inline",
         "dataSourceId": "05ae5610-5603-45ac-9458-616539c1c150"
       },
-      "text": "allTraces\n| where eventId == 'RT0005'\n| extend\n    ExecMs = totimespan(customDimensions.executionTime) / 1ms,\n    ObjectName = tostring(customDimensions.alObjectName),\n    ExtensionName = tostring(customDimensions.extensionName),\n    SqlStatement = tostring(customDimensions.sqlStatement)\n| extend\n    SqlOp = case(\n        SqlStatement startswith \"UPDATE\", \"UPDATE\",\n        SqlStatement startswith \"DELETE\", \"DELETE\",\n        SqlStatement has \"INSERT INTO\", \"INSERT\",\n        SqlStatement startswith \"SELECT\", \"SELECT\",\n        \"OTHER\"\n    )\n| extend TableName = extract(\"CURRENTCOMPANY[$](.+?)[$]\", 1, SqlStatement)\n| summarize\n    Count = count(), AvgMs = round(avg(ExecMs), 0),\n    P95Ms = round(percentile(ExecMs, 95), 0),\n    MaxMs = round(max(ExecMs), 0),\n    LastSeen = max(timestamp)\n    by ObjectName, ExtensionName, SqlOp, TableName\n| extend TotalImpactSec = round(Count * AvgMs / 1000, 0)\n| extend Severity = case(P95Ms > 10000, \"🔴\", P95Ms > 5000, \"🟠\", P95Ms > 2000, \"🟡\", \"⚪\")\n| project Severity, ObjectName, ExtensionName, SqlOp, TableName, Count, AvgMs, P95Ms, MaxMs, TotalImpactSec, LastSeen\n| order by TotalImpactSec desc\n| take 30",
-      "id": "e1270a86-ab43-49e1-9ce5-d354d3e1ce60",
+      "text": "allTraces\n| where eventId == 'RT0005'\n| extend ExecMs = totimespan(customDimensions.executionTime) / 1ms, ObjectName = tostring(customDimensions.alObjectName), ExtensionName = tostring(customDimensions.extensionName), SqlStatement = tostring(customDimensions.sqlStatement)\n| extend SqlOp = case(SqlStatement startswith \"UPDATE\", \"UPDATE\", SqlStatement startswith \"DELETE\", \"DELETE\", SqlStatement has \"INSERT INTO\", \"INSERT\", SqlStatement startswith \"SELECT\", \"SELECT\", \"OTHER\")\n| extend TableName = extract(\"CURRENTCOMPANY[$](.+?)[$]\", 1, SqlStatement)\n| summarize Count = count(), AvgMs = round(avg(ExecMs), 0), P95Ms = round(percentile(ExecMs, 95), 0), MaxMs = round(max(ExecMs), 0), LastSeen = max(timestamp) by ObjectName, ExtensionName, SqlOp, TableName\n| extend TotalImpactSec = round(Count * AvgMs / 1000, 0)\n| extend Severity = case(P95Ms > 10000, \"🔴\", P95Ms > 5000, \"🟠\", P95Ms > 2000, \"🟡\", \"⚪\")\n| project Severity, ObjectName, ExtensionName, SqlOp, TableName, Count, AvgMs, P95Ms, MaxMs, TotalImpactSec, LastSeen\n| order by TotalImpactSec desc\n| take 30",
+      "id": "9f0aebe8-0f9b-438f-ac32-49dbfde49e37",
       "usedVariables": [
         "allTraces"
       ]
@@ -6697,8 +6697,8 @@
         "kind": "inline",
         "dataSourceId": "05ae5610-5603-45ac-9458-616539c1c150"
       },
-      "text": "allTraces\n| where eventId == 'RT0018'\n| extend\n    ExecMs = totimespan(customDimensions.executionTime) / 1ms,\n    ObjectName = tostring(customDimensions.alObjectName),\n    ObjectType = tostring(customDimensions.alObjectType),\n    MethodName = tostring(customDimensions.alMethodName),\n    ExtensionName = tostring(customDimensions.extensionName),\n    SqlRowsRead = tolong(customDimensions.sqlRowsRead),\n    SqlExecutes = tolong(customDimensions.sqlExecutes)\n| summarize\n    Count = count(), AvgMs = round(avg(ExecMs), 0),\n    P95Ms = round(percentile(ExecMs, 95), 0),\n    MaxMs = round(max(ExecMs), 0),\n    AvgSqlRows = round(avg(toreal(SqlRowsRead)), 0),\n    AvgSqlExecs = round(avg(toreal(SqlExecutes)), 0),\n    LastSeen = max(timestamp)\n    by ObjectType, ObjectName, MethodName, ExtensionName\n| extend TotalImpactSec = round(Count * AvgMs / 1000, 0)\n| extend Severity = case(P95Ms > 30000, \"🔴\", P95Ms > 10000, \"🟠\", P95Ms > 5000, \"🟡\", \"⚪\")\n| project Severity, ObjectType, ObjectName, MethodName, ExtensionName, Count, AvgMs, P95Ms, MaxMs, AvgSqlRows, AvgSqlExecs, TotalImpactSec, LastSeen\n| order by TotalImpactSec desc\n| take 30",
-      "id": "5ed0244b-1620-4f65-a8ef-3406ee140bca",
+      "text": "allTraces\n| where eventId == 'RT0018'\n| extend ExecMs = totimespan(customDimensions.executionTime) / 1ms, ObjectName = tostring(customDimensions.alObjectName), ObjectType = tostring(customDimensions.alObjectType), MethodName = tostring(customDimensions.alMethodName), ExtensionName = tostring(customDimensions.extensionName), SqlRowsRead = tolong(customDimensions.sqlRowsRead), SqlExecutes = tolong(customDimensions.sqlExecutes)\n| summarize Count = count(), AvgMs = round(avg(ExecMs), 0), P95Ms = round(percentile(ExecMs, 95), 0), MaxMs = round(max(ExecMs), 0), AvgSqlRows = round(avg(toreal(SqlRowsRead)), 0), AvgSqlExecs = round(avg(toreal(SqlExecutes)), 0), LastSeen = max(timestamp) by ObjectType, ObjectName, MethodName, ExtensionName\n| extend TotalImpactSec = round(Count * AvgMs / 1000, 0)\n| extend Severity = case(P95Ms > 30000, \"🔴\", P95Ms > 10000, \"🟠\", P95Ms > 5000, \"🟡\", \"⚪\")\n| project Severity, ObjectType, ObjectName, MethodName, ExtensionName, Count, AvgMs, P95Ms, MaxMs, AvgSqlRows, AvgSqlExecs, TotalImpactSec, LastSeen\n| order by TotalImpactSec desc\n| take 30",
+      "id": "3e9d9e34-db10-4b49-86f9-9d7114a86886",
       "usedVariables": [
         "allTraces"
       ]
@@ -6709,7 +6709,7 @@
         "dataSourceId": "05ae5610-5603-45ac-9458-616539c1c150"
       },
       "text": "allTraces\n| where eventId in ('RT0005', 'RT0018')\n| extend EventType = iff(eventId == 'RT0005', 'Slow SQL', 'Slow AL')\n| summarize Count = count() by bin(timestamp, 1h), EventType\n| order by timestamp asc",
-      "id": "70dbcfc5-b6e6-4b6a-aaca-7931de2befb6",
+      "id": "b5621f3c-0704-4999-ab32-f59f009e3c4a",
       "usedVariables": [
         "allTraces"
       ]
@@ -6719,8 +6719,8 @@
         "kind": "inline",
         "dataSourceId": "05ae5610-5603-45ac-9458-616539c1c150"
       },
-      "text": "allTraces\n| where eventId == 'RT0008'\n| extend\n    Endpoint = tostring(customDimensions.endpoint),\n    Category = tostring(customDimensions.category),\n    ExecMs = totimespan(customDimensions.serverExecutionTime) / 1ms,\n    HttpStatusCode = tostring(customDimensions.httpStatusCode),\n    ObjectName = tostring(customDimensions.alObjectName)\n| summarize\n    Calls = count(), AvgMs = round(avg(ExecMs), 0),\n    P95Ms = round(percentile(ExecMs, 95), 0),\n    MaxMs = round(max(ExecMs), 0),\n    Errors = countif(toint(HttpStatusCode) >= 400)\n    by Endpoint, Category, ObjectName\n| extend ErrorRate = round(100.0 * Errors / Calls, 1)\n| extend Severity = case(P95Ms > 10000 or ErrorRate > 10, \"🔴\", P95Ms > 5000 or ErrorRate > 5, \"🟠\", P95Ms > 2000, \"🟡\", \"🟢\")\n| project Severity, Endpoint, Category, ObjectName, Calls, AvgMs, P95Ms, MaxMs, Errors, ErrorRate\n| order by Calls desc\n| take 30",
-      "id": "6c394d2b-99f2-4118-a70b-5d24aac5c5f4",
+      "text": "allTraces\n| where eventId == 'RT0008'\n| extend Endpoint = tostring(customDimensions.endpoint), Category = tostring(customDimensions.category), ExecMs = totimespan(customDimensions.serverExecutionTime) / 1ms, HttpStatusCode = tostring(customDimensions.httpStatusCode), ObjectName = tostring(customDimensions.alObjectName)\n| summarize Calls = count(), AvgMs = round(avg(ExecMs), 0), P95Ms = round(percentile(ExecMs, 95), 0), MaxMs = round(max(ExecMs), 0), Errors = countif(toint(HttpStatusCode) >= 400) by Endpoint, Category, ObjectName\n| extend ErrorRate = round(100.0 * Errors / Calls, 1)\n| extend Severity = case(P95Ms > 10000 or ErrorRate > 10, \"🔴\", P95Ms > 5000 or ErrorRate > 5, \"🟠\", P95Ms > 2000, \"🟡\", \"🟢\")\n| project Severity, Endpoint, Category, ObjectName, Calls, AvgMs, P95Ms, MaxMs, Errors, ErrorRate\n| order by Calls desc\n| take 30",
+      "id": "f0eaea83-8627-4594-8ebd-882467c28bf0",
       "usedVariables": [
         "allTraces"
       ]
@@ -6731,7 +6731,7 @@
         "dataSourceId": "05ae5610-5603-45ac-9458-616539c1c150"
       },
       "text": "allTraces\n| where eventId in ('RT0005', 'RT0018')\n| extend ExtensionName = tostring(customDimensions.extensionName), ExecMs = totimespan(customDimensions.executionTime) / 1ms\n| summarize SlowEvents = count(), TotalTimeSec = round(sum(ExecMs) / 1000, 1), AvgMs = round(avg(ExecMs), 0) by ExtensionName\n| where isnotempty(ExtensionName)\n| project ExtensionName, SlowEvents, TotalTimeSec, AvgMs\n| order by SlowEvents desc\n| take 15",
-      "id": "d5e36093-e42e-44a7-a450-6ac401696ef3",
+      "id": "1300fa9f-e405-4ae7-8871-2cee03ca064a",
       "usedVariables": [
         "allTraces"
       ]
@@ -6741,8 +6741,8 @@
         "kind": "inline",
         "dataSourceId": "05ae5610-5603-45ac-9458-616539c1c150"
       },
-      "text": "allTraces\n| where eventId == 'RT0028'\n| where customDimensions.alObjectId != '0'\n| where isnotempty(customDimensions.alObjectId)\n| extend\n    ObjectName = tostring(customDimensions.alObjectName),\n    sqlStatement = tostring(customDimensions.sqlStatement),\n    stackTrace = tostring(customDimensions.alStackTrace),\n    ExtensionName = tostring(customDimensions.extensionName)\n| extend SqlOp = case(sqlStatement startswith \"UPDATE\", \"UPDATE\", sqlStatement startswith \"DELETE\", \"DELETE\", sqlStatement has \"INSERT INTO\", \"INSERT\", sqlStatement startswith \"SELECT\", \"SELECT\", sqlStatement has \"sp_getapplock\", \"APP_LOCK\", \"OTHER\")\n| extend TableName = extract(\"CURRENTCOMPANY[$](.+?)[$]\", 1, sqlStatement)\n| extend splitStack = split(stackTrace, \"\\n\")\n| extend LockingObject = extract(\"\\\"(.+?)\\\"\", 1, tostring(splitStack[0])), SourceProcess = extract(\"\\\"(.+?)\\\"\", 1, tostring(splitStack[array_length(splitStack) - 1]))\n| summarize Deadlocks = count(), LastSeen = max(timestamp), FirstSeen = min(timestamp), AffectedUsers = dcount(user_Id), SqlOps = make_set(SqlOp), Extensions = make_set(ExtensionName) by TableName, LockingObject, SourceProcess\n| extend Severity = case(Deadlocks > 20, \"🔴 CRITICAL\", Deadlocks > 5, \"🟠 FREQUENT\", Deadlocks > 1, \"🟡 RECURRING\", \"⚪ ONE-OFF\"), DaysSinceFirst = datetime_diff('day', now(), FirstSeen)\n| project Severity, Deadlocks, TableName, LockingObject, SourceProcess, SqlOps, Extensions, AffectedUsers, LastSeen, DaysSinceFirst\n| order by Deadlocks desc",
-      "id": "42ba0b28-17be-4c85-bf4b-fe0efc808559",
+      "text": "allTraces\n| where eventId == 'RT0028'\n| where customDimensions.alObjectId != '0'\n| where isnotempty(customDimensions.alObjectId)\n| extend ObjectName = tostring(customDimensions.alObjectName), sqlStatement = tostring(customDimensions.sqlStatement), stackTrace = tostring(customDimensions.alStackTrace), ExtensionName = tostring(customDimensions.extensionName)\n| extend SqlOp = case(sqlStatement startswith \"UPDATE\", \"UPDATE\", sqlStatement startswith \"DELETE\", \"DELETE\", sqlStatement has \"INSERT INTO\", \"INSERT\", sqlStatement startswith \"SELECT\", \"SELECT\", sqlStatement has \"sp_getapplock\", \"APP_LOCK\", \"OTHER\")\n| extend TableName = extract(\"CURRENTCOMPANY[$](.+?)[$]\", 1, sqlStatement)\n| extend splitStack = split(stackTrace, \"\\n\")\n| extend LockingObject = extract(\"\\\"(.+?)\\\"\", 1, tostring(splitStack[0])), SourceProcess = extract(\"\\\"(.+?)\\\"\", 1, tostring(splitStack[array_length(splitStack) - 1]))\n| summarize Deadlocks = count(), LastSeen = max(timestamp), FirstSeen = min(timestamp), AffectedUsers = dcount(user_Id), SqlOps = make_set(SqlOp), Extensions = make_set(ExtensionName) by TableName, LockingObject, SourceProcess\n| extend Severity = case(Deadlocks > 20, \"🔴 CRITICAL\", Deadlocks > 5, \"🟠 FREQUENT\", Deadlocks > 1, \"🟡 RECURRING\", \"⚪ ONE-OFF\"), DaysSinceFirst = datetime_diff('day', now(), FirstSeen)\n| project Severity, Deadlocks, TableName, LockingObject, SourceProcess, SqlOps, Extensions, AffectedUsers, LastSeen, DaysSinceFirst\n| order by Deadlocks desc",
+      "id": "946ccb25-06e5-469a-b3f9-5a76d6891b22",
       "usedVariables": [
         "allTraces"
       ]
@@ -6753,7 +6753,7 @@
         "dataSourceId": "05ae5610-5603-45ac-9458-616539c1c150"
       },
       "text": "allTraces\n| where eventId == 'RT0028'\n| where customDimensions.alObjectId != '0'\n| extend ObjectName = tostring(customDimensions.alObjectName), stackTrace = tostring(customDimensions.alStackTrace)\n| extend splitStack = split(stackTrace, \"\\n\")\n| extend SourceProcess = extract(\"\\\"(.+?)\\\"\", 1, tostring(splitStack[array_length(splitStack) - 1]))\n| extend SourceProcess = coalesce(SourceProcess, ObjectName, \"Unknown\")\n| summarize Deadlocks = count() by bin(timestamp, 1h), SourceProcess\n| order by timestamp asc",
-      "id": "85fbfe60-1d85-48e8-aede-773d8f7fdc18",
+      "id": "8f214aa3-6cff-4a0e-8478-070903d512ba",
       "usedVariables": [
         "allTraces"
       ]
@@ -6764,7 +6764,7 @@
         "dataSourceId": "05ae5610-5603-45ac-9458-616539c1c150"
       },
       "text": "allTraces\n| where eventId in ('RT0012', 'RT0028')\n| extend HourOfDay = hourofday(timestamp)\n| summarize Deadlocks = countif(eventId == 'RT0028'), LockTimeouts = countif(eventId == 'RT0012') by HourOfDay\n| order by HourOfDay asc",
-      "id": "dc195767-b7e9-4004-9b60-56ee84894672",
+      "id": "ff541994-fce4-4aaf-848f-79fd4d1cf032",
       "usedVariables": [
         "allTraces"
       ]
@@ -6774,8 +6774,8 @@
         "kind": "inline",
         "dataSourceId": "05ae5610-5603-45ac-9458-616539c1c150"
       },
-      "text": "allTraces\n| where eventId == 'RT0028'\n| where customDimensions.alObjectId != '0'\n| where isnotempty(customDimensions.alObjectId)\n| extend\n    ObjectName = tostring(customDimensions.alObjectName),\n    ObjectType = tostring(customDimensions.alObjectType),\n    sqlStatement = tostring(customDimensions.sqlStatement),\n    stackTrace = tostring(customDimensions.alStackTrace),\n    ExtensionName = tostring(customDimensions.extensionName),\n    Company = tostring(customDimensions.companyName),\n    UserId = user_Id\n| extend SqlOp = case(sqlStatement startswith \"UPDATE\", \"UPDATE\", sqlStatement startswith \"DELETE\", \"DELETE\", sqlStatement has \"INSERT INTO\", \"INSERT\", sqlStatement startswith \"SELECT\", \"SELECT\", \"OTHER\")\n| extend TableName = extract(\"CURRENTCOMPANY[$](.+?)[$]\", 1, sqlStatement)\n| extend splitStack = split(stackTrace, \"\\n\")\n| extend LockingObject = tostring(splitStack[0]), SourceProcess = tostring(splitStack[array_length(splitStack) - 1]), StackDepth = array_length(splitStack)\n| project timestamp, Company, UserId, ObjectName, ExtensionName, SqlOp, TableName, LockingObject, SourceProcess, StackDepth, stackTrace, sqlStatement\n| order by timestamp desc\n| take 50",
-      "id": "a417377d-8361-444f-8c4f-01d7506429fe",
+      "text": "allTraces\n| where eventId == 'RT0028'\n| where customDimensions.alObjectId != '0'\n| where isnotempty(customDimensions.alObjectId)\n| extend ObjectName = tostring(customDimensions.alObjectName), ObjectType = tostring(customDimensions.alObjectType), sqlStatement = tostring(customDimensions.sqlStatement), stackTrace = tostring(customDimensions.alStackTrace), ExtensionName = tostring(customDimensions.extensionName), Company = tostring(customDimensions.companyName), UserId = user_Id\n| extend SqlOp = case(sqlStatement startswith \"UPDATE\", \"UPDATE\", sqlStatement startswith \"DELETE\", \"DELETE\", sqlStatement has \"INSERT INTO\", \"INSERT\", sqlStatement startswith \"SELECT\", \"SELECT\", \"OTHER\")\n| extend TableName = extract(\"CURRENTCOMPANY[$](.+?)[$]\", 1, sqlStatement)\n| extend splitStack = split(stackTrace, \"\\n\")\n| extend LockingObject = tostring(splitStack[0]), SourceProcess = tostring(splitStack[array_length(splitStack) - 1]), StackDepth = array_length(splitStack)\n| project timestamp, Company, UserId, ObjectName, ExtensionName, SqlOp, TableName, LockingObject, SourceProcess, StackDepth, stackTrace, sqlStatement\n| order by timestamp desc\n| take 50",
+      "id": "e9a36efb-db13-4145-b31e-8c7edeb9a8b6",
       "usedVariables": [
         "allTraces"
       ]
@@ -6785,8 +6785,8 @@
         "kind": "inline",
         "dataSourceId": "05ae5610-5603-45ac-9458-616539c1c150"
       },
-      "text": "allTraces\n| where eventId == 'RT0012'\n| where customDimensions.alObjectId != '0'\n| where isnotempty(customDimensions.alObjectId)\n| extend\n    ObjectName = tostring(customDimensions.alObjectName),\n    sqlStatement = tostring(customDimensions.sqlStatement),\n    stackTrace = tostring(customDimensions.alStackTrace),\n    ExtensionName = tostring(customDimensions.extensionName)\n| extend SqlOp = case(sqlStatement startswith \"UPDATE\", \"UPDATE\", sqlStatement startswith \"DELETE\", \"DELETE\", sqlStatement has \"INSERT INTO\", \"INSERT\", sqlStatement startswith \"SELECT\", \"SELECT\", \"OTHER\")\n| extend TableName = extract(\"CURRENTCOMPANY[$](.+?)[$]\", 1, sqlStatement)\n| extend splitStack = split(stackTrace, \"\\n\")\n| extend LockingObject = extract(\"\\\"(.+?)\\\"\", 1, tostring(splitStack[0])), SourceProcess = extract(\"\\\"(.+?)\\\"\", 1, tostring(splitStack[array_length(splitStack) - 1]))\n| summarize Timeouts = count(), LastSeen = max(timestamp), AffectedUsers = dcount(user_Id), SqlOps = make_set(SqlOp), Extensions = make_set(ExtensionName) by TableName, LockingObject, SourceProcess\n| extend Severity = case(Timeouts > 50, \"🔴 CRITICAL\", Timeouts > 15, \"🟠 FREQUENT\", Timeouts > 3, \"🟡 RECURRING\", \"⚪ ONE-OFF\")\n| project Severity, Timeouts, TableName, LockingObject, SourceProcess, SqlOps, Extensions, AffectedUsers, LastSeen\n| order by Timeouts desc",
-      "id": "74fa1a30-7187-42f1-af31-88890d66bd29",
+      "text": "allTraces\n| where eventId == 'RT0012'\n| where customDimensions.alObjectId != '0'\n| where isnotempty(customDimensions.alObjectId)\n| extend ObjectName = tostring(customDimensions.alObjectName), sqlStatement = tostring(customDimensions.sqlStatement), stackTrace = tostring(customDimensions.alStackTrace), ExtensionName = tostring(customDimensions.extensionName)\n| extend SqlOp = case(sqlStatement startswith \"UPDATE\", \"UPDATE\", sqlStatement startswith \"DELETE\", \"DELETE\", sqlStatement has \"INSERT INTO\", \"INSERT\", sqlStatement startswith \"SELECT\", \"SELECT\", \"OTHER\")\n| extend TableName = extract(\"CURRENTCOMPANY[$](.+?)[$]\", 1, sqlStatement)\n| extend splitStack = split(stackTrace, \"\\n\")\n| extend LockingObject = extract(\"\\\"(.+?)\\\"\", 1, tostring(splitStack[0])), SourceProcess = extract(\"\\\"(.+?)\\\"\", 1, tostring(splitStack[array_length(splitStack) - 1]))\n| summarize Timeouts = count(), LastSeen = max(timestamp), AffectedUsers = dcount(user_Id), SqlOps = make_set(SqlOp), Extensions = make_set(ExtensionName) by TableName, LockingObject, SourceProcess\n| extend Severity = case(Timeouts > 50, \"🔴 CRITICAL\", Timeouts > 15, \"🟠 FREQUENT\", Timeouts > 3, \"🟡 RECURRING\", \"⚪ ONE-OFF\")\n| project Severity, Timeouts, TableName, LockingObject, SourceProcess, SqlOps, Extensions, AffectedUsers, LastSeen\n| order by Timeouts desc",
+      "id": "8220823e-ff41-4f5e-8b6b-4fcb05f1ffee",
       "usedVariables": [
         "allTraces"
       ]
@@ -6796,8 +6796,8 @@
         "kind": "inline",
         "dataSourceId": "05ae5610-5603-45ac-9458-616539c1c150"
       },
-      "text": "allTraces\n| where eventId == 'RT0013'\n| project\n    timestamp,\n    Company = tostring(customDimensions.companyName),\n    SnapshotId = tostring(customDimensions.snapshotId),\n    HoldingObject = tostring(customDimensions.alObjectName),\n    HoldingExtension = tostring(customDimensions.extensionName),\n    HoldingStack = tostring(customDimensions.alStackTrace),\n    HoldingClientType = tostring(customDimensions.clientType),\n    LockedTable = tostring(customDimensions.sqlTableName),\n    LockType = tostring(customDimensions.sqlLockResourceType),\n    LockMode = tostring(customDimensions.sqlLockRequestMode),\n    LockStatus = tostring(customDimensions.sqlLockRequestStatus)\n| order by timestamp desc\n| take 50",
-      "id": "ab22f402-f862-4925-b110-73e461bf4c64",
+      "text": "allTraces\n| where eventId == 'RT0013'\n| project timestamp, Company = tostring(customDimensions.companyName), SnapshotId = tostring(customDimensions.snapshotId), HoldingObject = tostring(customDimensions.alObjectName), HoldingExtension = tostring(customDimensions.extensionName), HoldingStack = tostring(customDimensions.alStackTrace), HoldingClientType = tostring(customDimensions.clientType), LockedTable = tostring(customDimensions.sqlTableName), LockType = tostring(customDimensions.sqlLockResourceType), LockMode = tostring(customDimensions.sqlLockRequestMode), LockStatus = tostring(customDimensions.sqlLockRequestStatus)\n| order by timestamp desc\n| take 50",
+      "id": "fe25d91b-c762-4e97-9602-ea024ef0800a",
       "usedVariables": [
         "allTraces"
       ]
@@ -6808,7 +6808,142 @@
         "dataSourceId": "05ae5610-5603-45ac-9458-616539c1c150"
       },
       "text": "allTraces\n| where eventId in ('RT0012', 'RT0028')\n| where customDimensions.alObjectId != '0'\n| extend sqlStatement = tostring(customDimensions.sqlStatement), EventType = iff(eventId == 'RT0028', 'Deadlock', 'Lock Timeout')\n| extend TableName = extract(\"CURRENTCOMPANY[$](.+?)[$]\", 1, sqlStatement)\n| where isnotempty(TableName)\n| summarize Deadlocks = countif(EventType == 'Deadlock'), LockTimeouts = countif(EventType == 'Lock Timeout'), Total = count() by TableName\n| project TableName, Total, Deadlocks, LockTimeouts\n| order by Total desc\n| take 20",
-      "id": "c4926d04-d8e8-4881-acba-afdf0363c287",
+      "id": "952fffad-766f-4e7f-9825-2d89c7d98e9b",
+      "usedVariables": [
+        "allTraces"
+      ]
+    },
+    {
+      "dataSource": {
+        "kind": "inline",
+        "dataSourceId": "05ae5610-5603-45ac-9458-616539c1c150"
+      },
+      "text": "traces",
+      "id": "b19a2b7f-6d08-4f7f-b3ed-ce290cb93d82",
+      "usedVariables": []
+    },
+    {
+      "dataSource": {
+        "kind": "inline",
+        "dataSourceId": "05ae5610-5603-45ac-9458-616539c1c150"
+      },
+      "text": "datatable(aadTenantId: string, tenantDescription: string) []",
+      "id": "ba39f166-a4d3-48ea-bad0-db65876a054f",
+      "usedVariables": []
+    },
+    {
+      "dataSource": {
+        "kind": "inline",
+        "dataSourceId": "05ae5610-5603-45ac-9458-616539c1c150"
+      },
+      "text": "datatable(companyName: string, instanceDescription: string) []",
+      "id": "cf48c267-b5e4-49fb-be61-ec76987b164e",
+      "usedVariables": []
+    },
+    {
+      "dataSource": {
+        "kind": "inline",
+        "dataSourceId": "05ae5610-5603-45ac-9458-616539c1c150"
+      },
+      "text": "datatable(serviceInstance: string, servicePurpose: string) []",
+      "id": "df59d378-c6f5-5afb-cf72-fd87a98c275f",
+      "usedVariables": []
+    },
+    {
+      "dataSource": {
+        "kind": "inline",
+        "dataSourceId": "05ae5610-5603-45ac-9458-616539c1c150"
+      },
+      "text": "allTraces\n| distinct tostring(customDimensions.eventArea)\n| order by Column1 asc",
+      "id": "f5fbe50d-0893-4b88-9d18-0a9a40874da0",
+      "usedVariables": [
+        "allTraces"
+      ]
+    },
+    {
+      "dataSource": {
+        "kind": "inline",
+        "dataSourceId": "05ae5610-5603-45ac-9458-616539c1c150"
+      },
+      "text": "allTraces\n| distinct tostring(customDimensions.extensionName)\n| where isnotempty(Column1)\n| order by Column1 asc",
+      "id": "2fdf22eb-61c7-4964-bc7e-49c7eb81c9c8",
+      "usedVariables": [
+        "allTraces"
+      ]
+    },
+    {
+      "dataSource": {
+        "kind": "inline",
+        "dataSourceId": "05ae5610-5603-45ac-9458-616539c1c150"
+      },
+      "text": "allTraces\n| distinct tostring(customDimensions.extensionPublisher)\n| where isnotempty(Column1)\n| order by Column1 asc",
+      "id": "79f1960d-e4a0-4ed3-8aca-fc0ec2aa2399",
+      "usedVariables": [
+        "allTraces"
+      ]
+    },
+    {
+      "dataSource": {
+        "kind": "inline",
+        "dataSourceId": "05ae5610-5603-45ac-9458-616539c1c150"
+      },
+      "text": "allTraces\n| distinct aadTenantId\n| where isnotempty(aadTenantId)\n| order by aadTenantId asc",
+      "id": "1af6d35a-92af-4520-a929-26af2d29ea09",
+      "usedVariables": [
+        "allTraces"
+      ]
+    },
+    {
+      "dataSource": {
+        "kind": "inline",
+        "dataSourceId": "05ae5610-5603-45ac-9458-616539c1c150"
+      },
+      "text": "allTraces\n| distinct tenantDescription\n| where isnotempty(tenantDescription)\n| order by tenantDescription asc",
+      "id": "18cf1613-ca57-4d94-9d30-c2ffcafe5245",
+      "usedVariables": [
+        "allTraces"
+      ]
+    },
+    {
+      "dataSource": {
+        "kind": "inline",
+        "dataSourceId": "05ae5610-5603-45ac-9458-616539c1c150"
+      },
+      "text": "allTraces\n| distinct tostring(customDimensions.environmentName)\n| where isnotempty(Column1)\n| order by Column1 asc",
+      "id": "a4426a6f-dfd5-43a4-b8fb-68c8cbb6da83",
+      "usedVariables": [
+        "allTraces"
+      ]
+    },
+    {
+      "dataSource": {
+        "kind": "inline",
+        "dataSourceId": "05ae5610-5603-45ac-9458-616539c1c150"
+      },
+      "text": "allTraces\n| distinct eventId\n| where isnotempty(eventId)\n| order by eventId asc",
+      "id": "5793a15e-c4ad-4db1-9bca-0a3d11ea48cd",
+      "usedVariables": [
+        "allTraces"
+      ]
+    },
+    {
+      "dataSource": {
+        "kind": "inline",
+        "dataSourceId": "05ae5610-5603-45ac-9458-616539c1c150"
+      },
+      "text": "allTraces\n| where tostring(customDimensions.alObjectType) == \"CodeUnit\"\n| distinct tostring(customDimensions.alObjectName)\n| where isnotempty(Column1)\n| order by Column1 asc",
+      "id": "4c19c0ce-09a4-47c7-8c4d-a348af93b96a",
+      "usedVariables": [
+        "allTraces"
+      ]
+    },
+    {
+      "dataSource": {
+        "kind": "inline",
+        "dataSourceId": "05ae5610-5603-45ac-9458-616539c1c150"
+      },
+      "text": "allTraces\n| where eventId startswith \"AL0000D\"\n| distinct tostring(customDimensions.bcptCode)\n| where isnotempty(Column1)\n| order by Column1 asc",
+      "id": "131192bf-b588-4e2a-95f1-851f8c5b2686",
       "usedVariables": [
         "allTraces"
       ]
