@@ -6818,7 +6818,7 @@
         "kind": "inline",
         "dataSourceId": "05ae5610-5603-45ac-9458-616539c1c150"
       },
-      "text": "traces",
+      "text": "let Signals = externaldata(eventId: string, eventArea: string, eventDescription: string)\n[h@'https://raw.githubusercontent.com/Hagarhf/BCTelemetry/main/Azure%20Data%20Explorer/ExternalData/Signals.json']\nwith (format='multijson');\ntraces\n| extend eventId = tostring(customDimensions.eventId)\n| extend extensionName = tostring(customDimensions.extensionName)\n| extend extensionPublisher = tostring(customDimensions.extensionPublisher)\n| extend extensionVersion = tostring(customDimensions.extensionVersion)\n| extend extensionId = tostring(customDimensions.extensionId)\n| extend companyName = tostring(customDimensions.companyName)\n| extend componentVersion = tostring(customDimensions.componentVersion)\n| extend environmentName = tostring(customDimensions.environmentName)\n| extend environmentType = tostring(customDimensions.environmentType)\n| extend aadTenantId = tostring(customDimensions.aadTenantId)\n| extend IsSaas = iff(isempty(environmentName) or environmentName in ('common','null','default','undefined'), false, true)\n| extend tenantDescription = aadTenantId\n| lookup kind=leftouter Signals on eventId",
       "id": "b19a2b7f-6d08-4f7f-b3ed-ce290cb93d82",
       "usedVariables": []
     },
