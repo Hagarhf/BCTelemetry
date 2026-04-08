@@ -5621,7 +5621,9 @@
       },
       "text": "allTraces\n| where extensionPublisher !in ('Microsoft', 'LS Retail')\n| where isnotempty(extensionName)\n| extend ObjectType = tostring(customDimensions.alObjectType)\n| extend ObjectName = tostring(customDimensions.alObjectName)\n| where isnotempty(ObjectName)\n| summarize UsageCount = count(), LastUsed = max(timestamp), Users = dcount(user_Id) by extensionName, ObjectType, ObjectName\n| extend Status = case(UsageCount == 0, \"🔴 ZERO\", UsageCount < 5, \"🟠 VERY LOW\", UsageCount < 20, \"🟡 LOW\", \"🟢 ACTIVE\")\n| order by UsageCount asc\n| take 100",
       "id": "c1a2b3d4-e5f6-7890-1234-567890abcdef",
-      "usedVariables": []
+      "usedVariables": [
+        "allTraces"
+      ]
     },
     {
       "dataSource": {
@@ -5630,7 +5632,9 @@
       },
       "text": "allTraces\n| where extensionPublisher !in ('Microsoft', 'LS Retail')\n| where isnotempty(extensionName)\n| extend ObjectName = tostring(customDimensions.alObjectName)\n| where isnotempty(ObjectName)\n| summarize UsageCount = count() by extensionName, ObjectName\n| where UsageCount < 5\n| order by UsageCount asc",
       "id": "d2e3f4a5-b6c7-4890-2345-678901bcdef0",
-      "usedVariables": []
+      "usedVariables": [
+        "allTraces"
+      ]
     },
     {
       "dataSource": {
@@ -5639,14 +5643,16 @@
       },
       "text": "allTraces\n| where extensionPublisher !in ('Microsoft', 'LS Retail')\n| where isnotempty(extensionName)\n| extend ObjectName = tostring(customDimensions.alObjectName)\n| summarize TotalEvents = count(), UniqueObjects = dcount(ObjectName), Users = dcount(user_Id), Errors = countif(severityLevel >= 3) by extensionName\n| extend ErrorRate = round(100.0 * Errors / TotalEvents, 1)\n| order by TotalEvents desc",
       "id": "e3f4a5b6-c7d8-4901-3456-7890abcdef12",
-      "usedVariables": []
+      "usedVariables": [
+        "allTraces"
+      ]
     },
     {
       "dataSource": {
         "kind": "inline",
         "dataSourceId": "05ae5610-5603-45ac-9458-616539c1c150"
       },
-      "text": "let TimeRange = 24h;\nallTraces\n| where timestamp > ago(TimeRange)\n| extend\n    extensionName = tostring(customDimensions.extensionName),\n    alObjectName = tostring(customDimensions.alObjectName)\n| where extensionName startswith \"Hagar\" or extensionName == \"HAG\"\n| summarize\n    EventCount = count(),\n    UniqueObjects = dcount(alObjectName),\n    LastActivity = max(timestamp)\n    by extensionName\n| extend\n    EventsPerHour = round(toreal(EventCount) / 24.0, 1),\n    MinutesSinceActivity = datetime_diff('minute', now(), LastActivity)\n| extend Status = case(\n    MinutesSinceActivity > 60, \"⚠️ Inactive > 1h\",\n    MinutesSinceActivity > 30, \"📊 Low Activity\",\n    \"✅ Active\"\n)\n| project extensionName, EventCount, EventsPerHour, UniqueObjects, MinutesSinceActivity, LastActivity, Status\n| order by EventCount desc",
+      "text": "allTraces\n| extend\n    extensionName = tostring(customDimensions.extensionName),\n    alObjectName = tostring(customDimensions.alObjectName)\n| where extensionName startswith \"Hagar\" or extensionName == \"HAG\"\n| summarize\n    EventCount = count(),\n    UniqueObjects = dcount(alObjectName),\n    LastActivity = max(timestamp)\n    by extensionName\n| extend\n    EventsPerHour = round(toreal(EventCount) / 24.0, 1),\n    MinutesSinceActivity = datetime_diff('minute', now(), LastActivity)\n| extend Status = case(\n    MinutesSinceActivity > 60, \"⚠️ Inactive > 1h\",\n    MinutesSinceActivity > 30, \"📊 Low Activity\",\n    \"✅ Active\"\n)\n| project extensionName, EventCount, EventsPerHour, UniqueObjects, MinutesSinceActivity, LastActivity, Status\n| order by EventCount desc",
       "id": "f5a6b7c8-d9e0-4234-5678-901234abcde0",
       "usedVariables": [
         "allTraces"
@@ -5657,7 +5663,7 @@
         "kind": "inline",
         "dataSourceId": "05ae5610-5603-45ac-9458-616539c1c150"
       },
-      "text": "let TimeRange = 24h;\nallTraces\n| where timestamp > ago(TimeRange)\n| extend\n    extensionName = tostring(customDimensions.extensionName),\n    alObjectName = tostring(customDimensions.alObjectName)\n| where alObjectName contains \"ASB Queue\" or alObjectName contains \"Azure Service Bus\"\n| extend executionTimeMs = toreal(totimespan(customDimensions.serverExecutionTime))/10000\n| summarize\n    CallCount = count(),\n    AvgMs = round(avg(executionTimeMs), 2),\n    P50Ms = round(percentile(executionTimeMs, 50), 2),\n    P95Ms = round(percentile(executionTimeMs, 95), 2),\n    MaxMs = round(max(executionTimeMs), 2),\n    ErrorCount = countif(severityLevel >= 3)\n    by bin(timestamp, 1h), extensionName, alObjectName\n| extend\n    PerformanceStatus = case(\n        AvgMs > 1000, \"🔴 Slow\",\n        AvgMs > 500, \"⚠️ Moderate\",\n        \"✅ Fast\"\n    ),\n    ErrorStatus = case(\n        ErrorCount > 0, \"🔴 Has Errors\",\n        \"✅ No Errors\"\n    )\n| project timestamp, extensionName, alObjectName, CallCount, AvgMs, P95Ms, MaxMs, PerformanceStatus, ErrorCount, ErrorStatus\n| order by timestamp desc",
+      "text": "allTraces\n| extend\n    extensionName = tostring(customDimensions.extensionName),\n    alObjectName = tostring(customDimensions.alObjectName)\n| where alObjectName contains \"ASB Queue\" or alObjectName contains \"Azure Service Bus\"\n| extend executionTimeMs = toreal(totimespan(customDimensions.serverExecutionTime))/10000\n| summarize\n    CallCount = count(),\n    AvgMs = round(avg(executionTimeMs), 2),\n    P50Ms = round(percentile(executionTimeMs, 50), 2),\n    P95Ms = round(percentile(executionTimeMs, 95), 2),\n    MaxMs = round(max(executionTimeMs), 2),\n    ErrorCount = countif(severityLevel >= 3)\n    by bin(timestamp, 1h), extensionName, alObjectName\n| extend\n    PerformanceStatus = case(\n        AvgMs > 1000, \"🔴 Slow\",\n        AvgMs > 500, \"⚠️ Moderate\",\n        \"✅ Fast\"\n    ),\n    ErrorStatus = case(\n        ErrorCount > 0, \"🔴 Has Errors\",\n        \"✅ No Errors\"\n    )\n| project timestamp, extensionName, alObjectName, CallCount, AvgMs, P95Ms, MaxMs, PerformanceStatus, ErrorCount, ErrorStatus\n| order by timestamp desc",
       "id": "a6b7c8d9-e0f1-4345-6789-012345abcde2",
       "usedVariables": [
         "allTraces"
@@ -5668,7 +5674,7 @@
         "kind": "inline",
         "dataSourceId": "05ae5610-5603-45ac-9458-616539c1c150"
       },
-      "text": "let TimeRange = 24h;\nallTraces\n| where timestamp > ago(TimeRange)\n| extend\n    extensionName = tostring(customDimensions.extensionName),\n    alObjectName = tostring(customDimensions.alObjectName)\n| where extensionName startswith \"Hagar\" or extensionName == \"HAG\"\n| where alObjectName contains \"Export\" or alObjectName contains \"Delete\"\n| extend executionTimeMs = toreal(totimespan(customDimensions.serverExecutionTime))/10000\n| extend executionTimeSec = round(executionTimeMs / 1000, 2)\n| where executionTimeSec > 1\n| summarize\n    OperationCount = count(),\n    AvgSeconds = round(avg(executionTimeSec), 2),\n    MaxSeconds = round(max(executionTimeSec), 2),\n    LastExecution = max(timestamp)\n    by extensionName, alObjectName\n| extend Status = case(\n    MaxSeconds > 60, \"🔴 Very Slow (>1min)\",\n    MaxSeconds > 30, \"⚠️ Slow (30s-1min)\",\n    AvgSeconds > 10, \"📊 Moderate (10s+)\",\n    \"✅ Normal\"\n)\n| project extensionName, alObjectName, OperationCount, AvgSeconds, MaxSeconds, Status, LastExecution\n| order by MaxSeconds desc",
+      "text": "allTraces\n| extend\n    extensionName = tostring(customDimensions.extensionName),\n    alObjectName = tostring(customDimensions.alObjectName)\n| where extensionName startswith \"Hagar\" or extensionName == \"HAG\"\n| where alObjectName contains \"Export\" or alObjectName contains \"Delete\"\n| extend executionTimeMs = toreal(totimespan(customDimensions.serverExecutionTime))/10000\n| extend executionTimeSec = round(executionTimeMs / 1000, 2)\n| where executionTimeSec > 1\n| summarize\n    OperationCount = count(),\n    AvgSeconds = round(avg(executionTimeSec), 2),\n    MaxSeconds = round(max(executionTimeSec), 2),\n    LastExecution = max(timestamp)\n    by extensionName, alObjectName\n| extend Status = case(\n    MaxSeconds > 60, \"🔴 Very Slow (>1min)\",\n    MaxSeconds > 30, \"⚠️ Slow (30s-1min)\",\n    AvgSeconds > 10, \"📊 Moderate (10s+)\",\n    \"✅ Normal\"\n)\n| project extensionName, alObjectName, OperationCount, AvgSeconds, MaxSeconds, Status, LastExecution\n| order by MaxSeconds desc",
       "id": "b7c8d9e0-f1a2-4456-7890-123456abcde4",
       "usedVariables": [
         "allTraces"
@@ -5679,7 +5685,7 @@
         "kind": "inline",
         "dataSourceId": "05ae5610-5603-45ac-9458-616539c1c150"
       },
-      "text": "let TimeRange = 24h;\nallTraces\n| where timestamp > ago(TimeRange)\n| extend\n    extensionName = tostring(customDimensions.extensionName),\n    alObjectName = tostring(customDimensions.alObjectName)\n| where extensionName startswith \"Hagar\" or extensionName == \"HAG\"\n| where severityLevel >= 2\n| extend severity = case(\n    severityLevel == 4, \"🔴 Critical\",\n    severityLevel == 3, \"⚠️ Error\",\n    \"ℹ️ Warning\"\n)\n| summarize\n    Count = count(),\n    FirstOccurrence = min(timestamp),\n    LastOccurrence = max(timestamp),\n    SampleMessages = make_set(message, 3)\n    by severity, extensionName, alObjectName\n| order by Count desc, severity asc\n| project severity, extensionName, alObjectName, Count, FirstOccurrence, LastOccurrence, SampleMessages",
+      "text": "allTraces\n| extend\n    extensionName = tostring(customDimensions.extensionName),\n    alObjectName = tostring(customDimensions.alObjectName)\n| where extensionName startswith \"Hagar\" or extensionName == \"HAG\"\n| where severityLevel >= 2\n| extend severity = case(\n    severityLevel == 4, \"🔴 Critical\",\n    severityLevel == 3, \"⚠️ Error\",\n    \"ℹ️ Warning\"\n)\n| summarize\n    Count = count(),\n    FirstOccurrence = min(timestamp),\n    LastOccurrence = max(timestamp),\n    SampleMessages = make_set(message, 3)\n    by severity, extensionName, alObjectName\n| order by Count desc, severity asc\n| project severity, extensionName, alObjectName, Count, FirstOccurrence, LastOccurrence, SampleMessages",
       "id": "c8d9e0f1-a2b3-4567-8901-234567abcde6",
       "usedVariables": [
         "allTraces"
@@ -5690,7 +5696,7 @@
         "kind": "inline",
         "dataSourceId": "05ae5610-5603-45ac-9458-616539c1c150"
       },
-      "text": "let TimeRange = 24h;\nallTraces\n| where timestamp > ago(TimeRange)\n| extend alObjectId = tostring(customDimensions.alObjectId)\n| where alObjectId == \"80107\"\n| extend\n    endpoint = tostring(customDimensions.endpoint),\n    executionTimeMs = toreal(totimespan(customDimensions.serverExecutionTime))/10000\n| extend FunctionName = extract(@\"Microsoft\\.NAV\\.(\\w+)\", 1, endpoint)\n| where isnotempty(FunctionName)\n| summarize\n    CallCount = count(),\n    AvgMs = round(avg(executionTimeMs), 2),\n    P95Ms = round(percentile(executionTimeMs, 95), 2),\n    MaxMs = round(max(executionTimeMs), 2),\n    ErrorCount = countif(severityLevel >= 3),\n    LastCall = max(timestamp)\n    by bin(timestamp, 1h), FunctionName\n| extend MinutesSinceLastCall = datetime_diff('minute', now(), LastCall)\n| extend\n    PerformanceStatus = case(\n        AvgMs > 1000, \"🔴 Slow (>1s)\",\n        AvgMs > 500, \"⚠️ Moderate (500ms-1s)\",\n        \"✅ Fast (<500ms)\"\n    ),\n    HealthStatus = case(\n        ErrorCount > 0, \"🔴 Has Errors\",\n        MinutesSinceLastCall > 60, \"⚠️ Inactive >1h\",\n        \"✅ Healthy\"\n    )\n| project\n    timestamp,\n    FunctionName,\n    CallCount,\n    AvgMs,\n    P95Ms,\n    MaxMs,\n    ErrorCount,\n    PerformanceStatus,\n    HealthStatus,\n    LastCall\n| order by timestamp desc, CallCount desc",
+      "text": "allTraces\n| extend alObjectId = tostring(customDimensions.alObjectId)\n| where alObjectId == \"80107\"\n| extend\n    endpoint = tostring(customDimensions.endpoint),\n    executionTimeMs = toreal(totimespan(customDimensions.serverExecutionTime))/10000\n| extend FunctionName = extract(@\"Microsoft\\.NAV\\.(\\w+)\", 1, endpoint)\n| where isnotempty(FunctionName)\n| summarize\n    CallCount = count(),\n    AvgMs = round(avg(executionTimeMs), 2),\n    P95Ms = round(percentile(executionTimeMs, 95), 2),\n    MaxMs = round(max(executionTimeMs), 2),\n    ErrorCount = countif(severityLevel >= 3),\n    LastCall = max(timestamp)\n    by bin(timestamp, 1h), FunctionName\n| extend MinutesSinceLastCall = datetime_diff('minute', now(), LastCall)\n| extend\n    PerformanceStatus = case(\n        AvgMs > 1000, \"🔴 Slow (>1s)\",\n        AvgMs > 500, \"⚠️ Moderate (500ms-1s)\",\n        \"✅ Fast (<500ms)\"\n    ),\n    HealthStatus = case(\n        ErrorCount > 0, \"🔴 Has Errors\",\n        MinutesSinceLastCall > 60, \"⚠️ Inactive >1h\",\n        \"✅ Healthy\"\n    )\n| project\n    timestamp,\n    FunctionName,\n    CallCount,\n    AvgMs,\n    P95Ms,\n    MaxMs,\n    ErrorCount,\n    PerformanceStatus,\n    HealthStatus,\n    LastCall\n| order by timestamp desc, CallCount desc",
       "id": "d9e0f1a2-b3c4-4678-9012-345678bcdef8",
       "usedVariables": [
         "allTraces"
@@ -5701,7 +5707,7 @@
         "kind": "inline",
         "dataSourceId": "05ae5610-5603-45ac-9458-616539c1c150"
       },
-      "text": "allTraces\n| summarize\n    Events = count(),\n    Errors = countif(severityLevel >= 3),\n    Deadlocks = countif(tostring(customDimensions.eventId) == \"RT0028\" or message contains \"deadlock\"),\n    LockTimeouts = countif(tostring(customDimensions.eventId) == \"RT0012\"),\n    SessionErrors = countif(tostring(customDimensions.eventId) == \"RT0029\" or message contains \"SessionTerminated\"),\n    AuthFailures = countif(tostring(customDimensions.eventId) in (\"RT0001\", \"RT0002\"))\n| extend AlertLevel = case(\n    Deadlocks > 3, \"🔴 CRITICAL\",\n    SessionErrors > 10, \"🔴 CRITICAL\",\n    LockTimeouts > 5, \"🟠 WARNING\",\n    Errors > 20, \"🟠 WARNING\",\n    AuthFailures > 10, \"🟠 WARNING\",\n    Events > 3000, \"🟡 HIGH LOAD\",\n    \"🟢 OK\"\n)\n| project AlertLevel, Events, Errors, Deadlocks, LockTimeouts, SessionErrors, AuthFailures",
+      "text": "allTraces\n| summarize\n    Events = count(),\n    Errors = countif(severityLevel >= 3),\n    Deadlocks = countif(tostring(customDimensions.eventId) == \"RT0028\" or message contains \"deadlock\"),\n    LockTimeouts = countif(tostring(customDimensions.eventId) == \"RT0012\"),\n    SessionErrors = countif(tostring(customDimensions.eventId) == \"RT0029\" or message contains \"SessionTerminated\"),\n    AuthFailures = countif(tostring(customDimensions.eventId) in (\"RT0001\", \"RT0002\")),\n    HoursInRange = max(datetime_diff(\"hour\", max(timestamp), min(timestamp))) + 1\n    by bin(timestamp, 1h)\n| summarize\n    TotalEvents = sum(Events),\n    TotalErrors = sum(Errors),\n    TotalDeadlocks = sum(Deadlocks),\n    TotalLockTimeouts = sum(LockTimeouts),\n    TotalSessionErrors = sum(SessionErrors),\n    TotalAuthFailures = sum(AuthFailures),\n    Hours = dcount(timestamp)\n| extend\n    DeadlocksPerHour = round(1.0 * TotalDeadlocks / Hours, 1),\n    LockTimeoutsPerHour = round(1.0 * TotalLockTimeouts / Hours, 1),\n    ErrorsPerHour = round(1.0 * TotalErrors / Hours, 1),\n    SessionErrorsPerHour = round(1.0 * TotalSessionErrors / Hours, 1),\n    AuthFailuresPerHour = round(1.0 * TotalAuthFailures / Hours, 1),\n    EventsPerHour = round(1.0 * TotalEvents / Hours, 0)\n| extend\n    AlertLevel = case(\n        DeadlocksPerHour > 3, \"🔴 CRITICAL\",\n        SessionErrorsPerHour > 5, \"🔴 CRITICAL\",\n        LockTimeoutsPerHour > 5, \"🟠 WARNING\",\n        ErrorsPerHour > 10, \"🟠 WARNING\",\n        AuthFailuresPerHour > 5, \"🟠 WARNING\",\n        EventsPerHour > 3000, \"🟡 HIGH LOAD\",\n        \"🟢 OK\"\n    ),\n    Reason = case(\n        DeadlocksPerHour > 3, strcat(\"Avg \", DeadlocksPerHour, \" deadlocks/hr - tables locking, check Deadlocks page\"),\n        SessionErrorsPerHour > 5, strcat(\"Avg \", SessionErrorsPerHour, \" session errors/hr - sessions being killed\"),\n        LockTimeoutsPerHour > 5, strcat(\"Avg \", LockTimeoutsPerHour, \" lock timeouts/hr - queries waiting too long for locks\"),\n        ErrorsPerHour > 10, strcat(\"Avg \", ErrorsPerHour, \" errors/hr - check Villur tile for details\"),\n        AuthFailuresPerHour > 5, strcat(\"Avg \", AuthFailuresPerHour, \" auth failures/hr - failed login attempts\"),\n        EventsPerHour > 3000, strcat(\"Avg \", EventsPerHour, \" events/hr - unusually high traffic\"),\n        \"No issues detected\"\n    )\n| project\n    AlertLevel,\n    Reason,\n    EventsPerHour,\n    ErrorsPerHour,\n    DeadlocksPerHour,\n    LockTimeoutsPerHour,\n    SessionErrorsPerHour,\n    AuthFailuresPerHour,\n    Hours",
       "id": "57372adb-5f80-4709-b895-defd661f93a3",
       "usedVariables": [
         "allTraces"
@@ -6015,7 +6021,7 @@
         "kind": "inline",
         "dataSourceId": "05ae5610-5603-45ac-9458-616539c1c150"
       },
-      "text": "allTraces\n| where isnotempty(eventId)\n| distinct eventId\n| order by eventId asc",
+      "text": "allTraces\n| where isnotempty(eventId)\n| distinct eventId, eventDescription\n| order by eventId asc",
       "id": "5793a15e-c4ad-4db1-9bca-0a3d11ea48cd",
       "usedVariables": [
         "allTraces"
