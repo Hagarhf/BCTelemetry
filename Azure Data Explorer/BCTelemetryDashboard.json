@@ -5701,54 +5701,66 @@
         "kind": "inline",
         "dataSourceId": "05ae5610-5603-45ac-9458-616539c1c150"
       },
-      "text": "traces\n| where timestamp > ago(30m)\n| summarize\n    Events = count(),\n    Errors = countif(severityLevel >= 3),\n    Deadlocks = countif(tostring(customDimensions.eventId) == \"RT0028\" or message contains \"deadlock\"),\n    LockTimeouts = countif(tostring(customDimensions.eventId) == \"RT0012\"),\n    SessionErrors = countif(tostring(customDimensions.eventId) == \"RT0029\" or message contains \"SessionTerminated\"),\n    AuthFailures = countif(tostring(customDimensions.eventId) in (\"RT0001\", \"RT0002\"))\n| extend AlertLevel = case(\n    Deadlocks > 3, \"🔴 CRITICAL\",\n    SessionErrors > 10, \"🔴 CRITICAL\",\n    LockTimeouts > 5, \"🟠 WARNING\",\n    Errors > 20, \"🟠 WARNING\",\n    AuthFailures > 10, \"🟠 WARNING\",\n    Events > 3000, \"🟡 HIGH LOAD\",\n    \"🟢 OK\"\n)\n| project AlertLevel, Events, Errors, Deadlocks, LockTimeouts, SessionErrors, AuthFailures",
+      "text": "allTraces\n| summarize\n    Events = count(),\n    Errors = countif(severityLevel >= 3),\n    Deadlocks = countif(tostring(customDimensions.eventId) == \"RT0028\" or message contains \"deadlock\"),\n    LockTimeouts = countif(tostring(customDimensions.eventId) == \"RT0012\"),\n    SessionErrors = countif(tostring(customDimensions.eventId) == \"RT0029\" or message contains \"SessionTerminated\"),\n    AuthFailures = countif(tostring(customDimensions.eventId) in (\"RT0001\", \"RT0002\"))\n| extend AlertLevel = case(\n    Deadlocks > 3, \"🔴 CRITICAL\",\n    SessionErrors > 10, \"🔴 CRITICAL\",\n    LockTimeouts > 5, \"🟠 WARNING\",\n    Errors > 20, \"🟠 WARNING\",\n    AuthFailures > 10, \"🟠 WARNING\",\n    Events > 3000, \"🟡 HIGH LOAD\",\n    \"🟢 OK\"\n)\n| project AlertLevel, Events, Errors, Deadlocks, LockTimeouts, SessionErrors, AuthFailures",
       "id": "57372adb-5f80-4709-b895-defd661f93a3",
-      "usedVariables": []
+      "usedVariables": [
+        "allTraces"
+      ]
     },
     {
       "dataSource": {
         "kind": "inline",
         "dataSourceId": "05ae5610-5603-45ac-9458-616539c1c150"
       },
-      "text": "traces\n| where timestamp > ago(1h)\n| summarize Events = count() by bin(timestamp, 1m)",
+      "text": "allTraces\n| summarize Events = count() by bin(timestamp, 1m)",
       "id": "0bb7a87d-c856-498c-8206-4c18bfd22677",
-      "usedVariables": []
+      "usedVariables": [
+        "allTraces"
+      ]
     },
     {
       "dataSource": {
         "kind": "inline",
         "dataSourceId": "05ae5610-5603-45ac-9458-616539c1c150"
       },
-      "text": "traces\n| where timestamp > ago(1h)\n| summarize Total = count(), Errors = countif(severityLevel >= 3) by bin(timestamp, 5m)\n| extend ErrorRate = round(100.0 * Errors / Total, 2)\n| project timestamp, ErrorRate",
+      "text": "allTraces\n| summarize Total = count(), Errors = countif(severityLevel >= 3) by bin(timestamp, 5m)\n| extend ErrorRate = round(100.0 * Errors / Total, 2)\n| project timestamp, ErrorRate",
       "id": "f1f4fedb-73ce-4df5-8299-c668dd91a154",
-      "usedVariables": []
+      "usedVariables": [
+        "allTraces"
+      ]
     },
     {
       "dataSource": {
         "kind": "inline",
         "dataSourceId": "05ae5610-5603-45ac-9458-616539c1c150"
       },
-      "text": "let Signals = externaldata(eventId: string, eventArea: string, eventDescription: string)\n[h@'https://raw.githubusercontent.com/Hagarhf/BCTelemetry/main/Azure%20Data%20Explorer/ExternalData/Signals.json']\nwith (format='multijson');\ntraces\n| where timestamp > ago(30m)\n| where severityLevel >= 3\n| extend EventId = tostring(customDimensions.eventId)\n| lookup kind=leftouter Signals on $left.EventId == $right.eventId\n| project Time = timestamp, EventId, Area = eventArea, Description = eventDescription, Object = tostring(customDimensions.alObjectName), Extension = tostring(customDimensions.extensionName), Villa = substring(message, 0, 200)\n| order by Time desc\n| take 20",
+      "text": "let Signals = externaldata(eventId: string, eventArea: string, eventDescription: string)\n[h@'https://raw.githubusercontent.com/Hagarhf/BCTelemetry/main/Azure%20Data%20Explorer/ExternalData/Signals.json']\nwith (format='multijson');\ntraces\n| where severityLevel >= 3\n| extend EventId = tostring(customDimensions.eventId)\n| lookup kind=leftouter Signals on $left.EventId == $right.eventId\n| project Time = timestamp, EventId, Area = eventArea, Description = eventDescription, Object = tostring(customDimensions.alObjectName), Extension = tostring(customDimensions.extensionName), Villa = substring(message, 0, 200)\n| order by Time desc\n| take 20",
       "id": "100ce1c4-c180-4e2e-8885-4ff1543a9c26",
-      "usedVariables": []
+      "usedVariables": [
+        "allTraces"
+      ]
     },
     {
       "dataSource": {
         "kind": "inline",
         "dataSourceId": "05ae5610-5603-45ac-9458-616539c1c150"
       },
-      "text": "traces\n| where timestamp > ago(1h)\n| where tostring(customDimensions.eventId) in (\"RT0028\", \"RT0012\", \"RT0029\")\n| extend EventId = tostring(customDimensions.eventId), ObjectName = tostring(customDimensions.alObjectName), sqlStatement = tostring(customDimensions.sqlStatement), stackTrace = tostring(customDimensions.alStackTrace), ExtensionName = tostring(customDimensions.extensionName), Company = tostring(customDimensions.companyName)\n| extend SqlOp = case(sqlStatement startswith \"UPDATE\", \"UPDATE\", sqlStatement startswith \"DELETE\", \"DELETE\", sqlStatement has \"INSERT INTO\", \"INSERT\", sqlStatement startswith \"SELECT\", \"SELECT\", \"\")\n| extend TableName = extract(\"CURRENTCOMPANY[$](.+?)[$]\", 1, sqlStatement)\n| extend splitStack = split(stackTrace, \"\\n\")\n| extend LockingObject = extract(\"\\\"(.+?)\\\"\", 1, tostring(splitStack[0])), SourceProcess = extract(\"\\\"(.+?)\\\"\", 1, tostring(splitStack[array_length(splitStack) - 1]))\n| project Time = timestamp, Tegund = case(EventId == \"RT0028\", \"🔴 DEADLOCK\", EventId == \"RT0012\", \"🟠 LOCK TIMEOUT\", \"🟡 SESSION\"), Company, ObjectName, ExtensionName, SqlOp, TableName, LockingObject, SourceProcess\n| order by Time desc",
+      "text": "allTraces\n| where tostring(customDimensions.eventId) in (\"RT0028\", \"RT0012\", \"RT0029\")\n| extend EventId = tostring(customDimensions.eventId), ObjectName = tostring(customDimensions.alObjectName), sqlStatement = tostring(customDimensions.sqlStatement), stackTrace = tostring(customDimensions.alStackTrace), ExtensionName = tostring(customDimensions.extensionName), Company = tostring(customDimensions.companyName)\n| extend SqlOp = case(sqlStatement startswith \"UPDATE\", \"UPDATE\", sqlStatement startswith \"DELETE\", \"DELETE\", sqlStatement has \"INSERT INTO\", \"INSERT\", sqlStatement startswith \"SELECT\", \"SELECT\", \"\")\n| extend TableName = extract(\"CURRENTCOMPANY[$](.+?)[$]\", 1, sqlStatement)\n| extend splitStack = split(stackTrace, \"\\n\")\n| extend LockingObject = extract(\"\\\"(.+?)\\\"\", 1, tostring(splitStack[0])), SourceProcess = extract(\"\\\"(.+?)\\\"\", 1, tostring(splitStack[array_length(splitStack) - 1]))\n| project Time = timestamp, Tegund = case(EventId == \"RT0028\", \"🔴 DEADLOCK\", EventId == \"RT0012\", \"🟠 LOCK TIMEOUT\", \"🟡 SESSION\"), Company, ObjectName, ExtensionName, SqlOp, TableName, LockingObject, SourceProcess\n| order by Time desc",
       "id": "325a6f3b-0648-4f62-a4fa-6d6032fa4500",
-      "usedVariables": []
+      "usedVariables": [
+        "allTraces"
+      ]
     },
     {
       "dataSource": {
         "kind": "inline",
         "dataSourceId": "05ae5610-5603-45ac-9458-616539c1c150"
       },
-      "text": "let Signals = externaldata(eventId: string, eventArea: string, eventDescription: string)\n[h@'https://raw.githubusercontent.com/Hagarhf/BCTelemetry/main/Azure%20Data%20Explorer/ExternalData/Signals.json']\nwith (format='multijson');\ntraces\n| where timestamp > ago(1h)\n| extend EventId = tostring(customDimensions.eventId)\n| summarize Count = count() by EventId\n| lookup kind=leftouter Signals on $left.EventId == $right.eventId\n| extend Label = strcat(EventId, ' - ', coalesce(eventArea, '?'))\n| project Label, Count, eventDescription\n| order by Count desc\n| take 15",
+      "text": "let Signals = externaldata(eventId: string, eventArea: string, eventDescription: string)\n[h@'https://raw.githubusercontent.com/Hagarhf/BCTelemetry/main/Azure%20Data%20Explorer/ExternalData/Signals.json']\nwith (format='multijson');\ntraces\n| extend EventId = tostring(customDimensions.eventId)\n| summarize Count = count() by EventId\n| lookup kind=leftouter Signals on $left.EventId == $right.eventId\n| extend Label = strcat(EventId, ' - ', coalesce(eventArea, '?'))\n| project Label, Count, eventDescription\n| order by Count desc\n| take 15",
       "id": "908ebde7-fa65-4e15-a2af-c51a351d76fb",
-      "usedVariables": []
+      "usedVariables": [
+        "allTraces"
+      ]
     },
     {
       "dataSource": {
