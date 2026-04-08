@@ -4654,12 +4654,13 @@
         "kind": "inline",
         "dataSourceId": "05ae5610-5603-45ac-9458-616539c1c150"
       },
-      "text": "traces\n| where timestamp between (_startTime .. _endTime) // Parameter usage\n| where message contains _MessageFilter            // Parameter usage\n| where isnotempty(customDimensions.eventId)\n| extend eventId = tostring(customDimensions.eventId)\n| extend shortMessage = iif(substring(message, 0, 4) == \"Task\", \"Task Executed\",  //String manipulation \n                    iif(eventId == \"AL0000JRG\", \"Job Queue Error\",\n                        iff(indexof(message, \":\") <= 0, message, substring(message, 0, indexof(message, \":\")))))\n| extend status = //String manipulation \n    iif(shortMessage has_any (\"called\",\"executed\",\"succeeded\",\"rendered\",\"successfully\",\"success\",\"opened\", \"added\", \"started\", \"finished\", \"Used\",\"enqueued\"),\"success\",\n        iif(shortMessage has_any (\"error\",\"fail\",\"failed\",\"deadlock\",\"timed out\"), \"error\",\n            iif(shortMessage has_any (\"exceeded\"),'too slow',\n                \"unknown\")))\n| summarize count = count() by tostring(eventId), tostring(shortMessage), status\n| order by ['count'] desc\n",
+      "text": "allTraces\n| where timestamp between (_startTime .. _endTime) // Parameter usage\n| where message contains _MessageFilter            // Parameter usage\n| where isnotempty(customDimensions.eventId)\n| extend eventId = tostring(customDimensions.eventId)\n| extend shortMessage = iif(substring(message, 0, 4) == \"Task\", \"Task Executed\",  //String manipulation \n                    iif(eventId == \"AL0000JRG\", \"Job Queue Error\",\n                        iff(indexof(message, \":\") <= 0, message, substring(message, 0, indexof(message, \":\")))))\n| extend status = //String manipulation \n    iif(shortMessage has_any (\"called\",\"executed\",\"succeeded\",\"rendered\",\"successfully\",\"success\",\"opened\", \"added\", \"started\", \"finished\", \"Used\",\"enqueued\"),\"success\",\n        iif(shortMessage has_any (\"error\",\"fail\",\"failed\",\"deadlock\",\"timed out\"), \"error\",\n            iif(shortMessage has_any (\"exceeded\"),'too slow',\n                \"unknown\")))\n| summarize count = count() by tostring(eventId), tostring(shortMessage), status\n| order by ['count'] desc\n",
       "id": "c008bb5f-f112-4b2e-bd87-067b1623d64c",
       "usedVariables": [
         "_MessageFilter",
         "_endTime",
-        "_startTime"
+        "_startTime",
+        "allTraces"
       ]
     },
     {
@@ -4690,12 +4691,13 @@
         "kind": "inline",
         "dataSourceId": "05ae5610-5603-45ac-9458-616539c1c150"
       },
-      "text": "//Custom Events in the base app\ntraces\n| where timestamp between (_startTime .. _endTime) \n| where customDimensions.eventId startswith \"AL\"    //all events raised in AL, start with \"AL\"\n| where customDimensions.extensionPublisher == 'Microsoft'\n| extend eventId = tostring(customDimensions.eventId)\n| extend shortMessage = iif(substring(message, 0, 4) == \"Task\", \"Task Executed\", \n                    iif(customDimensions.eventId == \"AL0000JRG\", \"Job Queue Error\",\n                        iff(indexof(message, \":\") <= 0, message, substring(message, 0, indexof(message, \":\")))))\n| where shortMessage contains _MessageFilter\n| summarize count() by eventId, shortMessage\n| order by count_ desc",
+      "text": "//Custom Events in the base app\nallTraces\n| where timestamp between (_startTime .. _endTime) \n| where customDimensions.eventId startswith \"AL\"    //all events raised in AL, start with \"AL\"\n| where customDimensions.extensionPublisher == 'Microsoft'\n| extend eventId = tostring(customDimensions.eventId)\n| extend shortMessage = iif(substring(message, 0, 4) == \"Task\", \"Task Executed\", \n                    iif(customDimensions.eventId == \"AL0000JRG\", \"Job Queue Error\",\n                        iff(indexof(message, \":\") <= 0, message, substring(message, 0, indexof(message, \":\")))))\n| where shortMessage contains _MessageFilter\n| summarize count() by eventId, shortMessage\n| order by count_ desc",
       "id": "868def6d-b14e-4b1f-b57e-083db46d0bdb",
       "usedVariables": [
         "_MessageFilter",
         "_endTime",
-        "_startTime"
+        "_startTime",
+        "allTraces"
       ]
     },
     {
@@ -4715,11 +4717,12 @@
         "kind": "inline",
         "dataSourceId": "05ae5610-5603-45ac-9458-616539c1c150"
       },
-      "text": "//Get CodeunitNames\nlet codeunitNames = \n    traces\n    | where timestamp between (_startTime .. _endTime)\n    | where customDimensions has 'ALIFCTST0002' //Full Codeunit Run\n    | extend codeunitName = tostring(customDimensions.alName)\n        , codeunitId = tostring(customDimensions.alCodeunitId)\n    | summarize by codeunitId, codeunitName;\n//TelemetryOnTests - Overview\nlet Tests = \n    traces\n    | where timestamp between (_startTime .. _endTime)\n    | where tostring(customDimensions.eventId) in (\"ALIFCTST0001\", \"ALIFCTST0002\", \"ALIFCTST0003\")\n    | extend\n        timestamp = timestamp\n        , eventId = customDimensions.eventId\n        , TestSuiteName = tostring(customDimensions.alTestSuiteName)\n        , codeunitId = tostring(customDimensions.alCodeunitId)\n        , MethodName = tostring(customDimensions.alMethodName)\n        , StartTime = tostring(customDimensions.alStartTime)\n        , EndTime = tostring(customDimensions.alEndTime)\n        , NoOfReads = tostring(customDimensions.alNoOfReads)\n        , NoOfSqlStatements = tostring(customDimensions.alNoOfSQLStatements)\n        , DurationMs = tostring(customDimensions.alDurationMs)\n        , Result = tostring(customDimensions.alResult)\n    | order by timestamp desc\n    | take 10000;\ncodeunitNames\n| join kind = rightouter Tests on $left.codeunitId == $right.codeunitId\n| project\n        timestamp,\n        eventId,\n        TestSuiteName,\n        codeunitId,\n        codeunitName,\n        MethodName,\n        StartTime,\n        EndTime,\n        Result,\n        NoOfReads,\n        NoOfSqlStatements,\n        DurationMs",
+      "text": "//Get CodeunitNames\nlet codeunitNames = \n    allTraces\n    | where timestamp between (_startTime .. _endTime)\n    | where customDimensions has 'ALIFCTST0002' //Full Codeunit Run\n    | extend codeunitName = tostring(customDimensions.alName)\n        , codeunitId = tostring(customDimensions.alCodeunitId)\n    | summarize by codeunitId, codeunitName;\n//TelemetryOnTests - Overview\nlet Tests = \n    allTraces\n    | where timestamp between (_startTime .. _endTime)\n    | where tostring(customDimensions.eventId) in (\"ALIFCTST0001\", \"ALIFCTST0002\", \"ALIFCTST0003\")\n    | extend\n        timestamp = timestamp\n        , eventId = customDimensions.eventId\n        , TestSuiteName = tostring(customDimensions.alTestSuiteName)\n        , codeunitId = tostring(customDimensions.alCodeunitId)\n        , MethodName = tostring(customDimensions.alMethodName)\n        , StartTime = tostring(customDimensions.alStartTime)\n        , EndTime = tostring(customDimensions.alEndTime)\n        , NoOfReads = tostring(customDimensions.alNoOfReads)\n        , NoOfSqlStatements = tostring(customDimensions.alNoOfSQLStatements)\n        , DurationMs = tostring(customDimensions.alDurationMs)\n        , Result = tostring(customDimensions.alResult)\n    | order by timestamp desc\n    | take 10000;\ncodeunitNames\n| join kind = rightouter Tests on $left.codeunitId == $right.codeunitId\n| project\n        timestamp,\n        eventId,\n        TestSuiteName,\n        codeunitId,\n        codeunitName,\n        MethodName,\n        StartTime,\n        EndTime,\n        Result,\n        NoOfReads,\n        NoOfSqlStatements,\n        DurationMs",
       "id": "0f7c5281-3a86-49c7-8223-8f80724a6ae3",
       "usedVariables": [
         "_endTime",
-        "_startTime"
+        "_startTime",
+        "allTraces"
       ]
     },
     {
@@ -4727,12 +4730,13 @@
         "kind": "inline",
         "dataSourceId": "05ae5610-5603-45ac-9458-616539c1c150"
       },
-      "text": "//Get CodeunitNames\nlet codeunitNames = \n    traces\n    | where timestamp between (_startTime .. _endTime)\n    | where customDimensions has 'ALIFCTST0002' //Full Codeunit Run\n    | extend codeunitName = tostring(customDimensions.alName)\n        , codeunitId = tostring(customDimensions.alCodeunitId)\n    | summarize by codeunitId, codeunitName;\n//Take first 2 days of the period\nlet BeginningOfPeriod = \n    traces\n    | where timestamp between (_startTime .. _startTime + 2d)\n    | where tostring(customDimensions.eventId) == \"ALIFCTST0003\" //One function (method)\n    | extend CodeunitName = tostring(customDimensions.alName)\n        , codeunitId = tostring(customDimensions.alCodeunitId)\n        , MethodName = tostring(customDimensions.alMethodName)\n        , NoOfSqlStatements = toint(customDimensions.alNoOfSQLStatements)\n    | join kind = leftouter codeunitNames on $left.codeunitId == $right.codeunitId\n    | extend FQMethod = strcat(codeunitName,'.',MethodName)\n    | where FQMethod contains _MessageFilter or message  contains _MessageFilter\n    | summarize avgNoOfSqlStatements=avg(NoOfSqlStatements) by FQMethod;\n//Then take last 2 days of the period\nlet EndOfPeriod = \n    traces\n    | where timestamp between (_endTime - 2d .. _endTime)\n    | where tostring(customDimensions.eventId) == \"ALIFCTST0003\"\n    | extend CodeunitName = tostring(customDimensions.alName)\n        , codeunitId = tostring(customDimensions.alCodeunitId)\n        , MethodName = tostring(customDimensions.alMethodName)\n        , NoOfSqlStatements = toint(customDimensions.alNoOfSQLStatements)\n    | join kind = leftouter codeunitNames on $left.codeunitId == $right.codeunitId\n    | extend FQMethod = strcat(codeunitName,'.',MethodName)\n    | where FQMethod contains _MessageFilter or message  contains _MessageFilter\n    | summarize avgNoOfSqlStatements=avg(NoOfSqlStatements) by FQMethod;\n//calculate difference, and take top 10 of the methods\nlet Difference = \n    BeginningOfPeriod\n    | join kind=leftouter EndOfPeriod on $left.FQMethod == $right.FQMethod\n    | extend Difference =  avgNoOfSqlStatements1 - avgNoOfSqlStatements\n    | order by Difference desc\n    | take 10;\n//Result, getting methods only\ntraces\n| where timestamp between (_startTime .. _endTime)\n| where tostring(customDimensions.eventId) == \"ALIFCTST0003\"\n| extend\n    codeunitId = tostring(customDimensions.alCodeunitId)\n    , MethodName = tostring(customDimensions.alMethodName)\n    , NoOfSqlStatements = toint(customDimensions.alNoOfSQLStatements)\n| join kind = leftouter codeunitNames on $left.codeunitId == $right.codeunitId\n| extend FQMethod = strcat(codeunitName,'.',MethodName)\n| join kind=rightouter Difference on $left.FQMethod == $right.FQMethod\n| project timestamp, FQMethod, NoOfSqlStatements\n| summarize avgNoOfSqlStatements=avg(NoOfSqlStatements) by bin(timestamp, 1d), FQMethod\n| order by FQMethod",
+      "text": "//Get CodeunitNames\nlet codeunitNames = \n    allTraces\n    | where timestamp between (_startTime .. _endTime)\n    | where customDimensions has 'ALIFCTST0002' //Full Codeunit Run\n    | extend codeunitName = tostring(customDimensions.alName)\n        , codeunitId = tostring(customDimensions.alCodeunitId)\n    | summarize by codeunitId, codeunitName;\n//Take first 2 days of the period\nlet BeginningOfPeriod = \n    allTraces\n    | where timestamp between (_startTime .. _startTime + 2d)\n    | where tostring(customDimensions.eventId) == \"ALIFCTST0003\" //One function (method)\n    | extend CodeunitName = tostring(customDimensions.alName)\n        , codeunitId = tostring(customDimensions.alCodeunitId)\n        , MethodName = tostring(customDimensions.alMethodName)\n        , NoOfSqlStatements = toint(customDimensions.alNoOfSQLStatements)\n    | join kind = leftouter codeunitNames on $left.codeunitId == $right.codeunitId\n    | extend FQMethod = strcat(codeunitName,'.',MethodName)\n    | where FQMethod contains _MessageFilter or message  contains _MessageFilter\n    | summarize avgNoOfSqlStatements=avg(NoOfSqlStatements) by FQMethod;\n//Then take last 2 days of the period\nlet EndOfPeriod = \n    allTraces\n    | where timestamp between (_endTime - 2d .. _endTime)\n    | where tostring(customDimensions.eventId) == \"ALIFCTST0003\"\n    | extend CodeunitName = tostring(customDimensions.alName)\n        , codeunitId = tostring(customDimensions.alCodeunitId)\n        , MethodName = tostring(customDimensions.alMethodName)\n        , NoOfSqlStatements = toint(customDimensions.alNoOfSQLStatements)\n    | join kind = leftouter codeunitNames on $left.codeunitId == $right.codeunitId\n    | extend FQMethod = strcat(codeunitName,'.',MethodName)\n    | where FQMethod contains _MessageFilter or message  contains _MessageFilter\n    | summarize avgNoOfSqlStatements=avg(NoOfSqlStatements) by FQMethod;\n//calculate difference, and take top 10 of the methods\nlet Difference = \n    BeginningOfPeriod\n    | join kind=leftouter EndOfPeriod on $left.FQMethod == $right.FQMethod\n    | extend Difference =  avgNoOfSqlStatements1 - avgNoOfSqlStatements\n    | order by Difference desc\n    | take 10;\n//Result, getting methods only\nallTraces\n| where timestamp between (_startTime .. _endTime)\n| where tostring(customDimensions.eventId) == \"ALIFCTST0003\"\n| extend\n    codeunitId = tostring(customDimensions.alCodeunitId)\n    , MethodName = tostring(customDimensions.alMethodName)\n    , NoOfSqlStatements = toint(customDimensions.alNoOfSQLStatements)\n| join kind = leftouter codeunitNames on $left.codeunitId == $right.codeunitId\n| extend FQMethod = strcat(codeunitName,'.',MethodName)\n| join kind=rightouter Difference on $left.FQMethod == $right.FQMethod\n| project timestamp, FQMethod, NoOfSqlStatements\n| summarize avgNoOfSqlStatements=avg(NoOfSqlStatements) by bin(timestamp, 1d), FQMethod\n| order by FQMethod",
       "id": "7ab0d9af-5add-4026-8124-333757a4cff5",
       "usedVariables": [
         "_MessageFilter",
         "_endTime",
-        "_startTime"
+        "_startTime",
+        "allTraces"
       ]
     },
     {
@@ -4934,7 +4938,7 @@
         "kind": "inline",
         "dataSourceId": "05ae5610-5603-45ac-9458-616539c1c150"
       },
-      "text": "let TracesPlusPageviews = \n    traces \n    | union pageViews \n    | where timestamp between (_startTime .. _endTime)\n    | count \n    | extend Desc = 'traces + pageViews'; \nlet BaseCustomers = \n    allTraces \n    | count \n    | extend Desc = 'allTraces';\nTracesPlusPageviews\n| union BaseCustomers",
+      "text": "let TracesPlusPageviews = \n    allTraces \n    | union pageViews \n    | where timestamp between (_startTime .. _endTime)\n    | count \n    | extend Desc = 'traces + pageViews'; \nlet BaseCustomers = \n    allTraces \n    | count \n    | extend Desc = 'allTraces';\nTracesPlusPageviews\n| union BaseCustomers",
       "id": "0196f1fe-7f58-44b9-97fc-8e64c3f39e53",
       "usedVariables": [
         "_endTime",
@@ -4947,10 +4951,11 @@
         "kind": "inline",
         "dataSourceId": "05ae5610-5603-45ac-9458-616539c1c150"
       },
-      "text": "let TempAllTraces = \n    traces\n    | extend aadTenantId = tostring(customDimensions.aadTenantId)\n    , componentVersion = tostring(customDimensions.componentVersion)\n    , environmentType = tostring(customDimensions.environmentType)\n    , extensionPublisher = tostring(customDimensions.extensionPublisher)\n    , extensionVersion = tostring(customDimensions.extensionVersion)\n    | where isnotempty( componentVersion)\n    | where isnotempty( environmentType)\n    | where environmentType <> 'Sandbox'\n    | where extensionPublisher == 'Microsoft'\n    | summarize componentVersion = max(componentVersion), appVersion = max(extensionVersion) by aadTenantId, environmentType\n    ;\nentraTenantIdDescriptions\n| join kind=leftouter TempAllTraces on $left.entraTenantId == $right.aadTenantId\n| project aadTenantId, tenantDescription, componentVersion, appVersion",
+      "text": "let TempAllTraces = \n    allTraces\n    | extend aadTenantId = tostring(customDimensions.aadTenantId)\n    , componentVersion = tostring(customDimensions.componentVersion)\n    , environmentType = tostring(customDimensions.environmentType)\n    , extensionPublisher = tostring(customDimensions.extensionPublisher)\n    , extensionVersion = tostring(customDimensions.extensionVersion)\n    | where isnotempty( componentVersion)\n    | where isnotempty( environmentType)\n    | where environmentType <> 'Sandbox'\n    | where extensionPublisher == 'Microsoft'\n    | summarize componentVersion = max(componentVersion), appVersion = max(extensionVersion) by aadTenantId, environmentType\n    ;\nentraTenantIdDescriptions\n| join kind=leftouter TempAllTraces on $left.entraTenantId == $right.aadTenantId\n| project aadTenantId, tenantDescription, componentVersion, appVersion",
       "id": "4e8d2e2b-15d8-462d-b2e4-1e525eb95e4a",
       "usedVariables": [
-        "entraTenantIdDescriptions"
+        "entraTenantIdDescriptions",
+        "allTraces"
       ]
     },
     {
@@ -4982,11 +4987,12 @@
         "kind": "inline",
         "dataSourceId": "05ae5610-5603-45ac-9458-616539c1c150"
       },
-      "text": "traces\n| where timestamp >= ago(30d)\n| where customDimensions has 'AL0000DGF'\n| where customDimensions.alTag has_any (_BCPTTag)\n| where customDimensions has _codeunitName\n| where customDimensions.alOperation == 'Scenario'\n| where customDimensions.alStatus == 'Success'\n| extend RunId = tostring(customDimensions.alRunID)\n    , Suite = tostring(customDimensions.alCode)\n    , CodeunitName = tostring(customDimensions.alCodeunitName)\n    , Operation = tostring(customDimensions.alOperation)\n    , Tag = iif(customDimensions.alTag contains_cs \"PTE\", \"PTE\", \n                iif(customDimensions.alTag contains \"Focus\", \"CustSpecific\"\n                    , tostring(customDimensions.alTag)))\n    , Version = tostring(customDimensions.alVersion)\n    , DurationInMs = toint(customDimensions.alDurationInMs)\n    , NoOfSqlStatements = toint(customDimensions.alNoOfSqlStatements)\n    , alStatus = tostring(customDimensions.alStatus)\n    , alMessage = tostring(customDimensions.alMessage)\n    , Week = strcat(format_datetime(timestamp, \"yyyy\"),'-',week_of_year(timestamp))\n| order by timestamp desc\n| summarize count = count(), avgNoOfSqlStatements = toint(avg(NoOfSqlStatements)), avgDuration = toint(avg(DurationInMs)) by bin(timestamp, 1d), CodeunitName, Tag\n| order by timestamp, Tag, CodeunitName\n",
+      "text": "allTraces\n| where timestamp >= ago(30d)\n| where customDimensions has 'AL0000DGF'\n| where customDimensions.alTag has_any (_BCPTTag)\n| where customDimensions has _codeunitName\n| where customDimensions.alOperation == 'Scenario'\n| where customDimensions.alStatus == 'Success'\n| extend RunId = tostring(customDimensions.alRunID)\n    , Suite = tostring(customDimensions.alCode)\n    , CodeunitName = tostring(customDimensions.alCodeunitName)\n    , Operation = tostring(customDimensions.alOperation)\n    , Tag = iif(customDimensions.alTag contains_cs \"PTE\", \"PTE\", \n                iif(customDimensions.alTag contains \"Focus\", \"CustSpecific\"\n                    , tostring(customDimensions.alTag)))\n    , Version = tostring(customDimensions.alVersion)\n    , DurationInMs = toint(customDimensions.alDurationInMs)\n    , NoOfSqlStatements = toint(customDimensions.alNoOfSqlStatements)\n    , alStatus = tostring(customDimensions.alStatus)\n    , alMessage = tostring(customDimensions.alMessage)\n    , Week = strcat(format_datetime(timestamp, \"yyyy\"),'-',week_of_year(timestamp))\n| order by timestamp desc\n| summarize count = count(), avgNoOfSqlStatements = toint(avg(NoOfSqlStatements)), avgDuration = toint(avg(DurationInMs)) by bin(timestamp, 1d), CodeunitName, Tag\n| order by timestamp, Tag, CodeunitName\n",
       "id": "63e17c65-a174-4ab4-a710-dd2a9884c97b",
       "usedVariables": [
         "_BCPTTag",
-        "_codeunitName"
+        "_codeunitName",
+        "allTraces"
       ]
     },
     {
@@ -4994,11 +5000,12 @@
         "kind": "inline",
         "dataSourceId": "05ae5610-5603-45ac-9458-616539c1c150"
       },
-      "text": "traces\n| where timestamp >= ago(30d)\n| where customDimensions has 'AL0000DGF'\n| where customDimensions.alTag has_any (_BCPTTag)\n| where customDimensions has _codeunitName\n| where customDimensions.alOperation == 'Scenario'\n| where customDimensions.alStatus == 'Success'\n| extend RunId = tostring(customDimensions.alRunID)\n    , Suite = tostring(customDimensions.alCode)\n    , CodeunitName = tostring(customDimensions.alCodeunitName)\n    , Operation = tostring(customDimensions.alOperation)    \n    , Tag = iif(customDimensions.alTag contains_cs \"PTE\", \"PTE\", \n                iif(customDimensions.alTag contains \"Focus\", \"CustSpecific\"\n                    , tostring(customDimensions.alTag)))\n    , Version = tostring(customDimensions.alVersion)\n    , DurationInMs = toint(customDimensions.alDurationInMs)\n    , NoOfSqlStatements = toint(customDimensions.alNoOfSqlStatements)\n    , alStatus = tostring(customDimensions.alStatus)\n    , alMessage = tostring(customDimensions.alMessage)\n    , Week = strcat(format_datetime(timestamp, \"yyyy\"),'-',week_of_year(timestamp))\n| order by timestamp desc\n| summarize count = count(), avgDuration = toint(avg(DurationInMs)) by bin(timestamp, 1d), CodeunitName, Tag\n| order by timestamp, Tag, CodeunitName\n",
+      "text": "allTraces\n| where timestamp >= ago(30d)\n| where customDimensions has 'AL0000DGF'\n| where customDimensions.alTag has_any (_BCPTTag)\n| where customDimensions has _codeunitName\n| where customDimensions.alOperation == 'Scenario'\n| where customDimensions.alStatus == 'Success'\n| extend RunId = tostring(customDimensions.alRunID)\n    , Suite = tostring(customDimensions.alCode)\n    , CodeunitName = tostring(customDimensions.alCodeunitName)\n    , Operation = tostring(customDimensions.alOperation)    \n    , Tag = iif(customDimensions.alTag contains_cs \"PTE\", \"PTE\", \n                iif(customDimensions.alTag contains \"Focus\", \"CustSpecific\"\n                    , tostring(customDimensions.alTag)))\n    , Version = tostring(customDimensions.alVersion)\n    , DurationInMs = toint(customDimensions.alDurationInMs)\n    , NoOfSqlStatements = toint(customDimensions.alNoOfSqlStatements)\n    , alStatus = tostring(customDimensions.alStatus)\n    , alMessage = tostring(customDimensions.alMessage)\n    , Week = strcat(format_datetime(timestamp, \"yyyy\"),'-',week_of_year(timestamp))\n| order by timestamp desc\n| summarize count = count(), avgDuration = toint(avg(DurationInMs)) by bin(timestamp, 1d), CodeunitName, Tag\n| order by timestamp, Tag, CodeunitName\n",
       "id": "1a13ae89-57f0-4163-aa0b-56e633177fa5",
       "usedVariables": [
         "_BCPTTag",
-        "_codeunitName"
+        "_codeunitName",
+        "allTraces"
       ]
     },
     {
@@ -5006,13 +5013,14 @@
         "kind": "inline",
         "dataSourceId": "05ae5610-5603-45ac-9458-616539c1c150"
       },
-      "text": "traces\n| where timestamp between (_startTime .. _endTime)\n| where customDimensions has 'AL0000DGF'\n| where customDimensions.alTag has_any (_BCPTTag)\n| where customDimensions has _codeunitName\n| where customDimensions.alOperation == 'Scenario'\n| where customDimensions.alStatus == 'Error'\n| extend RunId = tostring(customDimensions.alRunID)\n    , Suite = tostring(customDimensions.alCode)\n    , CodeunitName = tostring(customDimensions.alCodeunitName)\n    , Operation = tostring(customDimensions.alOperation)\n    , Tag = iif(customDimensions.alTag contains_cs \"PTE\", \"PTE\", \n                iif(customDimensions.alTag contains \"Focus\", \"CustSpecific\"\n                    , tostring(customDimensions.alTag)))\n    , Version = tostring(customDimensions.alVersion)\n    , DurationInMs = toint(customDimensions.alDurationInMs)\n    , NoOfSqlStatements = toint(customDimensions.alNoOfSqlStatements)\n    , alStatus = tostring(customDimensions.alStatus)\n    , alMessage = tostring(customDimensions.alMessage)\n    , Week = strcat(format_datetime(timestamp, \"yyyy\"),'-',week_of_year(timestamp))\n| order by timestamp desc\n| summarize count = count(), avgNoOfSqlStatements = toint(avg(NoOfSqlStatements)), avgDuration = toint(avg(DurationInMs)) by bin(timestamp, 1d), CodeunitName, Tag\n| order by timestamp, Tag, CodeunitName\n",
+      "text": "allTraces\n| where timestamp between (_startTime .. _endTime)\n| where customDimensions has 'AL0000DGF'\n| where customDimensions.alTag has_any (_BCPTTag)\n| where customDimensions has _codeunitName\n| where customDimensions.alOperation == 'Scenario'\n| where customDimensions.alStatus == 'Error'\n| extend RunId = tostring(customDimensions.alRunID)\n    , Suite = tostring(customDimensions.alCode)\n    , CodeunitName = tostring(customDimensions.alCodeunitName)\n    , Operation = tostring(customDimensions.alOperation)\n    , Tag = iif(customDimensions.alTag contains_cs \"PTE\", \"PTE\", \n                iif(customDimensions.alTag contains \"Focus\", \"CustSpecific\"\n                    , tostring(customDimensions.alTag)))\n    , Version = tostring(customDimensions.alVersion)\n    , DurationInMs = toint(customDimensions.alDurationInMs)\n    , NoOfSqlStatements = toint(customDimensions.alNoOfSqlStatements)\n    , alStatus = tostring(customDimensions.alStatus)\n    , alMessage = tostring(customDimensions.alMessage)\n    , Week = strcat(format_datetime(timestamp, \"yyyy\"),'-',week_of_year(timestamp))\n| order by timestamp desc\n| summarize count = count(), avgNoOfSqlStatements = toint(avg(NoOfSqlStatements)), avgDuration = toint(avg(DurationInMs)) by bin(timestamp, 1d), CodeunitName, Tag\n| order by timestamp, Tag, CodeunitName\n",
       "id": "be6b924f-0baf-470b-bf9c-e588034ba173",
       "usedVariables": [
         "_BCPTTag",
         "_codeunitName",
         "_endTime",
-        "_startTime"
+        "_startTime",
+        "allTraces"
       ]
     },
     {
@@ -5020,13 +5028,14 @@
         "kind": "inline",
         "dataSourceId": "05ae5610-5603-45ac-9458-616539c1c150"
       },
-      "text": "traces\n| where timestamp between (_startTime .. _endTime)\n| where customDimensions has 'AL0000DGF'\n| where customDimensions.alTag has_any (_BCPTTag)\n| where customDimensions has _codeunitName\n| where customDimensions.alOperation == 'Scenario'\n| where customDimensions.alStatus == 'Error'\n| extend RunId = tostring(customDimensions.alRunID)\n    , Suite = tostring(customDimensions.alCode)\n    , CodeunitName = tostring(customDimensions.alCodeunitName)\n    , Operation = tostring(customDimensions.alOperation)\n    , Tag = iif(customDimensions.alTag contains_cs \"PTE\", \"PTE\", \n                iif(customDimensions.alTag contains \"Focus\", \"CustSpecific\"\n                    , tostring(customDimensions.alTag)))\n    , Version = tostring(customDimensions.alVersion)\n    , DurationInMs = toint(customDimensions.alDurationInMs)\n    , NoOfSqlStatements = toint(customDimensions.alNoOfSqlStatements)\n    , alStatus = tostring(customDimensions.alStatus)\n    , alMessage = tostring(customDimensions.alMessage)\n    , Week = strcat(format_datetime(timestamp, \"yyyy\"),'-',week_of_year(timestamp))\n| order by timestamp desc\n| project Tag, CodeunitName, alMessage, DurationInMs, NoOfSqlStatements",
+      "text": "allTraces\n| where timestamp between (_startTime .. _endTime)\n| where customDimensions has 'AL0000DGF'\n| where customDimensions.alTag has_any (_BCPTTag)\n| where customDimensions has _codeunitName\n| where customDimensions.alOperation == 'Scenario'\n| where customDimensions.alStatus == 'Error'\n| extend RunId = tostring(customDimensions.alRunID)\n    , Suite = tostring(customDimensions.alCode)\n    , CodeunitName = tostring(customDimensions.alCodeunitName)\n    , Operation = tostring(customDimensions.alOperation)\n    , Tag = iif(customDimensions.alTag contains_cs \"PTE\", \"PTE\", \n                iif(customDimensions.alTag contains \"Focus\", \"CustSpecific\"\n                    , tostring(customDimensions.alTag)))\n    , Version = tostring(customDimensions.alVersion)\n    , DurationInMs = toint(customDimensions.alDurationInMs)\n    , NoOfSqlStatements = toint(customDimensions.alNoOfSqlStatements)\n    , alStatus = tostring(customDimensions.alStatus)\n    , alMessage = tostring(customDimensions.alMessage)\n    , Week = strcat(format_datetime(timestamp, \"yyyy\"),'-',week_of_year(timestamp))\n| order by timestamp desc\n| project Tag, CodeunitName, alMessage, DurationInMs, NoOfSqlStatements",
       "id": "0195295a-7522-4600-9f66-984061f75c40",
       "usedVariables": [
         "_BCPTTag",
         "_codeunitName",
         "_endTime",
-        "_startTime"
+        "_startTime",
+        "allTraces"
       ]
     },
     {
@@ -5162,12 +5171,13 @@
         "kind": "inline",
         "dataSourceId": "05ae5610-5603-45ac-9458-616539c1c150"
       },
-      "text": "//Get CodeunitNames\nlet codeunitNames = \n    traces\n    | where timestamp between (_startTime .. _endTime)\n    | where customDimensions has 'ALIFCTST0002' //Full Codeunit Run\n    | extend codeunitName = tostring(customDimensions.alName)\n        , codeunitId = tostring(customDimensions.alCodeunitId)\n    | summarize by codeunitId, codeunitName;\n//Take first 2 days of the period\nlet BeginningOfPeriod = \n    traces\n    | where timestamp between (_startTime .. _startTime + 2d)\n    | where tostring(customDimensions.eventId) == \"ALIFCTST0003\" //One function (method)\n    | extend CodeunitName = tostring(customDimensions.alName)\n        , codeunitId = tostring(customDimensions.alCodeunitId)\n        , MethodName = tostring(customDimensions.alMethodName)\n        , NoOfSqlStatements = toint(customDimensions.alNoOfSQLStatements)\n        , DurationMs = toint(customDimensions.alDurationMs)\n    | join kind = leftouter codeunitNames on $left.codeunitId == $right.codeunitId\n    | extend FQMethod = strcat(codeunitName,'.',MethodName)\n    | where FQMethod contains _MessageFilter or message  contains _MessageFilter\n    | summarize avgDurationMs=avg(DurationMs) by FQMethod;\n//Then take last 2 days of the period\nlet EndOfPeriod = \n    traces\n    | where timestamp between (_endTime - 2d .. _endTime)\n    | where tostring(customDimensions.eventId) == \"ALIFCTST0003\"\n    | extend CodeunitName = tostring(customDimensions.alName)\n        , codeunitId = tostring(customDimensions.alCodeunitId)\n        , MethodName = tostring(customDimensions.alMethodName)\n        , NoOfSqlStatements = toint(customDimensions.alNoOfSQLStatements)\n        , DurationMs = toint(customDimensions.alDurationMs)\n    | join kind = leftouter codeunitNames on $left.codeunitId == $right.codeunitId\n    | extend FQMethod = strcat(codeunitName,'.',MethodName)\n    | where FQMethod contains _MessageFilter or message  contains _MessageFilter\n    | summarize avgDurationMs=avg(DurationMs) by FQMethod;\n//calculate difference, and take top 10 of the methods\nlet Difference = \n    BeginningOfPeriod\n    | join kind=leftouter EndOfPeriod on $left.FQMethod == $right.FQMethod\n    | extend Difference =  avgDurationMs1 - avgDurationMs\n    | order by Difference desc\n    | take 10;\n//Result, getting methods only\ntraces\n| where timestamp between (_startTime .. _endTime)\n| where tostring(customDimensions.eventId) == \"ALIFCTST0003\"\n| extend\n    codeunitId = tostring(customDimensions.alCodeunitId)\n    , MethodName = tostring(customDimensions.alMethodName)\n    , NoOfSqlStatements = toint(customDimensions.alNoOfSQLStatements)\n    , DurationMs = toint(customDimensions.alDurationMs)\n| join kind = leftouter codeunitNames on $left.codeunitId == $right.codeunitId\n| extend FQMethod = strcat(codeunitName,'.',MethodName)\n| join kind=rightouter Difference on $left.FQMethod == $right.FQMethod\n| project timestamp, FQMethod, DurationMs\n| summarize avgDurationMs=avg(DurationMs) by bin(timestamp, 1d), FQMethod\n| order by FQMethod",
+      "text": "//Get CodeunitNames\nlet codeunitNames = \n    allTraces\n    | where timestamp between (_startTime .. _endTime)\n    | where customDimensions has 'ALIFCTST0002' //Full Codeunit Run\n    | extend codeunitName = tostring(customDimensions.alName)\n        , codeunitId = tostring(customDimensions.alCodeunitId)\n    | summarize by codeunitId, codeunitName;\n//Take first 2 days of the period\nlet BeginningOfPeriod = \n    allTraces\n    | where timestamp between (_startTime .. _startTime + 2d)\n    | where tostring(customDimensions.eventId) == \"ALIFCTST0003\" //One function (method)\n    | extend CodeunitName = tostring(customDimensions.alName)\n        , codeunitId = tostring(customDimensions.alCodeunitId)\n        , MethodName = tostring(customDimensions.alMethodName)\n        , NoOfSqlStatements = toint(customDimensions.alNoOfSQLStatements)\n        , DurationMs = toint(customDimensions.alDurationMs)\n    | join kind = leftouter codeunitNames on $left.codeunitId == $right.codeunitId\n    | extend FQMethod = strcat(codeunitName,'.',MethodName)\n    | where FQMethod contains _MessageFilter or message  contains _MessageFilter\n    | summarize avgDurationMs=avg(DurationMs) by FQMethod;\n//Then take last 2 days of the period\nlet EndOfPeriod = \n    allTraces\n    | where timestamp between (_endTime - 2d .. _endTime)\n    | where tostring(customDimensions.eventId) == \"ALIFCTST0003\"\n    | extend CodeunitName = tostring(customDimensions.alName)\n        , codeunitId = tostring(customDimensions.alCodeunitId)\n        , MethodName = tostring(customDimensions.alMethodName)\n        , NoOfSqlStatements = toint(customDimensions.alNoOfSQLStatements)\n        , DurationMs = toint(customDimensions.alDurationMs)\n    | join kind = leftouter codeunitNames on $left.codeunitId == $right.codeunitId\n    | extend FQMethod = strcat(codeunitName,'.',MethodName)\n    | where FQMethod contains _MessageFilter or message  contains _MessageFilter\n    | summarize avgDurationMs=avg(DurationMs) by FQMethod;\n//calculate difference, and take top 10 of the methods\nlet Difference = \n    BeginningOfPeriod\n    | join kind=leftouter EndOfPeriod on $left.FQMethod == $right.FQMethod\n    | extend Difference =  avgDurationMs1 - avgDurationMs\n    | order by Difference desc\n    | take 10;\n//Result, getting methods only\nallTraces\n| where timestamp between (_startTime .. _endTime)\n| where tostring(customDimensions.eventId) == \"ALIFCTST0003\"\n| extend\n    codeunitId = tostring(customDimensions.alCodeunitId)\n    , MethodName = tostring(customDimensions.alMethodName)\n    , NoOfSqlStatements = toint(customDimensions.alNoOfSQLStatements)\n    , DurationMs = toint(customDimensions.alDurationMs)\n| join kind = leftouter codeunitNames on $left.codeunitId == $right.codeunitId\n| extend FQMethod = strcat(codeunitName,'.',MethodName)\n| join kind=rightouter Difference on $left.FQMethod == $right.FQMethod\n| project timestamp, FQMethod, DurationMs\n| summarize avgDurationMs=avg(DurationMs) by bin(timestamp, 1d), FQMethod\n| order by FQMethod",
       "id": "25f17751-f5dc-4dab-bd5a-d7d1b2245651",
       "usedVariables": [
         "_MessageFilter",
         "_endTime",
-        "_startTime"
+        "_startTime",
+        "allTraces"
       ]
     },
     {
@@ -5636,45 +5646,55 @@
         "kind": "inline",
         "dataSourceId": "05ae5610-5603-45ac-9458-616539c1c150"
       },
-      "text": "let TimeRange = 24h;\ntraces\n| where timestamp > ago(TimeRange)\n| extend\n    extensionName = tostring(customDimensions.extensionName),\n    alObjectName = tostring(customDimensions.alObjectName)\n| where extensionName startswith \"Hagar\" or extensionName == \"HAG\"\n| summarize\n    EventCount = count(),\n    UniqueObjects = dcount(alObjectName),\n    LastActivity = max(timestamp)\n    by extensionName\n| extend\n    EventsPerHour = round(toreal(EventCount) / 24.0, 1),\n    MinutesSinceActivity = datetime_diff('minute', now(), LastActivity)\n| extend Status = case(\n    MinutesSinceActivity > 60, \"⚠️ Inactive > 1h\",\n    MinutesSinceActivity > 30, \"📊 Low Activity\",\n    \"✅ Active\"\n)\n| project extensionName, EventCount, EventsPerHour, UniqueObjects, MinutesSinceActivity, LastActivity, Status\n| order by EventCount desc",
+      "text": "let TimeRange = 24h;\nallTraces\n| where timestamp > ago(TimeRange)\n| extend\n    extensionName = tostring(customDimensions.extensionName),\n    alObjectName = tostring(customDimensions.alObjectName)\n| where extensionName startswith \"Hagar\" or extensionName == \"HAG\"\n| summarize\n    EventCount = count(),\n    UniqueObjects = dcount(alObjectName),\n    LastActivity = max(timestamp)\n    by extensionName\n| extend\n    EventsPerHour = round(toreal(EventCount) / 24.0, 1),\n    MinutesSinceActivity = datetime_diff('minute', now(), LastActivity)\n| extend Status = case(\n    MinutesSinceActivity > 60, \"⚠️ Inactive > 1h\",\n    MinutesSinceActivity > 30, \"📊 Low Activity\",\n    \"✅ Active\"\n)\n| project extensionName, EventCount, EventsPerHour, UniqueObjects, MinutesSinceActivity, LastActivity, Status\n| order by EventCount desc",
       "id": "f5a6b7c8-d9e0-4234-5678-901234abcde0",
-      "usedVariables": []
+      "usedVariables": [
+        "allTraces"
+      ]
     },
     {
       "dataSource": {
         "kind": "inline",
         "dataSourceId": "05ae5610-5603-45ac-9458-616539c1c150"
       },
-      "text": "let TimeRange = 24h;\ntraces\n| where timestamp > ago(TimeRange)\n| extend\n    extensionName = tostring(customDimensions.extensionName),\n    alObjectName = tostring(customDimensions.alObjectName)\n| where alObjectName contains \"ASB Queue\" or alObjectName contains \"Azure Service Bus\"\n| extend executionTimeMs = toreal(totimespan(customDimensions.serverExecutionTime))/10000\n| summarize\n    CallCount = count(),\n    AvgMs = round(avg(executionTimeMs), 2),\n    P50Ms = round(percentile(executionTimeMs, 50), 2),\n    P95Ms = round(percentile(executionTimeMs, 95), 2),\n    MaxMs = round(max(executionTimeMs), 2),\n    ErrorCount = countif(severityLevel >= 3)\n    by bin(timestamp, 1h), extensionName, alObjectName\n| extend\n    PerformanceStatus = case(\n        AvgMs > 1000, \"🔴 Slow\",\n        AvgMs > 500, \"⚠️ Moderate\",\n        \"✅ Fast\"\n    ),\n    ErrorStatus = case(\n        ErrorCount > 0, \"🔴 Has Errors\",\n        \"✅ No Errors\"\n    )\n| project timestamp, extensionName, alObjectName, CallCount, AvgMs, P95Ms, MaxMs, PerformanceStatus, ErrorCount, ErrorStatus\n| order by timestamp desc",
+      "text": "let TimeRange = 24h;\nallTraces\n| where timestamp > ago(TimeRange)\n| extend\n    extensionName = tostring(customDimensions.extensionName),\n    alObjectName = tostring(customDimensions.alObjectName)\n| where alObjectName contains \"ASB Queue\" or alObjectName contains \"Azure Service Bus\"\n| extend executionTimeMs = toreal(totimespan(customDimensions.serverExecutionTime))/10000\n| summarize\n    CallCount = count(),\n    AvgMs = round(avg(executionTimeMs), 2),\n    P50Ms = round(percentile(executionTimeMs, 50), 2),\n    P95Ms = round(percentile(executionTimeMs, 95), 2),\n    MaxMs = round(max(executionTimeMs), 2),\n    ErrorCount = countif(severityLevel >= 3)\n    by bin(timestamp, 1h), extensionName, alObjectName\n| extend\n    PerformanceStatus = case(\n        AvgMs > 1000, \"🔴 Slow\",\n        AvgMs > 500, \"⚠️ Moderate\",\n        \"✅ Fast\"\n    ),\n    ErrorStatus = case(\n        ErrorCount > 0, \"🔴 Has Errors\",\n        \"✅ No Errors\"\n    )\n| project timestamp, extensionName, alObjectName, CallCount, AvgMs, P95Ms, MaxMs, PerformanceStatus, ErrorCount, ErrorStatus\n| order by timestamp desc",
       "id": "a6b7c8d9-e0f1-4345-6789-012345abcde2",
-      "usedVariables": []
+      "usedVariables": [
+        "allTraces"
+      ]
     },
     {
       "dataSource": {
         "kind": "inline",
         "dataSourceId": "05ae5610-5603-45ac-9458-616539c1c150"
       },
-      "text": "let TimeRange = 24h;\ntraces\n| where timestamp > ago(TimeRange)\n| extend\n    extensionName = tostring(customDimensions.extensionName),\n    alObjectName = tostring(customDimensions.alObjectName)\n| where extensionName startswith \"Hagar\" or extensionName == \"HAG\"\n| where alObjectName contains \"Export\" or alObjectName contains \"Delete\"\n| extend executionTimeMs = toreal(totimespan(customDimensions.serverExecutionTime))/10000\n| extend executionTimeSec = round(executionTimeMs / 1000, 2)\n| where executionTimeSec > 1\n| summarize\n    OperationCount = count(),\n    AvgSeconds = round(avg(executionTimeSec), 2),\n    MaxSeconds = round(max(executionTimeSec), 2),\n    LastExecution = max(timestamp)\n    by extensionName, alObjectName\n| extend Status = case(\n    MaxSeconds > 60, \"🔴 Very Slow (>1min)\",\n    MaxSeconds > 30, \"⚠️ Slow (30s-1min)\",\n    AvgSeconds > 10, \"📊 Moderate (10s+)\",\n    \"✅ Normal\"\n)\n| project extensionName, alObjectName, OperationCount, AvgSeconds, MaxSeconds, Status, LastExecution\n| order by MaxSeconds desc",
+      "text": "let TimeRange = 24h;\nallTraces\n| where timestamp > ago(TimeRange)\n| extend\n    extensionName = tostring(customDimensions.extensionName),\n    alObjectName = tostring(customDimensions.alObjectName)\n| where extensionName startswith \"Hagar\" or extensionName == \"HAG\"\n| where alObjectName contains \"Export\" or alObjectName contains \"Delete\"\n| extend executionTimeMs = toreal(totimespan(customDimensions.serverExecutionTime))/10000\n| extend executionTimeSec = round(executionTimeMs / 1000, 2)\n| where executionTimeSec > 1\n| summarize\n    OperationCount = count(),\n    AvgSeconds = round(avg(executionTimeSec), 2),\n    MaxSeconds = round(max(executionTimeSec), 2),\n    LastExecution = max(timestamp)\n    by extensionName, alObjectName\n| extend Status = case(\n    MaxSeconds > 60, \"🔴 Very Slow (>1min)\",\n    MaxSeconds > 30, \"⚠️ Slow (30s-1min)\",\n    AvgSeconds > 10, \"📊 Moderate (10s+)\",\n    \"✅ Normal\"\n)\n| project extensionName, alObjectName, OperationCount, AvgSeconds, MaxSeconds, Status, LastExecution\n| order by MaxSeconds desc",
       "id": "b7c8d9e0-f1a2-4456-7890-123456abcde4",
-      "usedVariables": []
+      "usedVariables": [
+        "allTraces"
+      ]
     },
     {
       "dataSource": {
         "kind": "inline",
         "dataSourceId": "05ae5610-5603-45ac-9458-616539c1c150"
       },
-      "text": "let TimeRange = 24h;\ntraces\n| where timestamp > ago(TimeRange)\n| extend\n    extensionName = tostring(customDimensions.extensionName),\n    alObjectName = tostring(customDimensions.alObjectName)\n| where extensionName startswith \"Hagar\" or extensionName == \"HAG\"\n| where severityLevel >= 2\n| extend severity = case(\n    severityLevel == 4, \"🔴 Critical\",\n    severityLevel == 3, \"⚠️ Error\",\n    \"ℹ️ Warning\"\n)\n| summarize\n    Count = count(),\n    FirstOccurrence = min(timestamp),\n    LastOccurrence = max(timestamp),\n    SampleMessages = make_set(message, 3)\n    by severity, extensionName, alObjectName\n| order by Count desc, severity asc\n| project severity, extensionName, alObjectName, Count, FirstOccurrence, LastOccurrence, SampleMessages",
+      "text": "let TimeRange = 24h;\nallTraces\n| where timestamp > ago(TimeRange)\n| extend\n    extensionName = tostring(customDimensions.extensionName),\n    alObjectName = tostring(customDimensions.alObjectName)\n| where extensionName startswith \"Hagar\" or extensionName == \"HAG\"\n| where severityLevel >= 2\n| extend severity = case(\n    severityLevel == 4, \"🔴 Critical\",\n    severityLevel == 3, \"⚠️ Error\",\n    \"ℹ️ Warning\"\n)\n| summarize\n    Count = count(),\n    FirstOccurrence = min(timestamp),\n    LastOccurrence = max(timestamp),\n    SampleMessages = make_set(message, 3)\n    by severity, extensionName, alObjectName\n| order by Count desc, severity asc\n| project severity, extensionName, alObjectName, Count, FirstOccurrence, LastOccurrence, SampleMessages",
       "id": "c8d9e0f1-a2b3-4567-8901-234567abcde6",
-      "usedVariables": []
+      "usedVariables": [
+        "allTraces"
+      ]
     },
     {
       "dataSource": {
         "kind": "inline",
         "dataSourceId": "05ae5610-5603-45ac-9458-616539c1c150"
       },
-      "text": "let TimeRange = 24h;\ntraces\n| where timestamp > ago(TimeRange)\n| extend alObjectId = tostring(customDimensions.alObjectId)\n| where alObjectId == \"80107\"\n| extend\n    endpoint = tostring(customDimensions.endpoint),\n    executionTimeMs = toreal(totimespan(customDimensions.serverExecutionTime))/10000\n| extend FunctionName = extract(@\"Microsoft\\.NAV\\.(\\w+)\", 1, endpoint)\n| where isnotempty(FunctionName)\n| summarize\n    CallCount = count(),\n    AvgMs = round(avg(executionTimeMs), 2),\n    P95Ms = round(percentile(executionTimeMs, 95), 2),\n    MaxMs = round(max(executionTimeMs), 2),\n    ErrorCount = countif(severityLevel >= 3),\n    LastCall = max(timestamp)\n    by bin(timestamp, 1h), FunctionName\n| extend MinutesSinceLastCall = datetime_diff('minute', now(), LastCall)\n| extend\n    PerformanceStatus = case(\n        AvgMs > 1000, \"🔴 Slow (>1s)\",\n        AvgMs > 500, \"⚠️ Moderate (500ms-1s)\",\n        \"✅ Fast (<500ms)\"\n    ),\n    HealthStatus = case(\n        ErrorCount > 0, \"🔴 Has Errors\",\n        MinutesSinceLastCall > 60, \"⚠️ Inactive >1h\",\n        \"✅ Healthy\"\n    )\n| project\n    timestamp,\n    FunctionName,\n    CallCount,\n    AvgMs,\n    P95Ms,\n    MaxMs,\n    ErrorCount,\n    PerformanceStatus,\n    HealthStatus,\n    LastCall\n| order by timestamp desc, CallCount desc",
+      "text": "let TimeRange = 24h;\nallTraces\n| where timestamp > ago(TimeRange)\n| extend alObjectId = tostring(customDimensions.alObjectId)\n| where alObjectId == \"80107\"\n| extend\n    endpoint = tostring(customDimensions.endpoint),\n    executionTimeMs = toreal(totimespan(customDimensions.serverExecutionTime))/10000\n| extend FunctionName = extract(@\"Microsoft\\.NAV\\.(\\w+)\", 1, endpoint)\n| where isnotempty(FunctionName)\n| summarize\n    CallCount = count(),\n    AvgMs = round(avg(executionTimeMs), 2),\n    P95Ms = round(percentile(executionTimeMs, 95), 2),\n    MaxMs = round(max(executionTimeMs), 2),\n    ErrorCount = countif(severityLevel >= 3),\n    LastCall = max(timestamp)\n    by bin(timestamp, 1h), FunctionName\n| extend MinutesSinceLastCall = datetime_diff('minute', now(), LastCall)\n| extend\n    PerformanceStatus = case(\n        AvgMs > 1000, \"🔴 Slow (>1s)\",\n        AvgMs > 500, \"⚠️ Moderate (500ms-1s)\",\n        \"✅ Fast (<500ms)\"\n    ),\n    HealthStatus = case(\n        ErrorCount > 0, \"🔴 Has Errors\",\n        MinutesSinceLastCall > 60, \"⚠️ Inactive >1h\",\n        \"✅ Healthy\"\n    )\n| project\n    timestamp,\n    FunctionName,\n    CallCount,\n    AvgMs,\n    P95Ms,\n    MaxMs,\n    ErrorCount,\n    PerformanceStatus,\n    HealthStatus,\n    LastCall\n| order by timestamp desc, CallCount desc",
       "id": "d9e0f1a2-b3c4-4678-9012-345678bcdef8",
-      "usedVariables": []
+      "usedVariables": [
+        "allTraces"
+      ]
     },
     {
       "dataSource": {
@@ -5878,9 +5898,12 @@
         "kind": "inline",
         "dataSourceId": "05ae5610-5603-45ac-9458-616539c1c150"
       },
-      "text": "let Signals = externaldata(eventId: string, eventArea: string, eventDescription: string)\n[h@'https://raw.githubusercontent.com/Hagarhf/BCTelemetry/main/Azure%20Data%20Explorer/ExternalData/Signals.json']\nwith (format='multijson');\ntraces\n| extend eventId = tostring(customDimensions.eventId)\n| extend extensionName = tostring(customDimensions.extensionName)\n| extend extensionPublisher = tostring(customDimensions.extensionPublisher)\n| extend extensionVersion = tostring(customDimensions.extensionVersion)\n| extend extensionId = tostring(customDimensions.extensionId)\n| extend companyName = tostring(customDimensions.companyName)\n| extend componentVersion = tostring(customDimensions.componentVersion)\n| extend environmentName = tostring(customDimensions.environmentName)\n| extend environmentType = tostring(customDimensions.environmentType)\n| extend aadTenantId = tostring(customDimensions.aadTenantId)\n| extend IsSaas = iff(isempty(environmentName) or environmentName in ('common','null','default','undefined'), false, true)\n| extend tenantDescription = aadTenantId\n| lookup kind=leftouter Signals on eventId",
+      "text": "let Signals = externaldata(eventId: string, eventArea: string, eventDescription: string)\n[h@'https://raw.githubusercontent.com/Hagarhf/BCTelemetry/main/Azure%20Data%20Explorer/ExternalData/Signals.json']\nwith (format='multijson');\ntraces\n| where timestamp between (_startTime .. _endTime)\n| extend eventId = tostring(customDimensions.eventId)\n| extend extensionName = tostring(customDimensions.extensionName)\n| extend extensionPublisher = tostring(customDimensions.extensionPublisher)\n| extend extensionVersion = tostring(customDimensions.extensionVersion)\n| extend extensionId = tostring(customDimensions.extensionId)\n| extend companyName = tostring(customDimensions.companyName)\n| extend componentVersion = tostring(customDimensions.componentVersion)\n| extend environmentName = tostring(customDimensions.environmentName)\n| extend environmentType = tostring(customDimensions.environmentType)\n| extend aadTenantId = tostring(customDimensions.aadTenantId)\n| extend IsSaas = iff(isempty(environmentName) or environmentName in ('common','null','default','undefined'), false, true)\n| extend tenantDescription = aadTenantId\n| extend entraTenantId = aadTenantId\n| lookup kind=leftouter Signals on eventId",
       "id": "b19a2b7f-6d08-4f7f-b3ed-ce290cb93d82",
-      "usedVariables": []
+      "usedVariables": [
+        "_startTime",
+        "_endTime"
+      ]
     },
     {
       "dataSource": {
@@ -5947,7 +5970,7 @@
         "kind": "inline",
         "dataSourceId": "05ae5610-5603-45ac-9458-616539c1c150"
       },
-      "text": "allTraces\n| where isnotempty(aadTenantId)\n| distinct aadTenantId\n| order by aadTenantId asc",
+      "text": "allTraces\n| where isnotempty(entraTenantId)\n| distinct entraTenantId\n| order by entraTenantId asc",
       "id": "1af6d35a-92af-4520-a929-26af2d29ea09",
       "usedVariables": [
         "allTraces"
@@ -5991,7 +6014,7 @@
         "kind": "inline",
         "dataSourceId": "05ae5610-5603-45ac-9458-616539c1c150"
       },
-      "text": "allTraces\n| extend alObjectType = tostring(customDimensions.alObjectType)\n| where alObjectType == \"CodeUnit\"\n| extend alObjectName = tostring(customDimensions.alObjectName)\n| where isnotempty(alObjectName)\n| distinct alObjectName\n| order by alObjectName asc",
+      "text": "allTraces\n| extend alObjectType = tostring(customDimensions.alObjectType)\n| where alObjectType == \"CodeUnit\"\n| extend CodeunitName = tostring(customDimensions.alObjectName)\n| where isnotempty(CodeunitName)\n| distinct CodeunitName\n| order by CodeunitName asc",
       "id": "4c19c0ce-09a4-47c7-8c4d-a348af93b96a",
       "usedVariables": [
         "allTraces"
@@ -6002,7 +6025,7 @@
         "kind": "inline",
         "dataSourceId": "05ae5610-5603-45ac-9458-616539c1c150"
       },
-      "text": "allTraces\n| where eventId startswith \"AL0000D\"\n| extend bcptCode = tostring(customDimensions.bcptCode)\n| where isnotempty(bcptCode)\n| distinct bcptCode\n| order by bcptCode asc",
+      "text": "allTraces\n| where eventId startswith \"AL0000D\"\n| extend tag = tostring(customDimensions.bcptCode)\n| where isnotempty(tag)\n| distinct tag\n| order by tag asc",
       "id": "131192bf-b588-4e2a-95f1-851f8c5b2686",
       "usedVariables": [
         "allTraces"
